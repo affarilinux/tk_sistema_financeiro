@@ -3,19 +3,19 @@ import tkinter as tk
 
 root = tk.Tk() # create a Tk root window
 
-w = 800 # width for the Tk root
-h = 650 # height for the Tk root
+WIDTH = 1000 # width for the Tk root
+HEIGHT = 800 # height for the Tk root
 
 # get screen width and height
-ws = root.winfo_screenwidth() # width of the screen
-hs = root.winfo_screenheight() # height of the screen
+WS = root.winfo_screenwidth() # width of the screen
+HS = root.winfo_screenheight() # height of the screen
 
 # calculate x and y coordinates for the Tk root window
-x = (ws/2) - (w/2)
-y = (hs/2) - (h/2)
+CALCULO_X = (WS/2) - (WIDTH/2)
+CALCULO_Y = (HS/2) - (HEIGHT/2)
 
 # set the dimensions of the screen 
 # and where it is placed
-root.geometry('%dx%d+%d+%d' % (w, h, x, y))
+root.geometry('%dx%d+%d+%d' % (WIDTH, HEIGHT, CALCULO_X, CALCULO_Y))
 
 root.mainloop() # starts the mainloop
