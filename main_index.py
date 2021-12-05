@@ -12,7 +12,7 @@ def main():
 
                           # configurações da janela
     root.title("NOVA ALIANÇA")
-    root.iconbitmap("ico.ico")
+    root.iconbitmap("imagem/ico.ico")
 
 
     ###############################################
