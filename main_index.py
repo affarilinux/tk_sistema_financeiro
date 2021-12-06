@@ -8,6 +8,7 @@ from janela.principal.composicao_principal import (
 )
 
 
+################################################### função principal
                           # função de inicialização
 def main():
     root = tk.Tk() # create a Tk root window
@@ -26,6 +27,8 @@ def main():
     ###############################################
     root.mainloop() # starts the mainloop
 
+
+############################################## funções controle da janela
                                # centralizar janela
 def centralizador_janela(root):
 
@@ -61,10 +64,15 @@ def nome_igreja_fisica(root):
     nome_instituicao.place(x = 0, y = 758, width = TAMANHO_WIDTH_JANELA,
                              height = 40
     )
+
+                        # menus da janela principal
 def menu_widget (root):
 
-    meuMenu = Menu ( root )
-    meuMenu.add_command (label = "home")
+    meuMenu = Menu ( root )     
+
+                                          # janelas       
+    meuMenu.add_command (label = "HOME")
+    meuMenu.add_command (label = "CONFIGURAÇÕES", command = nome_da_institicao)
 
     root.config ( menu = meuMenu)
     
