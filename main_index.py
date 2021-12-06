@@ -2,6 +2,9 @@
 import tkinter as tk
 from tkinter import *
 
+from janela.principal.composicao_principal import (
+    TAMANHO_WIDTH_JANELA
+)
                           # função de inicialização
 def main():
     root = tk.Tk() # create a Tk root window
@@ -21,7 +24,7 @@ def main():
                                # centralizar janela
 def centralizador_janela(root):
 
-    WIDTH = 1000 # width for the Tk root
+    WIDTH = TAMANHO_WIDTH_JANELA # width for the Tk root
     HEIGHT = 800 # height for the Tk root
 
     # get screen width and height
