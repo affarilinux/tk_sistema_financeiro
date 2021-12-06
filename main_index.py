@@ -10,12 +10,13 @@ def main():
     root = tk.Tk() # create a Tk root window
     
                                    # função chamada
-    centralizador_janela(root)
-    nome_igreja_fisica(root)
+    centralizador_janela (root)
+    nome_igreja_fisica   (root)
 
                           # configurações da janela
-    root.title("NOVA ALIANÇA")
-    root.iconbitmap("imagem/ico.ico")
+    root.title      ("NOVA ALIANÇA")               # titulo da igreja
+    root.iconbitmap ("imagem/ico.ico")             # ico
+    root.configure(bg='#C0C0C0')
 
 
     ###############################################
