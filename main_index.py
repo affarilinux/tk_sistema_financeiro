@@ -2,9 +2,12 @@
 import tkinter as tk
 from tkinter import *
 
+                                 # diretorio do app
 from janela.principal.composicao_principal import (
     TAMANHO_WIDTH_JANELA
 )
+
+
                           # função de inicialização
 def main():
     root = tk.Tk() # create a Tk root window
@@ -12,11 +15,12 @@ def main():
                                    # função chamada
     centralizador_janela (root)
     nome_igreja_fisica   (root)
+    menu_widget          (root)
 
                           # configurações da janela
     root.title      ("NOVA ALIANÇA")               # titulo da igreja
     root.iconbitmap ("imagem/ico.ico")             # ico
-    root.configure(bg='#C0C0C0')
+    root.configure(bg='#C0C0C0')                   # cor da fundo janela
 
 
     ###############################################
@@ -40,8 +44,8 @@ def centralizador_janela(root):
     # and where it is placed
     root.geometry('%dx%d+%d+%d' % (WIDTH, HEIGHT, CALCULO_X, CALCULO_Y))
                
-                                   # nome da igreja
-# base inferior do grafico
+                         # nome da igreja
+                         # base inferior do grafico
 def nome_igreja_fisica(root):
 
     nome_instituicao = Label (root, 
@@ -54,8 +58,16 @@ def nome_igreja_fisica(root):
                                 borderwidth = 5       # tamanho da borda
     )      
                                 
-    nome_instituicao.place(x = 0, y = 758, width = TAMANHO_WIDTH_JANELA, height = 40)
+    nome_instituicao.place(x = 0, y = 758, width = TAMANHO_WIDTH_JANELA,
+                             height = 40
+    )
+def menu_widget (root):
 
+    meuMenu = Menu ( root )
+    meuMenu.add_command (label = "home")
+
+    root.config ( menu = meuMenu)
+    
 ###################################################
                               # somente uma entrada
 if __name__ == '__main__':
