@@ -44,9 +44,16 @@ def centralizador_janela(root):
 def nome_igreja_fisica(root):
 
     nome_instituicao = Label (root, 
-                                bg = "#00008B")
+                                bg   = "#00BFFF",  # cor de fundo
 
-    nome_instituicao.pack()
+                                text = "ABBA PAI", 
+                                font ='Helvetica 20 bold', # negrito
+
+                                relief      ="ridge", # formato da borda
+                                borderwidth = 5       # tamanho da borda
+    )      
+                                
+    nome_instituicao.place(x = 0, y = 758, width = TAMANHO_WIDTH_JANELA, height = 40)
 
 ###################################################
                               # somente uma entrada
