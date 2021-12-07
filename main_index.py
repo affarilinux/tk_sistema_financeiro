@@ -53,6 +53,8 @@ def centralizador_janela(root):
 class MenuWidget ():
 
 
+    #**********************************************
+    ###############################################       função inicial
     def __init__(self,root):
         
         self.nome_igreja_base_inferior()
@@ -103,7 +105,7 @@ class MenuWidget ():
                                          height=MENU_HEIGHT
         )
 
-        ###########################################
+        ###########################################        nome da igreja
                          # base inferior do grafico
     def nome_igreja_base_inferior(self):
 
@@ -129,14 +131,20 @@ class MenuWidget ():
         self.nome_igreja_base_inferior_banco()
         
 
-    def nome_igreja_base_inferior_banco(self):
-        self.nome_instituicao.configure(text="ola")
-    ###############################################
-                                     # funções base
+    #**********************************************
+    ###############################################        funcoes botoes
+                                     # funções base       recebe __init__
     def botao_home(self):
+
+        ###########################################
+
         self.destruir_configuracao()
         
+
     def botao_configuracao(self):
+
+        ###########################################
+        self.destruir_home()
         
         self.LABEL_BANCO_INSTITUICAO_fixa = Label (
                                                     # cor botao
@@ -178,28 +186,37 @@ class MenuWidget ():
                                             height=35
         )
 
-        
-    ###############################################
+
+    #**********************************************
+    ###############################################       destruir widget
                         # funções destruição widget
+                        # comando 
+    
+    def destruir_home (self):
+
+        # nome da igreja
+        self.nome_instituicao.destroy()
+
+
     def destruir_configuracao(self):
            
             self.LABEL_BANCO_INSTITUICAO_fixa.destroy()
             self.entry_banco_instituicao.destroy()
             self.botao_salvar_instituicao.destroy()
 
-
-    ###############################################
+            
+    #**********************************************
+    ###############################################         configurações
                             #salvar - configurações
     def salvar_nome_instituicao(self):
+        
         self.conectar_banco_dados()
-        self.sql_cursor_salvar.execute("""
-        CREATe TABLE IF NOT EXISTS Instituicao ( cod INTEGER PRIMARY KEY,
-                                                    nome_igreja TEXT
-
-        )
-        """)
+        self.criar_tabela_banco()
         self.desconectar_banco_dados()
-    ###############################################
+
+
+    #**********************************************
+    ###############################################        banco de dados
                                    # banco de dados
     def conectar_banco_dados(self):
         self.sql_conn = sqlite3.connect("banco_de_dados/sistema_financeiro.db")
@@ -207,6 +224,21 @@ class MenuWidget ():
 
     def desconectar_banco_dados(self):
         self.sql_conn.close()
+
+    def criar_tabela_banco(self):
+
+        self.sql_cursor_salvar.execute("""
+        CREATe TABLE IF NOT EXISTS Instituicao ( cod INTEGER PRIMARY KEY,
+                                                    nome_igreja TEXT
+
+        )
+        """)
+    ###############################################
+                                                   # nome da igreja barra
+    def nome_igreja_base_inferior_banco(self):
+        self.nome_instituicao.configure(text="ola")
+
+#**************************************************
 ###################################################
                               # somente uma entrada
 if __name__ == '__main__':
