@@ -137,15 +137,21 @@ class MenuWidget ():
     def botao_home(self):
 
         ###########################################
-
+                                  # destruir widget
         self.destruir_configuracao()
-        
+
+        ###########################################
+                                    # ativar widget
+        self.nome_igreja_base_inferior()
 
     def botao_configuracao(self):
 
         ###########################################
+                                  # destruir widget
         self.destruir_home()
-        
+
+        ###########################################
+                                    # ativar widget
         self.LABEL_BANCO_INSTITUICAO_fixa = Label (
                                                     # cor botao
                                                     bg      = COR_FUNDO_JANELA,
@@ -209,7 +215,7 @@ class MenuWidget ():
     ###############################################         configurações
                             #salvar - configurações
     def salvar_nome_instituicao(self):
-        
+
         self.conectar_banco_dados()
         self.criar_tabela_banco()
         self.desconectar_banco_dados()
