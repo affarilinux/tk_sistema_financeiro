@@ -103,15 +103,16 @@ class MenuWidget ():
                                          height=MENU_HEIGHT
         )
 
-    def nome_igreja_base_inferior(self):
         ###########################################
+                         # base inferior do grafico
+    def nome_igreja_base_inferior(self):
+
                                    # nome da igreja
-                                   # base inferior do grafico
+                                   
         self.nome_instituicao = Label (
                                         # cor de fundo -DeepSkyBlue
                                         bg   = "#00BFFF",  
 
-                                        text = "ABBA PAI", 
                                         # negrito
                                         font ='Helvetica 20 bold', 
 
@@ -124,6 +125,12 @@ class MenuWidget ():
         self.nome_instituicao.place(x = 0, y = 758, width = TAMANHO_WIDTH_JANELA,
                              height = 40
         )
+
+        self.nome_igreja_base_inferior_banco()
+        
+
+    def nome_igreja_base_inferior_banco(self):
+        self.nome_instituicao.configure(text="ola")
     ###############################################
                                      # funções base
     def botao_home(self):
