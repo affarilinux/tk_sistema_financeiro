@@ -85,7 +85,7 @@ def menu_widget (root):
                          text    = "HOME",
                          font    ='Helvetica 10 bold', # negrito
                          fg      = "#FFFF00",          # cor escrita
-                         command = NomeInstituicao # chamada
+                         command = botao_home           # chamada
 
     )
 
@@ -93,21 +93,24 @@ def menu_widget (root):
                     height=MENU_HEIGHT
     )
 
-    btn_home = Button ( root,
-                         bg      = "#8B4513",          # cor botao
-                         text    = "CONFIGURAÇÕES",
-                         font    ='Helvetica 10 bold', # negrito
-                         fg      = "#FFFF00"          # cor escrita
-                         #command = NomeInstituicao # chamada
+    btn_configuracao = Button ( root,
+                                bg      = "#8B4513",          # cor botao
+                                text    = "CONFIGURAÇÕES",
+                                font    ='Helvetica 10 bold', # negrito
+                                fg      = "#FFFF00",           # cor escrita
+                                command = botao_configuracao   # chamada
 
     )
 
-    btn_home. place(x=190, y = MENU_Y, width=MENUS_WIDTH, 
-                    height=MENU_HEIGHT
+    btn_configuracao. place(x=190, y = MENU_Y, width=MENUS_WIDTH, 
+                            height=MENU_HEIGHT
     )
-
-class NomeInstituicao():
+                                     # funções base
+def botao_home():
     print("ola")
+def botao_configuracao():
+    print("23")
+
     
 ###################################################
                               # somente uma entrada
