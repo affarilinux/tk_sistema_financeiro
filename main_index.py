@@ -46,9 +46,10 @@ def centralizador_janela(root):
     # set the dimensions of the screen 
     # and where it is placed
     root.geometry('%dx%d+%d+%d' % (WIDTH, HEIGHT, CALCULO_X, CALCULO_Y))
-               
+
+
+################################################ base inferior do grafico    
                          # nome da igreja
-                         # base inferior do grafico
 def nome_igreja_fisica(root):
 
     nome_instituicao = Label (root, 
@@ -65,16 +66,22 @@ def nome_igreja_fisica(root):
                              height = 40
     )
 
-                        # menus da janela principal
+
+############################################### menus da janela principal
 def menu_widget (root):
 
-    meuMenu = Menu ( root )     
+                                       # label fixa
+    menu_processos = Label ( root,
+                             bg = "#00FFFF",
+                             relief = "groove"     # formato da borda
+    )
 
-                                          # janelas       
-    meuMenu.add_command (label = "HOME")
-    meuMenu.add_command (label = "CONFIGURAÇÕES", command = nome_da_institicao)
+    menu_processos.place(x = 2, y = 5, width = (TAMANHO_WIDTH_JANELA - 4),
+                          height = 30
+      )
 
-    root.config ( menu = meuMenu)
+def nome_da_instituicao():
+    print("ola")
     
 ###################################################
                               # somente uma entrada
