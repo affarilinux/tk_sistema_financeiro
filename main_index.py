@@ -1,6 +1,7 @@
                               # bibliotecas tkinter
 import tkinter as tk
 from tkinter import *
+import sqlite3
 
                                  # diretorio do app
 from janela.principal.composicao_principal import (
@@ -126,7 +127,7 @@ class MenuWidget ():
                                      # funções base
     def botao_home(self):
         self.destruir_configuracao()
-
+        
     def botao_configuracao(self):
         
         self.LABEL_BANCO_INSTITUICAO_fixa = Label (
@@ -159,16 +160,17 @@ class MenuWidget ():
                                                 # negrito
                                                 font    ='Helvetica 20 bold', 
                                                 # cor escrita - Yellow
-                                                fg      = COR_ESCRITA_MENU_BAR          
-                                                #command = botao_configuracao   # chamada
+                                                fg      = COR_ESCRITA_MENU_BAR,        
+                                                # chamada  
+                                                command = self.salvar_nome_instituicao
 
         )
 
         self.botao_salvar_instituicao. place(x=240, y = 80, width=150, 
                                             height=35
         )
-    
 
+        
     ###############################################
                         # funções destruição widget
     def destruir_configuracao(self):
@@ -178,6 +180,25 @@ class MenuWidget ():
             self.botao_salvar_instituicao.destroy()
 
 
+    ###############################################
+                            #salvar - configurações
+    def salvar_nome_instituicao(self):
+        self.conectar_banco_dados()
+        self.sql_cursor_salvar.execute("""
+        CREATe TABLE IF NOT EXISTS Instituicao ( cod INTEGER PRIMARY KEY,
+                                                    nome_igreja TEXT
+
+        )
+        """)
+        self.desconectar_banco_dados()
+    ###############################################
+                                   # banco de dados
+    def conectar_banco_dados(self):
+        self.sql_conn = sqlite3.connect("banco_de_dados/sistema_financeiro.db")
+        self.sql_cursor_salvar = self.sql_conn.cursor()
+
+    def desconectar_banco_dados(self):
+        self.sql_conn.close()
 ###################################################
                               # somente uma entrada
 if __name__ == '__main__':
