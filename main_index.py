@@ -5,7 +5,7 @@ from tkinter import *
                                  # diretorio do app
 from janela.principal.composicao_principal import (
     TAMANHO_WIDTH_JANELA, MENUS_WIDTH, MENU_Y, MENU_HEIGHT, 
-    COR_FUNDO_JANELA
+    COR_FUNDO_JANELA, COR_FUNDO_BOTAO_MENU_BAR, COR_ESCRITA_MENU_BAR
 )
 
 
@@ -54,7 +54,7 @@ def centralizador_janela(root):
 def nome_igreja_fisica(root):
 
     nome_instituicao = Label (root, 
-                                bg   = "#00BFFF",  # cor de fundo
+                                bg   = "#00BFFF",  # cor de fundo -DeepSkyBlue
 
                                 text = "ABBA PAI", 
                                 font ='Helvetica 20 bold', # negrito
@@ -76,7 +76,8 @@ class MenuWidget ():
         
                                        # label fixa
         self.MENU_PROCESSOS = Label ( root,
-                                        bg     = "#00FFFF",
+                                        # cor Aqua / Cyan
+                                        bg     = "#00FFFF", 
                                         # formato da borda
                                         relief = "groove"  
         )
@@ -88,12 +89,12 @@ class MenuWidget ():
 
         self.botao_1home = Button ( root,
                                     # cor botao
-                                    bg      = "#8B4513",          
+                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
                                     text    = "HOME",
                                     # negrito
                                     font    ='Helvetica 10 bold', 
                                     # cor escrita
-                                    fg      = "#FFFF00", 
+                                    fg      = COR_ESCRITA_MENU_BAR, 
                                     # chamada         
                                     command = self.botao_home           
 
@@ -105,12 +106,12 @@ class MenuWidget ():
 
         self.botao_2configuracao = Button ( root,
                                             # cor botao
-                                            bg      = "#8B4513",          
+                                            bg      = COR_FUNDO_BOTAO_MENU_BAR,          
                                             text    = "CONFIGURAÇÕES",
                                             # negrito
                                             font    ='Helvetica 10 bold', 
                                             # cor escrita
-                                            fg      = "#FFFF00",    
+                                            fg      = COR_ESCRITA_MENU_BAR,    
                                             # chamada       
                                             command = self.botao_configuracao   
 
@@ -142,21 +143,29 @@ class MenuWidget ():
 
         )
 
-
-        self.botao_configuracao_1 = Button ( 
-                                             # cor botao
-                                            bg      = "#8B4513",          
-                                            text    = "SALVAR",
+        self.entry_banco_instituicao = Entry(
                                             # negrito
-                                            font    ='Helvetica 10 bold', 
-                                            # cor escrita
-                                            fg      = "#FFFF00"           
-                                            #command = botao_configuracao   # chamada
+                                            font    ='Helvetica 10', 
+        )
+
+        self.entry_banco_instituicao.place(
+                                            x=20, y= 85, width= 200, height= 25
+        )
+
+        self.botao_salvar_instituicao = Button ( 
+                                                # cor botao - SlateBlue
+                                                bg      = "#6A5ACD",          
+                                                text    = "SALVAR",
+                                                # negrito
+                                                font    ='Helvetica 20 bold', 
+                                                # cor escrita - Yellow
+                                                fg      = COR_ESCRITA_MENU_BAR          
+                                                #command = botao_configuracao   # chamada
 
         )
 
-        self.botao_configuracao_1. place(x=190, y = 50, width=MENUS_WIDTH, 
-                                            height=MENU_HEIGHT
+        self.botao_salvar_instituicao. place(x=240, y = 80, width=150, 
+                                            height=35
         )
     
 
@@ -165,7 +174,8 @@ class MenuWidget ():
     def destruir_configuracao(self):
            
             self.LABEL_BANCO_INSTITUICAO_fixa.destroy()
-            self.botao_configuracao_1.destroy()
+            self.entry_banco_instituicao.destroy()
+            self.botao_salvar_instituicao.destroy()
 
 
 ###################################################
