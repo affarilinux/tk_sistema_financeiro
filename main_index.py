@@ -80,20 +80,20 @@ def menu_widget (root):
                           height = 30
       )
 
-    btn_home = Button ( root,
-                         bg      = "#8B4513",          # cor botao
-                         text    = "HOME",
-                         font    ='Helvetica 10 bold', # negrito
-                         fg      = "#FFFF00",          # cor escrita
-                         command = botao_home           # chamada
+    botao_1home = Button ( root,
+                            bg      = "#8B4513",          # cor botao
+                            text    = "HOME",
+                            font    ='Helvetica 10 bold', # negrito
+                            fg      = "#FFFF00",          # cor escrita
+                            command = botao_home           # chamada
 
     )
 
-    btn_home. place(x=30, y = MENU_Y, width=MENUS_WIDTH, 
-                    height=MENU_HEIGHT
+    botao_1home. place(x=30, y = MENU_Y, width=MENUS_WIDTH, 
+                        height=MENU_HEIGHT
     )
 
-    btn_configuracao = Button ( root,
+    botao_2configuracao = Button ( root,
                                 bg      = "#8B4513",          # cor botao
                                 text    = "CONFIGURAÇÕES",
                                 font    ='Helvetica 10 bold', # negrito
@@ -102,15 +102,26 @@ def menu_widget (root):
 
     )
 
-    btn_configuracao. place(x=190, y = MENU_Y, width=MENUS_WIDTH, 
+    botao_2configuracao. place(x=190, y = MENU_Y, width=MENUS_WIDTH, 
                             height=MENU_HEIGHT
     )
                                      # funções base
 def botao_home():
-    print("ola")
+    botao_configuracao.destroy()
 def botao_configuracao():
-    print("23")
+    
+    botao_configuracao_1 = Button ( 
+                                bg      = "#8B4513",          # cor botao
+                                text    = "CONFIGURAÇÕES",
+                                font    ='Helvetica 10 bold', # negrito
+                                fg      = "#FFFF00"           # cor escrita
+                                #command = botao_configuracao   # chamada
 
+    )
+
+    botao_configuracao_1. place(x=190, y = 50, width=MENUS_WIDTH, 
+                            height=MENU_HEIGHT
+    )
     
 ###################################################
                               # somente uma entrada
