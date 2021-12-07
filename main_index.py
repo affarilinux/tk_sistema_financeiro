@@ -17,7 +17,6 @@ def main():
     
                                    # função chamada
     centralizador_janela (root)
-    nome_igreja_fisica   (root)
     menu_bar = MenuWidget          (root)
 
                           # configurações da janela
@@ -48,25 +47,6 @@ def centralizador_janela(root):
     # set the dimensions of the screen 
     # and where it is placed
     root.geometry('%dx%d+%d+%d' % (WIDTH, HEIGHT, CALCULO_X, CALCULO_Y))
-
-
-################################################ base inferior do grafico    
-                         # nome da igreja
-def nome_igreja_fisica(root):
-
-    nome_instituicao = Label (root, 
-                                bg   = "#00BFFF",  # cor de fundo -DeepSkyBlue
-
-                                text = "ABBA PAI", 
-                                font ='Helvetica 20 bold', # negrito
-
-                                relief      ="ridge", # formato da borda
-                                borderwidth = 5       # tamanho da borda
-    )      
-                                
-    nome_instituicao.place(x = 0, y = 758, width = TAMANHO_WIDTH_JANELA,
-                             height = 40
-    )
 
 
 ############################################### menus da janela principal
@@ -122,7 +102,22 @@ class MenuWidget ():
                                          height=MENU_HEIGHT
         )
 
+        ###########################################
+                                   # nome da igreja
+                                   #base inferior do grafico
+        nome_instituicao = Label (root, 
+                                bg   = "#00BFFF",  # cor de fundo -DeepSkyBlue
 
+                                text = "ABBA PAI", 
+                                font ='Helvetica 20 bold', # negrito
+
+                                relief      ="ridge", # formato da borda
+                                borderwidth = 5       # tamanho da borda
+        )      
+                                
+        nome_instituicao.place(x = 0, y = 758, width = TAMANHO_WIDTH_JANELA,
+                             height = 40
+        )
     ###############################################
                                      # funções base
     def botao_home(self):
