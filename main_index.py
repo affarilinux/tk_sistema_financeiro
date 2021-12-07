@@ -4,7 +4,7 @@ from tkinter import *
 
                                  # diretorio do app
 from janela.principal.composicao_principal import (
-    TAMANHO_WIDTH_JANELA
+    TAMANHO_WIDTH_JANELA, MENUS_WIDTH, MENU_Y, MENU_HEIGHT
 )
 
 
@@ -71,16 +71,42 @@ def nome_igreja_fisica(root):
 def menu_widget (root):
 
                                        # label fixa
-    menu_processos = Label ( root,
+    MENU_PROCESSOS = Label ( root,
                              bg = "#00FFFF",
                              relief = "groove"     # formato da borda
     )
 
-    menu_processos.place(x = 2, y = 5, width = (TAMANHO_WIDTH_JANELA - 4),
+    MENU_PROCESSOS.place(x = 2, y = 5, width = (TAMANHO_WIDTH_JANELA - 4),
                           height = 30
       )
 
-def nome_da_instituicao():
+    btn_home = Button ( root,
+                         bg      = "#8B4513",          # cor botao
+                         text    = "HOME",
+                         font    ='Helvetica 10 bold', # negrito
+                         fg      = "#FFFF00",          # cor escrita
+                         command = NomeInstituicao # chamada
+
+    )
+
+    btn_home. place(x=30, y = MENU_Y, width=MENUS_WIDTH, 
+                    height=MENU_HEIGHT
+    )
+
+    btn_home = Button ( root,
+                         bg      = "#8B4513",          # cor botao
+                         text    = "CONFIGURAÇÕES",
+                         font    ='Helvetica 10 bold', # negrito
+                         fg      = "#FFFF00"          # cor escrita
+                         #command = NomeInstituicao # chamada
+
+    )
+
+    btn_home. place(x=190, y = MENU_Y, width=MENUS_WIDTH, 
+                    height=MENU_HEIGHT
+    )
+
+class NomeInstituicao():
     print("ola")
     
 ###################################################

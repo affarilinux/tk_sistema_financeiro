@@ -1,1 +1,5 @@
 TAMANHO_WIDTH_JANELA = 1000
+
+MENUS_WIDTH          = 130
+MENU_Y               = 10
+MENU_HEIGHT          = 20
