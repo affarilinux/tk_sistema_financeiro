@@ -16,7 +16,7 @@ def main():
                                    # função chamada
     centralizador_janela (root)
     nome_igreja_fisica   (root)
-    menu_widget          (root)
+    menu_bar = MenuWidget          (root)
 
                           # configurações da janela
     root.title      ("NOVA ALIANÇA")               # titulo da igreja
@@ -68,61 +68,88 @@ def nome_igreja_fisica(root):
 
 
 ############################################### menus da janela principal
-def menu_widget (root):
+class MenuWidget ():
 
+
+    def __init__(self,root):
+        
                                        # label fixa
-    MENU_PROCESSOS = Label ( root,
-                             bg = "#00FFFF",
-                             relief = "groove"     # formato da borda
-    )
+        self.MENU_PROCESSOS = Label ( root,
+                                        bg     = "#00FFFF",
+                                        # formato da borda
+                                        relief = "groove"  
+            )
 
-    MENU_PROCESSOS.place(x = 2, y = 5, width = (TAMANHO_WIDTH_JANELA - 4),
-                          height = 30
-      )
+        self.MENU_PROCESSOS.place(x = 2, y = 5, width = (
+                                    TAMANHO_WIDTH_JANELA - 4),
+                                    height = 30
+            )
 
-    botao_1home = Button ( root,
-                            bg      = "#8B4513",          # cor botao
-                            text    = "HOME",
-                            font    ='Helvetica 10 bold', # negrito
-                            fg      = "#FFFF00",          # cor escrita
-                            command = botao_home           # chamada
+        self.botao_1home = Button ( root,
+                                    # cor botao
+                                    bg      = "#8B4513",          
+                                    text    = "HOME",
+                                    # negrito
+                                    font    ='Helvetica 10 bold', 
+                                    # cor escrita
+                                    fg      = "#FFFF00", 
+                                    # chamada         
+                                    command = self.botao_home           
 
-    )
+            )
 
-    botao_1home. place(x=30, y = MENU_Y, width=MENUS_WIDTH, 
-                        height=MENU_HEIGHT
-    )
+        self.botao_1home. place(x=30, y = MENU_Y, width=MENUS_WIDTH, 
+                                height=MENU_HEIGHT
+            )
 
-    botao_2configuracao = Button ( root,
-                                bg      = "#8B4513",          # cor botao
-                                text    = "CONFIGURAÇÕES",
-                                font    ='Helvetica 10 bold', # negrito
-                                fg      = "#FFFF00",           # cor escrita
-                                command = botao_configuracao   # chamada
+        self.botao_2configuracao = Button ( root,
+                                            # cor botao
+                                            bg      = "#8B4513",          
+                                            text    = "CONFIGURAÇÕES",
+                                            # negrito
+                                            font    ='Helvetica 10 bold', 
+                                            # cor escrita
+                                            fg      = "#FFFF00",    
+                                            # chamada       
+                                            command = self.botao_configuracao   
 
-    )
+            )
 
-    botao_2configuracao. place(x=190, y = MENU_Y, width=MENUS_WIDTH, 
-                            height=MENU_HEIGHT
-    )
+        self.botao_2configuracao. place(x=190, y = MENU_Y, width=MENUS_WIDTH, 
+                                         height=MENU_HEIGHT
+            )
+
+
+    ###############################################
                                      # funções base
-def botao_home():
-    botao_configuracao.destroy()
-def botao_configuracao():
-    
-    botao_configuracao_1 = Button ( 
-                                bg      = "#8B4513",          # cor botao
-                                text    = "CONFIGURAÇÕES",
-                                font    ='Helvetica 10 bold', # negrito
-                                fg      = "#FFFF00"           # cor escrita
-                                #command = botao_configuracao   # chamada
+    def botao_home(self):
+        self.destruir_configuracao()
 
-    )
-
-    botao_configuracao_1. place(x=190, y = 50, width=MENUS_WIDTH, 
-                            height=MENU_HEIGHT
-    )
+    def botao_configuracao(self):
     
+        self.botao_configuracao_1 = Button ( 
+                                             # cor botao
+                                            bg      = "#8B4513",          
+                                            text    = "CONFIGURAÇÕES",
+                                            # negrito
+                                            font    ='Helvetica 10 bold', 
+                                            # cor escrita
+                                            fg      = "#FFFF00"           
+                                            #command = botao_configuracao   # chamada
+
+            )
+
+        self.botao_configuracao_1. place(x=190, y = 50, width=MENUS_WIDTH, 
+                                            height=MENU_HEIGHT
+            )
+    
+
+    ###############################################
+                        # funções destruição widget
+    def destruir_configuracao(self):
+            self.botao_configuracao_1.destroy()
+
+
 ###################################################
                               # somente uma entrada
 if __name__ == '__main__':
