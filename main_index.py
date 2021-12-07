@@ -55,6 +55,7 @@ class MenuWidget ():
 
     def __init__(self,root):
         
+        self.nome_igreja_base_inferior()
                                        # label fixa
         self.MENU_PROCESSOS = Label ( root,
                                         # cor Aqua / Cyan
@@ -102,20 +103,25 @@ class MenuWidget ():
                                          height=MENU_HEIGHT
         )
 
+    def nome_igreja_base_inferior(self):
         ###########################################
                                    # nome da igreja
-                                   #base inferior do grafico
-        nome_instituicao = Label (root, 
-                                bg   = "#00BFFF",  # cor de fundo -DeepSkyBlue
+                                   # base inferior do grafico
+        self.nome_instituicao = Label (
+                                        # cor de fundo -DeepSkyBlue
+                                        bg   = "#00BFFF",  
 
-                                text = "ABBA PAI", 
-                                font ='Helvetica 20 bold', # negrito
+                                        text = "ABBA PAI", 
+                                        # negrito
+                                        font ='Helvetica 20 bold', 
 
-                                relief      ="ridge", # formato da borda
-                                borderwidth = 5       # tamanho da borda
+                                        # formato da borda
+                                        relief      ="ridge", 
+                                        # tamanho da borda
+                                        borderwidth = 5       
         )      
                                 
-        nome_instituicao.place(x = 0, y = 758, width = TAMANHO_WIDTH_JANELA,
+        self.nome_instituicao.place(x = 0, y = 758, width = TAMANHO_WIDTH_JANELA,
                              height = 40
         )
     ###############################################
