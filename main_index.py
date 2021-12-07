@@ -4,7 +4,8 @@ from tkinter import *
 
                                  # diretorio do app
 from janela.principal.composicao_principal import (
-    TAMANHO_WIDTH_JANELA, MENUS_WIDTH, MENU_Y, MENU_HEIGHT
+    TAMANHO_WIDTH_JANELA, MENUS_WIDTH, MENU_Y, MENU_HEIGHT, 
+    COR_FUNDO_JANELA
 )
 
 
@@ -21,7 +22,7 @@ def main():
                           # configurações da janela
     root.title      ("NOVA ALIANÇA")               # titulo da igreja
     root.iconbitmap ("imagem/ico.ico")             # ico
-    root.configure(bg='#C0C0C0')                   # cor da fundo janela
+    root.configure(bg=COR_FUNDO_JANELA)                   # cor da fundo janela
 
 
     ###############################################
@@ -78,12 +79,12 @@ class MenuWidget ():
                                         bg     = "#00FFFF",
                                         # formato da borda
                                         relief = "groove"  
-            )
+        )
 
         self.MENU_PROCESSOS.place(x = 2, y = 5, width = (
                                     TAMANHO_WIDTH_JANELA - 4),
                                     height = 30
-            )
+        )
 
         self.botao_1home = Button ( root,
                                     # cor botao
@@ -96,11 +97,11 @@ class MenuWidget ():
                                     # chamada         
                                     command = self.botao_home           
 
-            )
+        )
 
         self.botao_1home. place(x=30, y = MENU_Y, width=MENUS_WIDTH, 
                                 height=MENU_HEIGHT
-            )
+        )
 
         self.botao_2configuracao = Button ( root,
                                             # cor botao
@@ -113,11 +114,11 @@ class MenuWidget ():
                                             # chamada       
                                             command = self.botao_configuracao   
 
-            )
+        )
 
         self.botao_2configuracao. place(x=190, y = MENU_Y, width=MENUS_WIDTH, 
                                          height=MENU_HEIGHT
-            )
+        )
 
 
     ###############################################
@@ -126,27 +127,44 @@ class MenuWidget ():
         self.destruir_configuracao()
 
     def botao_configuracao(self):
-    
+        
+        self.LABEL_BANCO_INSTITUICAO_fixa = Label (
+                                                    # cor botao
+                                                    bg      = COR_FUNDO_JANELA,
+                                                    text    = "NOME DO TEMPLO:",
+                                                    # negrito
+                                                    font    ='Helvetica 10 bold', 
+
+        )
+
+        self.LABEL_BANCO_INSTITUICAO_fixa.place(x= 20, y=60, width=140, 
+                                                height= 20
+
+        )
+
+
         self.botao_configuracao_1 = Button ( 
                                              # cor botao
                                             bg      = "#8B4513",          
-                                            text    = "CONFIGURAÇÕES",
+                                            text    = "SALVAR",
                                             # negrito
                                             font    ='Helvetica 10 bold', 
                                             # cor escrita
                                             fg      = "#FFFF00"           
                                             #command = botao_configuracao   # chamada
 
-            )
+        )
 
         self.botao_configuracao_1. place(x=190, y = 50, width=MENUS_WIDTH, 
                                             height=MENU_HEIGHT
-            )
+        )
     
 
     ###############################################
                         # funções destruição widget
     def destruir_configuracao(self):
+           
+            self.LABEL_BANCO_INSTITUICAO_fixa.destroy()
             self.botao_configuracao_1.destroy()
 
 
