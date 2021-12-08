@@ -194,7 +194,7 @@ class MenuWidget ():
 
 
     #**********************************************
-    ###############################################       destruir widget
+    ###############################################  destruir widget area 
                         # funções destruição widget
                         # comando 
     
@@ -208,22 +208,12 @@ class MenuWidget ():
            
             self.LABEL_BANCO_INSTITUICAO_fixa.destroy()
             self.entry_banco_instituicao.destroy()
-            self.botao_salvar_instituicao.destroy()
-
-            
-    #**********************************************
-    ###############################################         configurações
-                            #salvar - configurações
-    def salvar_nome_instituicao(self):
-
-        self.conectar_banco_dados()
-        
-        self.desconectar_banco_dados()
+            self.botao_salvar_instituicao.destroy() 
 
 
     #**********************************************
     ###############################################        banco de dados
-                                   # banco de dados
+                                   # banco de dados         ligação banco
     def conectar_banco_dados(self):
 
         self.sql_conn = sqlite3.connect("banco_de_dados/sistema_financeiro.db")
@@ -235,7 +225,7 @@ class MenuWidget ():
 
     def criar_tabela_banco(self):
 
-        ###########################################
+        ###########################################         criar tabelas
                                    # nome da igreja
         self.sql_cursor.execute("""
         CREATe TABLE IF NOT EXISTS Instituicao ( cod INTEGER PRIMARY KEY,
@@ -244,9 +234,8 @@ class MenuWidget ():
         )
         """)
 
-        #self.sql_cursor.execute( "INSERT INTO Instituicao VALUES (1, 'NOVA ALIANÇA')")
-        #self.sql_conn.commit()
-    ###############################################
+        
+    ###############################################          aba sistemas
                                                    # nome da igreja barra
     def nome_igreja_base_inferior_banco(self):
             self.conectar_banco_dados()
@@ -261,6 +250,7 @@ class MenuWidget ():
                 self.sql_cursor.execute( "INSERT INTO Instituicao VALUES (1, 'NOVA ALIANÇA')")
                 self.sql_conn.commit()
 
+
             self.sql_cursor.execute( "SELECT nome_igreja FROM Instituicao WHERE cod = 1")
             visualiza = self.sql_cursor.fetchone()
             
@@ -269,6 +259,20 @@ class MenuWidget ():
                 self.nome_instituicao.configure(text=visual_nome)
                     
             self.desconectar_banco_dados()
+
+    ###############################################  aba    configurações
+                            #salvar - configurações
+    def salvar_nome_instituicao(self):
+
+        self.conectar_banco_dados()
+
+        get_entrada_instituicao = self.entry_banco_instituicao.get()
+        maiuscula_instituicao = str(get_entrada_instituicao.upper())
+        
+        self.sql_cursor.execute("UPDATE Instituicao SET nome_igreja ='"+maiuscula_instituicao+"' WHERE cod = 1")
+        self.sql_conn.commit()
+                
+        self.desconectar_banco_dados()
 
 #**************************************************
 ###################################################
