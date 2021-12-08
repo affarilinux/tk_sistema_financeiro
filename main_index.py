@@ -217,7 +217,7 @@ class MenuWidget ():
     def salvar_nome_instituicao(self):
 
         self.conectar_banco_dados()
-        self.criar_tabela_banco()
+        
         self.desconectar_banco_dados()
 
 
@@ -225,24 +225,50 @@ class MenuWidget ():
     ###############################################        banco de dados
                                    # banco de dados
     def conectar_banco_dados(self):
+
         self.sql_conn = sqlite3.connect("banco_de_dados/sistema_financeiro.db")
-        self.sql_cursor_salvar = self.sql_conn.cursor()
+        self.sql_cursor = self.sql_conn.cursor()
 
     def desconectar_banco_dados(self):
+
         self.sql_conn.close()
 
     def criar_tabela_banco(self):
 
-        self.sql_cursor_salvar.execute("""
+        ###########################################
+                                   # nome da igreja
+        self.sql_cursor.execute("""
         CREATe TABLE IF NOT EXISTS Instituicao ( cod INTEGER PRIMARY KEY,
                                                     nome_igreja TEXT
 
         )
         """)
+
+        #self.sql_cursor.execute( "INSERT INTO Instituicao VALUES (1, 'NOVA ALIANÇA')")
+        #self.sql_conn.commit()
     ###############################################
                                                    # nome da igreja barra
     def nome_igreja_base_inferior_banco(self):
-        self.nome_instituicao.configure(text="ola")
+            self.conectar_banco_dados()
+            self.criar_tabela_banco()
+            
+                
+                
+            self.sql_cursor.execute( "SELECT * FROM Instituicao WHERE cod = 1 ")
+            visualizar = self.sql_cursor.fetchone()
+                
+            
+            if visualizar == None:
+                self.sql_cursor.execute( "INSERT INTO Instituicao VALUES (1, 'NOVA ALIANÇA')")
+                self.sql_conn.commit()
+
+            self.sql_cursor.execute( "SELECT nome_igreja FROM Instituicao WHERE cod = 1")
+            visualiza = self.sql_cursor.fetchone()
+            print(visualiza)
+            self.nome_instituicao.configure(text=visualiza)
+                    
+            
+            self.desconectar_banco_dados()
 
 #**************************************************
 ###################################################
