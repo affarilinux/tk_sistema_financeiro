@@ -256,18 +256,18 @@ class MenuWidget ():
                 
             self.sql_cursor.execute( "SELECT * FROM Instituicao WHERE cod = 1 ")
             visualizar = self.sql_cursor.fetchone()
-                
-            
+                            
             if visualizar == None:
                 self.sql_cursor.execute( "INSERT INTO Instituicao VALUES (1, 'NOVA ALIANÇA')")
                 self.sql_conn.commit()
 
             self.sql_cursor.execute( "SELECT nome_igreja FROM Instituicao WHERE cod = 1")
             visualiza = self.sql_cursor.fetchone()
-            print(visualiza)
-            self.nome_instituicao.configure(text=visualiza)
-                    
             
+            for visual_nome in visualiza:
+                            
+                self.nome_instituicao.configure(text=visual_nome)
+                    
             self.desconectar_banco_dados()
 
 #**************************************************
