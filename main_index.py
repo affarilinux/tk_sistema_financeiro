@@ -295,10 +295,7 @@ class MenuWidget ():
 
         elif destroir_banco_1 == NOME_NOVA_ALIANCA:
             
-            self.entry_banco_instituicao.destroy()
-            
-            
-            
+            self.entry_banco_instituicao.destroy()          
 
         self.desconectar_banco_dados()
 
@@ -333,6 +330,10 @@ class MenuWidget ():
         self.sql_conn.commit()
                 
         self.desconectar_banco_dados()
+
+        self.entry_banco_instituicao.destroy()
+
+        self.banco_leitura_nova_alianca()
 
 #**************************************************
 ###################################################
