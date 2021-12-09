@@ -53,11 +53,28 @@ def centralizador_janela(root):
     # and where it is placed
     root.geometry('%dx%d+%d+%d' % (WIDTH, HEIGHT, CALCULO_X, CALCULO_Y))
 
+
+###################################################
 class Class_Banco():
     
     def funcao_classdb_conectar(self):
-        self.sql_connm = sqlite3.connect("banco_de_dados/sistema_financeiro.db")
-        self.sql_cursorr = self.sql_connm.cursor()
+
+        self.sql_connect = sqlite3.connect("banco_de_dados/sistema_financeiro.db")
+        self.sql_cursorr = self.sql_connect.cursor()
+
+    def funcao_classdb_criar_tabela(self):
+
+        self.sql_cursorr.execute("""
+            CREATE TABLE IF NOT EXISTS Instituicao ( cod INTEGER PRIMARY KEY,
+                                                    nome_igreja TEXT
+
+            )
+             """)
+
+    def funcao_classdb_desconectar(self):
+
+        self.sql_connect.close()
+
 ############################################### menus da janela principal
 class MenuWidget (Class_Banco):
 
@@ -286,39 +303,32 @@ class MenuWidget (Class_Banco):
         )
         """)
 
-    #def de(self):
-        #self.a2 = sql_cursor
+    
     ###############################################          aba sistemas
                                                    # nome da igreja barra
     def nome_igreja_base_inferior_banco(self):
         
-            #self.de()
-            self.funcao_classdb_conectar()
-            #self.criar_tabela_banco()
-                
-            self.sql_cursorr.execute("""
-            CREATe TABLE IF NOT EXISTS Instituicao ( cod INTEGER PRIMARY KEY,
-                                                    nome_igreja TEXTx
-
-            )
-             """)
-            self.sql_cursorr.execute( "SELECT * FROM Instituicao WHERE cod = 1 ")
-            visualizar = self.sql_cursorr.fetchone()
-                            
-            if visualizar == None:
-                self.sql_cursorr.execute( "INSERT INTO Instituicao VALUES (1, '"+NOME_NOVA_ALIANCA+"')")
-                self.sql_connm.commit()
-
-
-            self.sql_cursorr.execute( "SELECT nome_igreja FROM Instituicao WHERE cod = 1")
-            visualiza = self.sql_cursorr.fetchone()
             
-            for visual_nome in visualiza:
+        self.funcao_classdb_conectar()
+        self.funcao_classdb_criar_tabela()                   
+            
+        self.sql_cursorr.execute( "SELECT * FROM Instituicao WHERE cod = 1 ")
+        visualizar = self.sql_cursorr.fetchone()
                             
-                self.nome_instituicao.configure(text=visual_nome)
-            self.sql_connm.close()
+        if visualizar == None:
+            self.sql_cursorr.execute( "INSERT INTO Instituicao VALUES (1, '"+NOME_NOVA_ALIANCA+"')")
+            self.sql_connect.commit()
 
-            #self.desconectar_banco_dados()
+
+        self.sql_cursorr.execute( "SELECT nome_igreja FROM Instituicao WHERE cod = 1")
+        visualiza = self.sql_cursorr.fetchone()
+            
+        for visual_nome in visualiza:
+                            
+            self.nome_instituicao.configure(text=visual_nome)
+            
+
+        self.funcao_classdb_desconectar()
 
     ###############################################  aba    configurações
                             #salvar - configurações
