@@ -7,7 +7,9 @@ import sqlite3
 from janela.principal.composicao_principal import (
     TAMANHO_WIDTH_JANELA, MENUS_WIDTH, MENU_Y, MENU_HEIGHT, 
     COR_FUNDO_JANELA, COR_FUNDO_BOTAO_MENU_BAR, COR_ESCRITA_MENU_BAR,
-    NOME_NOVA_ALIANCA, COR_BOTAO_FUNDO
+    NOME_NOVA_ALIANCA, COR_BOTAO_FUNDO, CONFIGURACAO_BOTAO_INSTITUICAO_X,
+    CONFIGURACAO_BOTAO_INSTITUICAO_Y, CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH,
+    CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
 )
 
 
@@ -203,8 +205,10 @@ class MenuWidget ():
 
         )
 
-        self.botao_salvar_instituicao. place(x=240, y = 80, width=150, 
-                                            height=35
+        self.botao_salvar_instituicao. place(x=CONFIGURACAO_BOTAO_INSTITUICAO_X, 
+                                            y = CONFIGURACAO_BOTAO_INSTITUICAO_Y,
+                                            width= CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH, 
+                                            height= CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
         )
     def label_configuracao_instituicao_atualizar(self):
         
@@ -228,8 +232,10 @@ class MenuWidget ():
 
         )
 
-        self.botao_salvar_instituicao. place(x=240, y = 80, width=150, 
-                                            height=35
+        self.botao_salvar_instituicao. place(x=CONFIGURACAO_BOTAO_INSTITUICAO_X, 
+                                            y = CONFIGURACAO_BOTAO_INSTITUICAO_Y, 
+                                            width=CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH, 
+                                            height=CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
         )
 
 
