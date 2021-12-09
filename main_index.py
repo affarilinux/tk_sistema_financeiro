@@ -53,7 +53,7 @@ def centralizador_janela(root):
     # and where it is placed
     root.geometry('%dx%d+%d+%d' % (WIDTH, HEIGHT, CALCULO_X, CALCULO_Y))
 
-
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
 class Class_Banco():
     
@@ -98,14 +98,26 @@ class Class_Banco():
                             
             self.nome_instituicao.configure(text=visual_nome)
 
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+###################################################
+class barraVisualizarNomeInstituicao():
 
+    def funcao_class_barra_instituicao(self):
+        self.funcao_classdb_conectar()
+        self.funcao_classdb_criar_tabela()                   
+        self.funcao_classdb_inserir_nova_alianca()    
+        self.funcao_classdb_visualizar_barra_alianca()
+        self.funcao_classdb_desconectar()
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ############################################### menus da janela principal
-class MenuWidget (Class_Banco):
+class MenuWidget (Class_Banco, barraVisualizarNomeInstituicao):
 
 
     #**********************************************
     ###############################################       função inicial
     def __init__(self):
+        
         
         self.nome_igreja_base_inferior()
                                        # label fixa
@@ -155,6 +167,10 @@ class MenuWidget (Class_Banco):
                                          height=MENU_HEIGHT
         )
 
+
+        ########################################### classe externa
+        self.funcao_class_barra_instituicao()
+        
         ###########################################        nome da igreja
                          # base inferior do grafico
     def nome_igreja_base_inferior(self):
@@ -178,7 +194,7 @@ class MenuWidget (Class_Banco):
                              height = 40
         )
 
-        self.nome_igreja_base_inferior_banco()
+       
         
 
     #**********************************************
@@ -318,16 +334,6 @@ class MenuWidget (Class_Banco):
 
     
     
-    ###############################################          aba sistemas
-                                                   # nome da igreja barra
-    def nome_igreja_base_inferior_banco(self):
-                    
-        self.funcao_classdb_conectar()
-        self.funcao_classdb_criar_tabela()                   
-        self.funcao_classdb_inserir_nova_alianca()    
-        self.funcao_classdb_visualizar_barra_alianca()
-        self.funcao_classdb_desconectar()
-
     ###############################################  aba    configurações
                             #salvar - configurações
     
