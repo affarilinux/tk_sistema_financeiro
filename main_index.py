@@ -175,6 +175,21 @@ class MenuWidget ():
 
         )
 
+                
+        # desativa botao
+        self.botao_2configuracao["state"] = "disabled"
+
+    def entry_configuracao(self):
+
+        self.entry_banco_instituicao = Entry(
+                                            
+                                            font    ='Helvetica 10', 
+        )
+
+        self.entry_banco_instituicao.place(
+                                            x=20, y= 85, width= 200, height= 25
+        )
+
         self.botao_salvar_instituicao = Button ( 
                                                 # cor botao - SlateBlue
                                                 bg      = "#6A5ACD",          
@@ -191,21 +206,6 @@ class MenuWidget ():
         self.botao_salvar_instituicao. place(x=240, y = 80, width=150, 
                                             height=35
         )
-        
-        # desativa botao
-        self.botao_2configuracao["state"] = "disabled"
-
-    def entry_configuracao(self):
-
-        self.entry_banco_instituicao = Entry(
-                                            
-                                            font    ='Helvetica 10', 
-        )
-
-        self.entry_banco_instituicao.place(
-                                            x=20, y= 85, width= 200, height= 25
-        )
-
     def label_configuracao_instituicao_atualizar(self):
         
         self.label_nome_instituicao = Label (
