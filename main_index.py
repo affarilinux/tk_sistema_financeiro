@@ -7,7 +7,7 @@ import sqlite3
 from janela.principal.composicao_principal import (
     TAMANHO_WIDTH_JANELA, MENUS_WIDTH, MENU_Y, MENU_HEIGHT, 
     COR_FUNDO_JANELA, COR_FUNDO_BOTAO_MENU_BAR, COR_ESCRITA_MENU_BAR,
-    NOME_NOVA_ALIANCA
+    NOME_NOVA_ALIANCA, COR_BOTAO_FUNDO
 )
 
 
@@ -191,8 +191,8 @@ class MenuWidget ():
         )
 
         self.botao_salvar_instituicao = Button ( 
-                                                # cor botao - SlateBlue
-                                                bg      = "#6A5ACD",          
+                                                # cor botao 
+                                                bg      = COR_BOTAO_FUNDO,          
                                                 text    = "SALVAR",
                                                 # negrito
                                                 font    ='Helvetica 20 bold', 
@@ -214,6 +214,23 @@ class MenuWidget ():
         )
             
         self.label_nome_instituicao.place( x=20, y= 85, width= 200, height= 25)
+
+        self.botao_salvar_instituicao = Button ( 
+                                                # cor botao - 
+                                                bg      = COR_BOTAO_FUNDO,          
+                                                text    = "ATUALIZAR",
+                                                # negrito
+                                                font    ='Helvetica 15 bold', 
+                                                # cor escrita - Yellow
+                                                fg      = COR_ESCRITA_MENU_BAR        
+                                                # chamada  
+                                                #command = self.salvar_nome_instituicao
+
+        )
+
+        self.botao_salvar_instituicao. place(x=240, y = 80, width=150, 
+                                            height=35
+        )
 
 
     #**********************************************
