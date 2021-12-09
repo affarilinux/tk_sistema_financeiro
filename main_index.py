@@ -154,9 +154,10 @@ class MenuWidget ():
 
         ###########################################
                                     # ativar widget
-
+                                    # chamar função
         self.banco_leitura_nova_alianca()
 
+                                           # widget
         self.LABEL_BANCO_INSTITUICAO_fixa = Label (
                                                     # cor botao
                                                     bg      = COR_FUNDO_JANELA,
@@ -187,6 +188,9 @@ class MenuWidget ():
         self.botao_salvar_instituicao. place(x=240, y = 80, width=150, 
                                             height=35
         )
+        
+        # desativa botao
+        self.botao_2configuracao["state"] = "disabled"
 
     def entry_configuracao(self):
 
