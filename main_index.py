@@ -84,7 +84,7 @@ class MenuWidget ():
                                     # cor escrita
                                     fg      = COR_ESCRITA_MENU_BAR, 
                                     # chamada         
-                                    command = self.botao_home           
+                                    command = self.funcao_ini_botao_home           
 
         )
 
@@ -138,11 +138,11 @@ class MenuWidget ():
     #**********************************************
     ###############################################        funcoes botoes
                                      # funções base       recebe __init__
-    def botao_home(self):                          #home
+    def funcao_ini_botao_home  (self):                          #home
 
         ###########################################
                                   # destruir widget
-        self.destruir_configuracao()
+        self.funcao_ini_destruir_configuracao()
 
         ###########################################
                                     # ativar widget
@@ -163,7 +163,7 @@ class MenuWidget ():
         self.banco_leitura_nova_alianca()
 
                                            # widget
-        self.LABEL_BANCO_INSTITUICAO_fixa = Label (
+        self.LABEL_BANCO_INSTITUICAO_FIXA = Label (
                                                     # cor botao
                                                     bg      = COR_FUNDO_JANELA,
                                                     text    = "NOME DO TEMPLO:",
@@ -172,7 +172,7 @@ class MenuWidget ():
 
         )
 
-        self.LABEL_BANCO_INSTITUICAO_fixa.place(x= 20, y=60, width=140, 
+        self.LABEL_BANCO_INSTITUICAO_FIXA.place(x= 20, y=60, width=140, 
                                                 height= 20
 
         )
@@ -219,7 +219,7 @@ class MenuWidget ():
             
         self.label_nome_instituicao.place( x=20, y= 85, width= 200, height= 25)
 
-        self.botao_salvar_instituicao = Button ( 
+        self.botao_atualizar_instituicao = Button ( 
                                                 # cor botao - 
                                                 bg      = COR_BOTAO_FUNDO,          
                                                 text    = "ATUALIZAR",
@@ -232,7 +232,7 @@ class MenuWidget ():
 
         )
 
-        self.botao_salvar_instituicao. place(x=CONFIGURACAO_BOTAO_INSTITUICAO_X, 
+        self.botao_atualizar_instituicao. place(x=CONFIGURACAO_BOTAO_INSTITUICAO_X, 
                                             y = CONFIGURACAO_BOTAO_INSTITUICAO_Y, 
                                             width=CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH, 
                                             height=CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
@@ -249,12 +249,13 @@ class MenuWidget ():
         # nome da igreja
         self.nome_instituicao.destroy()
 
-    def destruir_configuracao(self):
+    def funcao_ini_destruir_configuracao(self):
            
-        self.LABEL_BANCO_INSTITUICAO_fixa.destroy()
-            
-        self.botao_salvar_instituicao.destroy() 
-        self.destruir_widget_nova_alianca()
+        self.LABEL_BANCO_INSTITUICAO_FIXA.destroy()
+         
+        #função
+        self.funcao_ini_destruir_widget_nova_alianca()
+        
 
                              
     #**********************************************
@@ -308,7 +309,7 @@ class MenuWidget ():
     ###############################################  aba    configurações
                             #salvar - configurações
     
-    def destruir_widget_nova_alianca( self):
+    def funcao_ini_destruir_widget_nova_alianca( self):
 
         self.conectar_banco_dados()
 
@@ -320,10 +321,12 @@ class MenuWidget ():
         if destroir_banco_1 != NOME_NOVA_ALIANCA: 
                   
             self.label_nome_instituicao.destroy()
+            self.botao_atualizar_instituicao.destroy()
 
         elif destroir_banco_1 == NOME_NOVA_ALIANCA:
             
-            self.entry_banco_instituicao.destroy()          
+            self.entry_banco_instituicao.destroy()
+            self.botao_salvar_instituicao.destroy()          
 
         self.desconectar_banco_dados()
 
