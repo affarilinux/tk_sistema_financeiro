@@ -12,6 +12,7 @@ from janela.principal.composicao_principal import (
     CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
 )
 
+#from arquivo_banco_dados.chamada_bd import banco_db
 
 
 ################################################### função principal
@@ -21,7 +22,7 @@ def main():
     
                                    # função chamada
     centralizador_janela (root)
-    menu_bar = MenuWidget          (root)
+    menu_bar = MenuWidget()
 
                           # configurações da janela
     root.title      ("NOVA ALIANÇA")               # titulo da igreja
@@ -52,18 +53,22 @@ def centralizador_janela(root):
     # and where it is placed
     root.geometry('%dx%d+%d+%d' % (WIDTH, HEIGHT, CALCULO_X, CALCULO_Y))
 
-
+class Class_Banco():
+    
+    def funcao_classdb_conectar(self):
+        self.sql_connm = sqlite3.connect("banco_de_dados/sistema_financeiro.db")
+        self.sql_cursorr = self.sql_connm.cursor()
 ############################################### menus da janela principal
-class MenuWidget ():
+class MenuWidget (Class_Banco):
 
 
     #**********************************************
     ###############################################       função inicial
-    def __init__(self,root):
+    def __init__(self):
         
         self.nome_igreja_base_inferior()
                                        # label fixa
-        self.MENU_PROCESSOS = Label ( root,
+        self.MENU_PROCESSOS = Label ( 
                                         # cor Aqua / Cyan
                                         bg     = "#00FFFF", 
                                         # formato da borda
@@ -75,7 +80,7 @@ class MenuWidget ():
                                     height = 30
         )
 
-        self.botao_1home = Button ( root,
+        self.botao_1home = Button (
                                     # cor botao
                                     bg      = COR_FUNDO_BOTAO_MENU_BAR,          
                                     text    = "HOME",
@@ -92,7 +97,7 @@ class MenuWidget ():
                                 height=MENU_HEIGHT
         )
 
-        self.botao_2configuracao = Button ( root,
+        self.botao_2configuracao = Button (
                                             # cor botao
                                             bg      = COR_FUNDO_BOTAO_MENU_BAR,          
                                             text    = "CONFIGURAÇÕES",
@@ -276,35 +281,44 @@ class MenuWidget ():
                                    # nome da igreja
         self.sql_cursor.execute("""
         CREATe TABLE IF NOT EXISTS Instituicao ( cod INTEGER PRIMARY KEY,
-                                                    nome_igreja TEXT
+                                                    nome_igreja TEXTx
 
         )
         """)
 
-        
+    #def de(self):
+        #self.a2 = sql_cursor
     ###############################################          aba sistemas
                                                    # nome da igreja barra
     def nome_igreja_base_inferior_banco(self):
         
-            self.conectar_banco_dados()
-            self.criar_tabela_banco()
+            #self.de()
+            self.funcao_classdb_conectar()
+            #self.criar_tabela_banco()
                 
-            self.sql_cursor.execute( "SELECT * FROM Instituicao WHERE cod = 1 ")
-            visualizar = self.sql_cursor.fetchone()
+            self.sql_cursorr.execute("""
+            CREATe TABLE IF NOT EXISTS Instituicao ( cod INTEGER PRIMARY KEY,
+                                                    nome_igreja TEXTx
+
+            )
+             """)
+            self.sql_cursorr.execute( "SELECT * FROM Instituicao WHERE cod = 1 ")
+            visualizar = self.sql_cursorr.fetchone()
                             
             if visualizar == None:
-                self.sql_cursor.execute( "INSERT INTO Instituicao VALUES (1, '"+NOME_NOVA_ALIANCA+"')")
-                self.sql_conn.commit()
+                self.sql_cursorr.execute( "INSERT INTO Instituicao VALUES (1, '"+NOME_NOVA_ALIANCA+"')")
+                self.sql_connm.commit()
 
 
-            self.sql_cursor.execute( "SELECT nome_igreja FROM Instituicao WHERE cod = 1")
-            visualiza = self.sql_cursor.fetchone()
+            self.sql_cursorr.execute( "SELECT nome_igreja FROM Instituicao WHERE cod = 1")
+            visualiza = self.sql_cursorr.fetchone()
             
             for visual_nome in visualiza:
                             
                 self.nome_instituicao.configure(text=visual_nome)
-                    
-            self.desconectar_banco_dados()
+            self.sql_connm.close()
+
+            #self.desconectar_banco_dados()
 
     ###############################################  aba    configurações
                             #salvar - configurações
