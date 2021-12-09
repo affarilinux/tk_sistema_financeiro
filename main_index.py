@@ -263,7 +263,7 @@ class MenuWidget ():
             visualizar = self.sql_cursor.fetchone()
                             
             if visualizar == None:
-                self.sql_cursor.execute( "INSERT INTO Instituicao VALUES (1, 'NOVA ALIANÇA')")
+                self.sql_cursor.execute( "INSERT INTO Instituicao VALUES (1, '"+NOME_NOVA_ALIANCA+"')")
                 self.sql_conn.commit()
 
 
@@ -289,14 +289,14 @@ class MenuWidget ():
         
         destroir_banco_1 = self.destruir_nome_1[0]
         
-        if destroir_banco_1 != "NOVA ALIANÇA": 
+        if destroir_banco_1 != NOME_NOVA_ALIANCA: 
                   
-            self.entry_banco_instituicao.destroy()
-
-        elif destroir_banco_1 == "NOVA ALIANÇA":
-            
-            
             self.label_nome_instituicao.destroy()
+
+        elif destroir_banco_1 == NOME_NOVA_ALIANCA:
+            
+            self.entry_banco_instituicao.destroy()
+            
             
             
 
@@ -311,11 +311,11 @@ class MenuWidget ():
 
         self.transfomar_str_nome = self.verificar_nome_1[0]
         
-        if self.transfomar_str_nome != "NOVA ALIANÇA":
+        if self.transfomar_str_nome != NOME_NOVA_ALIANCA:
             
             self.label_configuracao_instituicao_atualizar()
         
-        elif self.transfomar_str_nome == "NOVA ALIANÇA":
+        elif self.transfomar_str_nome == NOME_NOVA_ALIANCA:
            
             self.entry_configuracao()
             
