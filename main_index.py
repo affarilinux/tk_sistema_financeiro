@@ -146,6 +146,9 @@ class MenuWidget ():
                                     # ativar widget
         self.nome_igreja_base_inferior()
 
+        # ativar configurações
+        self.ativar_configuracao_state()
+
     def botao_configuracao(self):                  #configuraçao
 
         ###########################################
@@ -223,15 +226,14 @@ class MenuWidget ():
         # nome da igreja
         self.nome_instituicao.destroy()
 
-
     def destruir_configuracao(self):
            
-            self.LABEL_BANCO_INSTITUICAO_fixa.destroy()
+        self.LABEL_BANCO_INSTITUICAO_fixa.destroy()
             
-            self.botao_salvar_instituicao.destroy() 
-            self.destruir_widget_nova_alianca()
+        self.botao_salvar_instituicao.destroy() 
+        self.destruir_widget_nova_alianca()
 
-
+                             
     #**********************************************
     ###############################################        banco de dados
                                    # banco de dados         ligação banco
@@ -339,6 +341,14 @@ class MenuWidget ():
 
         self.banco_leitura_nova_alianca()
 
+
+    #**********************************************
+    ###############################################   ativar state widget
+    def ativar_configuracao_state(self):
+
+        self.botao_2configuracao["state"] ="normal"
+        
+        
 #**************************************************
 ###################################################
                               # somente uma entrada
