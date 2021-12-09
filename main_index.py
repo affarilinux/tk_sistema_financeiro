@@ -285,7 +285,6 @@ class MenuWidget ():
     ###############################################  aba    configurações
                             #salvar - configurações
     
-    
     def destruir_widget_nova_alianca( self):
 
         self.conectar_banco_dados()
@@ -338,6 +337,7 @@ class MenuWidget ():
         self.desconectar_banco_dados()
 
         self.entry_banco_instituicao.destroy()
+        self.botao_salvar_instituicao.destroy()
 
         self.banco_leitura_nova_alianca()
 
@@ -348,7 +348,7 @@ class MenuWidget ():
 
         self.botao_2configuracao["state"] ="normal"
         
-        
+
 #**************************************************
 ###################################################
                               # somente uma entrada
