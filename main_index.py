@@ -6,8 +6,10 @@ import sqlite3
                                  # diretorio do app
 from janela.principal.composicao_principal import (
     TAMANHO_WIDTH_JANELA, MENUS_WIDTH, MENU_Y, MENU_HEIGHT, 
-    COR_FUNDO_JANELA, COR_FUNDO_BOTAO_MENU_BAR, COR_ESCRITA_MENU_BAR
+    COR_FUNDO_JANELA, COR_FUNDO_BOTAO_MENU_BAR, COR_ESCRITA_MENU_BAR,
+    NOME_NOVA_ALIANCA
 )
+
 
 
 ################################################### função principal
@@ -134,7 +136,7 @@ class MenuWidget ():
     #**********************************************
     ###############################################        funcoes botoes
                                      # funções base       recebe __init__
-    def botao_home(self):
+    def botao_home(self):                          #home
 
         ###########################################
                                   # destruir widget
@@ -144,7 +146,7 @@ class MenuWidget ():
                                     # ativar widget
         self.nome_igreja_base_inferior()
 
-    def botao_configuracao(self):
+    def botao_configuracao(self):                  #configuraçao
 
         ###########################################
                                   # destruir widget
@@ -152,6 +154,9 @@ class MenuWidget ():
 
         ###########################################
                                     # ativar widget
+
+        self.banco_leitura_nova_alianca()
+
         self.LABEL_BANCO_INSTITUICAO_fixa = Label (
                                                     # cor botao
                                                     bg      = COR_FUNDO_JANELA,
@@ -164,15 +169,6 @@ class MenuWidget ():
         self.LABEL_BANCO_INSTITUICAO_fixa.place(x= 20, y=60, width=140, 
                                                 height= 20
 
-        )
-
-        self.entry_banco_instituicao = Entry(
-                                            # negrito
-                                            font    ='Helvetica 10', 
-        )
-
-        self.entry_banco_instituicao.place(
-                                            x=20, y= 85, width= 200, height= 25
         )
 
         self.botao_salvar_instituicao = Button ( 
@@ -192,6 +188,26 @@ class MenuWidget ():
                                             height=35
         )
 
+    def entry_configuracao(self):
+
+        self.entry_banco_instituicao = Entry(
+                                            
+                                            font    ='Helvetica 10', 
+        )
+
+        self.entry_banco_instituicao.place(
+                                            x=20, y= 85, width= 200, height= 25
+        )
+
+    def label_configuracao_instituicao_atualizar(self):
+        
+        self.label_nome_instituicao = Label (
+                                            text= self.transfomar_str_nome,
+                                            font= 'Helvetica 11 bold'
+        )
+            
+        self.label_nome_instituicao.place( x=20, y= 85, width= 200, height= 25)
+
 
     #**********************************************
     ###############################################  destruir widget area 
@@ -207,8 +223,9 @@ class MenuWidget ():
     def destruir_configuracao(self):
            
             self.LABEL_BANCO_INSTITUICAO_fixa.destroy()
-            self.entry_banco_instituicao.destroy()
+            
             self.botao_salvar_instituicao.destroy() 
+            self.destruir_widget_nova_alianca()
 
 
     #**********************************************
@@ -238,10 +255,9 @@ class MenuWidget ():
     ###############################################          aba sistemas
                                                    # nome da igreja barra
     def nome_igreja_base_inferior_banco(self):
+        
             self.conectar_banco_dados()
             self.criar_tabela_banco()
-            
-                
                 
             self.sql_cursor.execute( "SELECT * FROM Instituicao WHERE cod = 1 ")
             visualizar = self.sql_cursor.fetchone()
@@ -262,6 +278,50 @@ class MenuWidget ():
 
     ###############################################  aba    configurações
                             #salvar - configurações
+    
+    
+    def destruir_widget_nova_alianca( self):
+
+        self.conectar_banco_dados()
+
+        self.sql_cursor.execute("SELECT nome_igreja FROM Instituicao WHERE cod = 1")
+        self.destruir_nome_1 = self.sql_cursor.fetchone()
+        
+        destroir_banco_1 = self.destruir_nome_1[0]
+        
+        if destroir_banco_1 != "NOVA ALIANÇA": 
+                  
+            self.entry_banco_instituicao.destroy()
+
+        elif destroir_banco_1 == "NOVA ALIANÇA":
+            
+            
+            self.label_nome_instituicao.destroy()
+            
+            
+
+        self.desconectar_banco_dados()
+
+    def banco_leitura_nova_alianca(self):
+        
+        self.conectar_banco_dados()
+
+        self.sql_cursor.execute("SELECT nome_igreja FROM Instituicao WHERE cod = 1")
+        self.verificar_nome_1 = self.sql_cursor.fetchone()
+
+        self.transfomar_str_nome = self.verificar_nome_1[0]
+        
+        if self.transfomar_str_nome != "NOVA ALIANÇA":
+            
+            self.label_configuracao_instituicao_atualizar()
+        
+        elif self.transfomar_str_nome == "NOVA ALIANÇA":
+           
+            self.entry_configuracao()
+            
+
+        self.desconectar_banco_dados()
+
     def salvar_nome_instituicao(self):
 
         self.conectar_banco_dados()
