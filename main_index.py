@@ -53,6 +53,62 @@ def centralizador_janela(root):
     # and where it is placed
     root.geometry('%dx%d+%d+%d' % (WIDTH, HEIGHT, CALCULO_X, CALCULO_Y))
 
+    
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        
+###################################################
+class BarraMenuInicializacao():
+        
+    def funcao_class_barra_menus(self):            # funcao inicializacao
+
+        ###########################################            label fixa
+                                        
+        self.MENU_PROCESSOS_BARRA_FIXO = Label ( 
+                                                # cor Aqua / Cyan
+                                                bg     = "#00FFFF", 
+                                                # formato da borda
+                                                relief = "groove"  
+        )
+
+        self.MENU_PROCESSOS_BARRA_FIXO.place(x = 2, y = 5, width = (
+                                            TAMANHO_WIDTH_JANELA - 4),
+                                        height = 30
+        )
+
+        ###########################################        variavel movel
+        self.botao_1home = Button (
+                                    # cor botao
+                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                                    text    = "HOME",
+                                    # negrito
+                                    font    ='Helvetica 10 bold', 
+                                    # cor escrita
+                                    fg      = COR_ESCRITA_MENU_BAR, 
+                                    # chamada         
+                                    command = self.funcao_class_menu_home           
+
+        )
+
+        self.botao_1home. place(x=30, y = MENU_Y, width=MENUS_WIDTH, 
+                                height=MENU_HEIGHT
+        )
+
+        self.botao_2configuracao = Button (
+                                            # cor botao
+                                            bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                                            text    = "CONFIGURAÇÕES",
+                                            # negrito
+                                            font    ='Helvetica 10 bold', 
+                                            # cor escrita
+                                            fg      = COR_ESCRITA_MENU_BAR,    
+                                            # chamada       
+                                            command = self.funcao_class_menu_configuracao  
+
+        )
+
+        self.botao_2configuracao. place(x=190, y = MENU_Y, width=MENUS_WIDTH, 
+                                         height=MENU_HEIGHT
+        )
+
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
@@ -119,7 +175,7 @@ class ClassBanco():
 ###################################################
 class barraVisualizarNomeInstituicao():
 
-    def funcao_class_barra_instituicao(self):
+    def funcao_class_barra_instituicao(self):      # funcao inicializacao
 
         #visual
         self.funcao_class_visual_instituicao()
@@ -134,7 +190,7 @@ class barraVisualizarNomeInstituicao():
 
 
 
-    def funcao_class_visual_instituicao(self):
+    def funcao_class_visual_instituicao(self):     # funcao inicializacao
 
         self.label_nome_instituicao_class = Label (
                                         # cor de fundo -DeepSkyBlue
@@ -160,81 +216,26 @@ class barraVisualizarNomeInstituicao():
         self.funcao_classdb_visualizar_1()
         self.funcao_class_visualdb_instituicao()
         self.funcao_classdb_desconectar()
-    
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        
-###################################################
-class BarraMenuInicializacao():
+
         
-    def funcao_class_barra_menus(self):
-
-        ###########################################            label fixa
-                                        
-        self.MENU_PROCESSOS_BARRA_FIXO = Label ( 
-                                                # cor Aqua / Cyan
-                                                bg     = "#00FFFF", 
-                                                # formato da borda
-                                                relief = "groove"  
-        )
-
-        self.MENU_PROCESSOS_BARRA_FIXO.place(x = 2, y = 5, width = (
-                                            TAMANHO_WIDTH_JANELA - 4),
-                                        height = 30
-        )
-
-        ###########################################        variavel movel
-        self.botao_1home = Button (
-                                    # cor botao
-                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
-                                    text    = "HOME",
-                                    # negrito
-                                    font    ='Helvetica 10 bold', 
-                                    # cor escrita
-                                    fg      = COR_ESCRITA_MENU_BAR, 
-                                    # chamada         
-                                    command = self.funcao_class_menu_home           
-
-        )
-
-        self.botao_1home. place(x=30, y = MENU_Y, width=MENUS_WIDTH, 
-                                height=MENU_HEIGHT
-        )
-
-        self.botao_2configuracao = Button (
-                                            # cor botao
-                                            bg      = COR_FUNDO_BOTAO_MENU_BAR,          
-                                            text    = "CONFIGURAÇÕES",
-                                            # negrito
-                                            font    ='Helvetica 10 bold', 
-                                            # cor escrita
-                                            fg      = COR_ESCRITA_MENU_BAR,    
-                                            # chamada       
-                                            command = self.funcao_class_menu_configuracao  
-
-        )
-
-        self.botao_2configuracao. place(x=190, y = MENU_Y, width=MENUS_WIDTH, 
-                                         height=MENU_HEIGHT
-        )
-
-
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
-class BarraMenuHome():
+class BarraMenuHome():                             
 
-    def funcao_class_menu_home(self):
+    def funcao_class_menu_home(self):              #  inicializacao botao
 
         ###########################################
                                   # destruir widget
-        self.funcao_ini_destruir_configuracao()
+        self.funcao_class_destruir_conguracao_instituicao()
 
         ###########################################
                                     # ativar widget
         self.funcao_class_visual_instituicao()
         
         # ativar configurações barra
-        self.ativar_configuracao_state()
+        self.funcao_class_ativar_botao_barra_configurações()
 
-        # funcao barra inferior
+        # funcao barra inferior visualizar
         self.funcao_class_visualdb_barra_intituicao()
 
     ################################################ chamar botao
@@ -243,12 +244,20 @@ class BarraMenuHome():
 
         self.label_nome_instituicao_class.destroy()
 
+    def funcao_class_destruir_conguracao_instituicao(self):
+        
+        self.LABEL_BANCO_INSTITUICAO_FIXA.destroy()
+         
+        #função
+        self.funcao_ini_destruir_widget_nova_alianca()
+
+    
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
 class BarraMenuConfiguracoes():
 
-    def funcao_class_menu_configuracao(self):
+    def funcao_class_menu_configuracao(self):       #funcao inicializacao
 
         ###########################################
                                   # destruir widget
@@ -274,9 +283,8 @@ class BarraMenuConfiguracoes():
 
         )
 
-                
-        # desativa botao
-        self.botao_2configuracao["state"] = "disabled"
+        self.funcao_class_desativar_botao_barra_configuracoes()
+        
     
     def funcao_class_visualdb_leitura_alianca(self):
 
@@ -343,11 +351,21 @@ class BarraMenuConfiguracoes():
                                             height=CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
         )
 
+    ############################################### ativado e desativado
+    def funcao_class_desativar_botao_barra_configuracoes(self):
+        
+        # desativa botao
+        self.botao_2configuracao["state"] = "disabled"
+
+    def funcao_class_ativar_botao_barra_configurações(self):
+
+        self.botao_2configuracao["state"] ="normal"
+
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ############################################### menus da janela principal
 class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
-BarraMenuInicializacao, BarraMenuConfiguracoes):
+                    BarraMenuInicializacao, BarraMenuConfiguracoes):
 
     #**********************************************
     ###############################################       função inicial
@@ -355,26 +373,9 @@ BarraMenuInicializacao, BarraMenuConfiguracoes):
 
         ########################################### classe externa
         self.funcao_class_barra_menus()
-        self.funcao_class_barra_instituicao()
+        self.funcao_class_barra_instituicao()   
 
-        
-          
-
-    #**********************************************
-    ###############################################  destruir widget area 
-                        # funções destruição widget
-                        # comando 
-    
-    
-    def funcao_ini_destruir_configuracao(self):
-           
-        self.LABEL_BANCO_INSTITUICAO_FIXA.destroy()
-         
-        #função
-        self.funcao_ini_destruir_widget_nova_alianca()
-        
-
-                             
+      
     #**********************************************
     ###############################################        banco de dados
                                    # banco de dados         ligação banco
@@ -430,13 +431,7 @@ BarraMenuInicializacao, BarraMenuConfiguracoes):
         self.botao_salvar_instituicao.destroy()
 
         self.funcao_class_visualdb_leitura_alianca()
-
-
-    #**********************************************
-    ###############################################   ativar state widget
-    def ativar_configuracao_state(self):
-
-        self.botao_2configuracao["state"] ="normal"
+      
         
 
 #**************************************************
