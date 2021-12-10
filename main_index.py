@@ -154,6 +154,10 @@ class ClassBanco():
         self.sql_cursorr.execute("UPDATE Instituicao SET nome_igreja ='"+maiuscula_instituicao+"' WHERE cod = 1")
         self.funcao_classdb_commit()
 
+        self.funcao_classdb_visualizar_1()
+        for row in self.visualiza:
+            print(row[1])
+
         self. funcao_classdb_desconectar( )
 
         self.funcao_destruir_configuracao_entry_instituicao()
