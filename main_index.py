@@ -108,7 +108,7 @@ class ClassBanco():
         
         if self.transfomar_str_nome != NOME_NOVA_ALIANCA:
             
-            self.label_configuracao_instituicao_atualizar()
+            self.funcao_class_institucao_atualizar_widget()
         
         elif self.transfomar_str_nome == NOME_NOVA_ALIANCA:
            
@@ -315,27 +315,8 @@ class BarraMenuConfiguracoes():
                                             height= CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
         )
 
+    def funcao_class_institucao_atualizar_widget(self):
 
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-############################################### menus da janela principal
-class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
-BarraMenuInicializacao, BarraMenuConfiguracoes):
-
-    #**********************************************
-    ###############################################       função inicial
-    def __init__(self):
-
-        ########################################### classe externa
-        self.funcao_class_barra_menus()
-        self.funcao_class_barra_instituicao()
-
-        
-    #**********************************************
-    ###############################################        funcoes botoes
-                                     # funções base       recebe __init__      
-
-    def label_configuracao_instituicao_atualizar(self):
-        
         self.label_nome_instituicao = Label (
                                             text= self.transfomar_str_nome,
                                             font= 'Helvetica 11 bold'
@@ -362,6 +343,22 @@ BarraMenuInicializacao, BarraMenuConfiguracoes):
                                             height=CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
         )
 
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+############################################### menus da janela principal
+class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
+BarraMenuInicializacao, BarraMenuConfiguracoes):
+
+    #**********************************************
+    ###############################################       função inicial
+    def __init__(self):
+
+        ########################################### classe externa
+        self.funcao_class_barra_menus()
+        self.funcao_class_barra_instituicao()
+
+        
+          
 
     #**********************************************
     ###############################################  destruir widget area 
