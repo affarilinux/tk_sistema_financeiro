@@ -53,6 +53,7 @@ def centralizador_janela(root):
     # and where it is placed
     root.geometry('%dx%d+%d+%d' % (WIDTH, HEIGHT, CALCULO_X, CALCULO_Y))
 
+
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
 class ClassBanco():
@@ -92,11 +93,12 @@ class ClassBanco():
     def funcao_classdb_visualizar_barra_alianca (self):
 
         self.sql_cursorr.execute( "SELECT nome_igreja FROM Instituicao WHERE cod = 1")
-        visualiza = self.sql_cursorr.fetchone()
-            
-        for visual_nome in visualiza:
+        self.visualiza = self.sql_cursorr.fetchone()
+
+    def funcao_class_visualdb_instituicao (self):
+
+        for visual_nome in self.visualiza:
                             
-        
             self.label_nome_instituicao_class .configure(text=visual_nome)
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -113,6 +115,7 @@ class barraVisualizarNomeInstituicao():
         self.funcao_classdb_criar_tabela()                   
         self.funcao_classdb_inserir_nova_alianca()    
         self.funcao_classdb_visualizar_barra_alianca()
+        self.funcao_class_visualdb_instituicao()
         self.funcao_classdb_desconectar()
 
 
@@ -136,8 +139,14 @@ class barraVisualizarNomeInstituicao():
                                         width = TAMANHO_WIDTH_JANELA,
                                         height = 40
         )
+    
+    def funcao_class_visualdb_barra_intituicao(self):
 
-
+        self.funcao_classdb_conectar()
+        self.funcao_classdb_visualizar_barra_alianca()
+        self.funcao_class_visualdb_instituicao()
+        self.funcao_classdb_desconectar()
+    
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        
 ###################################################
 class BarraMenuInicializacao():
@@ -185,13 +194,14 @@ class BarraMenuInicializacao():
                                             # cor escrita
                                             fg      = COR_ESCRITA_MENU_BAR,    
                                             # chamada       
-                                            command = self.botao_configuracao   
+                                            command = self.funcao_class_menu_configuracao  
 
         )
 
         self.botao_2configuracao. place(x=190, y = MENU_Y, width=MENUS_WIDTH, 
                                          height=MENU_HEIGHT
         )
+
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
@@ -210,39 +220,25 @@ class BarraMenuHome():
         # ativar configurações barra
         self.ativar_configuracao_state()
 
-
+        # funcao barra inferior
         self.funcao_class_visualdb_barra_intituicao()
 
-    def funcao_class_visualdb_barra_intituicao(self):
+    ################################################ chamar botao
+    #configuracao
+    def funcao_class_destruir_home(self):          
 
-        self.funcao_classdb_conectar()
-        self.funcao_classdb_visualizar_barra_alianca()
-        self.funcao_classdb_desconectar()
+        self.label_nome_instituicao_class.destroy()
+
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-############################################### menus da janela principal
-class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
-BarraMenuInicializacao):
+###################################################
+class BarraMenuConfiguracoes():
 
-    #**********************************************
-    ###############################################       função inicial
-    def __init__(self):
-
-        ########################################### classe externa
-        self.funcao_class_barra_menus()
-        self.funcao_class_barra_instituicao()
-
-        
-    #**********************************************
-    ###############################################        funcoes botoes
-                                     # funções base       recebe __init__
-    
-
-    def botao_configuracao(self):                  #configuraçao
+    def funcao_class_menu_configuracao(self):
 
         ###########################################
                                   # destruir widget
-        self.destruir_home()
+        self.funcao_class_destruir_home()
 
         ###########################################
                                     # ativar widget
@@ -267,6 +263,25 @@ BarraMenuInicializacao):
                 
         # desativa botao
         self.botao_2configuracao["state"] = "disabled"
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+############################################### menus da janela principal
+class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
+BarraMenuInicializacao, BarraMenuConfiguracoes):
+
+    #**********************************************
+    ###############################################       função inicial
+    def __init__(self):
+
+        ########################################### classe externa
+        self.funcao_class_barra_menus()
+        self.funcao_class_barra_instituicao()
+
+        
+    #**********************************************
+    ###############################################        funcoes botoes
+                                     # funções base       recebe __init__
+    
 
     def entry_configuracao(self):
 
@@ -297,6 +312,7 @@ BarraMenuInicializacao):
                                             width= CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH, 
                                             height= CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
         )
+
     def label_configuracao_instituicao_atualizar(self):
         
         self.label_nome_instituicao = Label (
@@ -331,11 +347,7 @@ BarraMenuInicializacao):
                         # funções destruição widget
                         # comando 
     
-    def destruir_home (self):
-
-        # nome da igreja
-        self.label_nome_instituicao_class.destroy()
-
+    
     def funcao_ini_destruir_configuracao(self):
            
         self.LABEL_BANCO_INSTITUICAO_FIXA.destroy()
