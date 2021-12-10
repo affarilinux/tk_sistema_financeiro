@@ -90,7 +90,7 @@ class ClassBanco():
             self.sql_connect.commit()
 
     ############################################### visualizar dados
-    def funcao_classdb_visualizar_barra_alianca (self):
+    def funcao_classdb_visualizar_1 (self):
 
         self.sql_cursorr.execute( "SELECT nome_igreja FROM Instituicao WHERE cod = 1")
         self.visualiza = self.sql_cursorr.fetchone()
@@ -100,6 +100,19 @@ class ClassBanco():
         for visual_nome in self.visualiza:
                             
             self.label_nome_instituicao_class .configure(text=visual_nome)
+
+    def funcao_class_if_ativar_widget(self):
+
+        self.transfomar_str_nome = self.visualiza[0]
+        
+        if self.transfomar_str_nome != NOME_NOVA_ALIANCA:
+            
+            self.label_configuracao_instituicao_atualizar()
+        
+        elif self.transfomar_str_nome == NOME_NOVA_ALIANCA:
+           
+            self.entry_configuracao()
+
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
@@ -114,7 +127,7 @@ class barraVisualizarNomeInstituicao():
         self.funcao_classdb_conectar()
         self.funcao_classdb_criar_tabela()                   
         self.funcao_classdb_inserir_nova_alianca()    
-        self.funcao_classdb_visualizar_barra_alianca()
+        self.funcao_classdb_visualizar_1()
         self.funcao_class_visualdb_instituicao()
         self.funcao_classdb_desconectar()
 
@@ -143,7 +156,7 @@ class barraVisualizarNomeInstituicao():
     def funcao_class_visualdb_barra_intituicao(self):
 
         self.funcao_classdb_conectar()
-        self.funcao_classdb_visualizar_barra_alianca()
+        self.funcao_classdb_visualizar_1()
         self.funcao_class_visualdb_instituicao()
         self.funcao_classdb_desconectar()
     
@@ -243,7 +256,7 @@ class BarraMenuConfiguracoes():
         ###########################################
                                     # ativar widget
                                     # chamar função
-        self.banco_leitura_nova_alianca()
+        self.funcao_class_visualdb_leitura_alianca()
 
                                            # widget
         self.LABEL_BANCO_INSTITUICAO_FIXA = Label (
@@ -263,6 +276,13 @@ class BarraMenuConfiguracoes():
                 
         # desativa botao
         self.botao_2configuracao["state"] = "disabled"
+    
+    def funcao_class_visualdb_leitura_alianca(self):
+
+        self.funcao_classdb_conectar()
+        self.funcao_classdb_visualizar_1()
+        self.funcao_class_if_ativar_widget()   
+        self.funcao_classdb_desconectar()
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ############################################### menus da janela principal
@@ -395,26 +415,7 @@ BarraMenuInicializacao, BarraMenuConfiguracoes):
 
         self.desconectar_banco_dados()
 
-    def banco_leitura_nova_alianca(self):
-        
-        self.conectar_banco_dados()
-
-        self.sql_cursor.execute("SELECT nome_igreja FROM Instituicao WHERE cod = 1")
-        self.verificar_nome_1 = self.sql_cursor.fetchone()
-
-        self.transfomar_str_nome = self.verificar_nome_1[0]
-        
-        if self.transfomar_str_nome != NOME_NOVA_ALIANCA:
-            
-            self.label_configuracao_instituicao_atualizar()
-        
-        elif self.transfomar_str_nome == NOME_NOVA_ALIANCA:
-           
-            self.entry_configuracao()
-            
-
-        self.desconectar_banco_dados()
-
+    
     def salvar_nome_instituicao(self):
 
         self.conectar_banco_dados()
@@ -430,7 +431,7 @@ BarraMenuInicializacao, BarraMenuConfiguracoes):
         self.entry_banco_instituicao.destroy()
         self.botao_salvar_instituicao.destroy()
 
-        self.banco_leitura_nova_alianca()
+        self.funcao_class_visualdb_leitura_alianca()
 
 
     #**********************************************
