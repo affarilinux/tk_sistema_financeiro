@@ -12,9 +12,6 @@ from janela.principal.composicao_principal import (
     CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
 )
 
-#from arquivo_banco_dados.chamada_bd import banco_db
-
-
 ################################################### função principal
                           # função de inicialização
 def main():
@@ -130,6 +127,9 @@ class ClassBanco():
             )
              """)
 
+    def funcao_classdb_commit(self):
+        self.sql_connect.commit()
+
     ############################################### deconectar
     def funcao_classdb_desconectar(self):
 
@@ -137,23 +137,22 @@ class ClassBanco():
 
     ############################################### inserir dados
     def funcao_classdb_inserir_nova_alianca(self):
-
-        self.sql_cursorr.execute( "SELECT * FROM Instituicao WHERE cod = 1 ")
-        visualizar = self.sql_cursorr.fetchone()
-                            
-        if visualizar == None:
-            self.sql_cursorr.execute( "INSERT INTO Instituicao VALUES (1, '"+NOME_NOVA_ALIANCA+"')")
-            self.sql_connect.commit()
+                           
+            
+        self.sql_cursorr.execute( "INSERT INTO Instituicao VALUES (1, '"+NOME_NOVA_ALIANCA+"')")
+        self.funcao_classdb_commit()
 
     def funcao_classdb_atalizar_igreja_configuracoes(self):
 
+        
         self.funcao_classdb_conectar()
 
         get_entrada_instituicao = self.entry_banco_instituicao.get()
         maiuscula_instituicao = str(get_entrada_instituicao.upper())
         
+        print(type(get_entrada_instituicao))
         self.sql_cursorr.execute("UPDATE Instituicao SET nome_igreja ='"+maiuscula_instituicao+"' WHERE cod = 1")
-        self.sql_connect.commit()
+        self.funcao_classdb_commit()
 
         self. funcao_classdb_desconectar( )
 
@@ -168,13 +167,16 @@ class ClassBanco():
         self.sql_cursorr.execute( "SELECT nome_igreja FROM Instituicao WHERE cod = 1")
         self.visualiza = self.sql_cursorr.fetchone()
 
+        if self.visualiza == None:
+
+            self.funcao_classdb_inserir_nova_alianca()
+
     def funcao_class_visualdb_instituicao (self):
 
         for visual_nome in self.visualiza:
                             
             self.label_nome_instituicao_class.configure(text=visual_nome)
 
-    
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
@@ -188,12 +190,10 @@ class barraVisualizarNomeInstituicao():
         # banco
         self.funcao_classdb_conectar()
         self.funcao_classdb_criar_tabela()                   
-        self.funcao_classdb_inserir_nova_alianca()    
-        self.funcao_classdb_visualizar_1()
-        self.funcao_class_visualdb_instituicao()
+        self.funcao_classdb_visualizar_1() 
         self.funcao_classdb_desconectar()
 
-
+        self.funcao_nome_instituicao_db()
 
     def funcao_class_visual_instituicao(self):     # funcao inicializacao
 
@@ -215,6 +215,13 @@ class barraVisualizarNomeInstituicao():
                                         height = 40
         )
     
+    def funcao_nome_instituicao_db(self):
+
+        self.funcao_classdb_conectar()
+        self.funcao_classdb_visualizar_1() 
+        self.funcao_class_visualdb_instituicao()
+        self.funcao_classdb_desconectar()
+
     def funcao_class_visualdb_barra_intituicao(self):
 
         self.funcao_classdb_conectar()
@@ -325,7 +332,7 @@ class ConfiguracaoWidgetBarra():
                                                 # negrito
                                                 font    ='Helvetica 15 bold', 
                                                 # cor escrita - Yellow
-                                                fg      = COR_ESCRITA_MENU_BAR        
+                                                fg      = COR_ESCRITA_MENU_BAR,        
                                                 # chamada  
                                                 #command = self.salvar_nome_instituicao
 
