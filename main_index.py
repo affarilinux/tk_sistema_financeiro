@@ -157,11 +157,10 @@ class ClassBanco():
 
         self. funcao_classdb_desconectar( )
 
-        self.entry_banco_instituicao.destroy()
-        self.botao_salvar_instituicao.destroy()
-
+        self.funcao_destruir_configuracao_entry_instituicao()
+        self.funcao_destruir_configuracao_botao_salvar_igreja() 
+        
         self.funcao_class_visualdb_leitura_alianca()
-
 
     ############################################### visualizar dados
     def funcao_classdb_visualizar_1 (self):
@@ -187,26 +186,6 @@ class ClassBanco():
         elif self.transfomar_str_nome == NOME_NOVA_ALIANCA:
            
             self.funcao_class_instituicao_salvar_widget()
-
-    def funcao_class_if_destruir_widget(self):
-        
-        self.funcao_classdb_conectar()
-        self.funcao_classdb_visualizar_1()
-
-                
-        destroir_banco_1 = self.visualiza[0]
-        
-        if destroir_banco_1 != NOME_NOVA_ALIANCA: 
-                  
-            self.label_nome_instituicao.destroy()
-            self.botao_atualizar_instituicao.destroy()
-
-        elif destroir_banco_1 == NOME_NOVA_ALIANCA:
-            
-            self.entry_banco_instituicao.destroy()
-            self.botao_salvar_instituicao.destroy()          
-
-        self.funcao_classdb_desconectar()
 
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -288,6 +267,7 @@ class BarraMenuHome():
          
         #função
         self.funcao_class_if_destruir_widget()
+
 
     
 
@@ -401,9 +381,42 @@ class BarraMenuConfiguracoes():
 
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+class DestruirWidgetConfiguracao():
+
+    def funcao_destruir_configuracao_entry_instituicao(self):
+
+        self.entry_banco_instituicao.destroy()
+
+    def funcao_destruir_configuracao_botao_salvar_igreja(self):
+
+        self.botao_salvar_instituicao.destroy()
+
+    def funcao_class_if_destruir_widget(self):
+        
+        self.funcao_classdb_conectar()
+        self.funcao_classdb_visualizar_1()
+
+                
+        destroir_banco_1 = self.visualiza[0]
+        
+        if destroir_banco_1 != NOME_NOVA_ALIANCA: 
+                  
+            self.label_nome_instituicao.destroy()
+            self.botao_atualizar_instituicao.destroy()
+
+        elif destroir_banco_1 == NOME_NOVA_ALIANCA:
+            
+            self.funcao_destruir_configuracao_entry_instituicao()
+            self.funcao_destruir_configuracao_botao_salvar_igreja()          
+
+        self.funcao_classdb_desconectar()
+
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ############################################### menus da janela principal
 class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
-                    BarraMenuInicializacao, BarraMenuConfiguracoes):
+                   BarraMenuInicializacao, BarraMenuConfiguracoes,
+                   DestruirWidgetConfiguracao):
 
     #**********************************************
     ###############################################       função inicial
