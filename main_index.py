@@ -96,43 +96,69 @@ class Class_Banco():
             
         for visual_nome in visualiza:
                             
-            self.nome_instituicao.configure(text=visual_nome)
+        
+            self.label_nome_instituicao_class .configure(text=visual_nome)
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
 class barraVisualizarNomeInstituicao():
 
     def funcao_class_barra_instituicao(self):
+
+        #visual
+        self.funcao_class_visual_instituicao()
+
+        # banco
         self.funcao_classdb_conectar()
         self.funcao_classdb_criar_tabela()                   
         self.funcao_classdb_inserir_nova_alianca()    
         self.funcao_classdb_visualizar_barra_alianca()
         self.funcao_classdb_desconectar()
 
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-############################################### menus da janela principal
-class MenuWidget (Class_Banco, barraVisualizarNomeInstituicao):
 
 
-    #**********************************************
-    ###############################################       função inicial
-    def __init__(self):
-        
-        
-        self.nome_igreja_base_inferior()
-                                       # label fixa
-        self.MENU_PROCESSOS = Label ( 
-                                        # cor Aqua / Cyan
-                                        bg     = "#00FFFF", 
+    def funcao_class_visual_instituicao(self):
+
+        self.label_nome_instituicao_class = Label (
+                                        # cor de fundo -DeepSkyBlue
+                                        bg   = "#00BFFF",  
+
+                                        # negrito
+                                        font ='Helvetica 20 bold', 
+
                                         # formato da borda
-                                        relief = "groove"  
+                                        relief      ="ridge", 
+                                        # tamanho da borda
+                                        borderwidth = 5       
+        )      
+                                
+        self.label_nome_instituicao_class.place(x = 0, y = 758, 
+                                        width = TAMANHO_WIDTH_JANELA,
+                                        height = 40
         )
 
-        self.MENU_PROCESSOS.place(x = 2, y = 5, width = (
-                                    TAMANHO_WIDTH_JANELA - 4),
-                                    height = 30
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        
+###################################################
+class BarraMenuInicializacao():
+        
+    def funcao_class_barra_menus(self):
+
+        ###########################################            label fixa
+                                        
+        self.MENU_PROCESSOS_BARRA_FIXO = Label ( 
+                                                # cor Aqua / Cyan
+                                                bg     = "#00FFFF", 
+                                                # formato da borda
+                                                relief = "groove"  
         )
 
+        self.MENU_PROCESSOS_BARRA_FIXO.place(x = 2, y = 5, width = (
+                                            TAMANHO_WIDTH_JANELA - 4),
+                                        height = 30
+        )
+
+        ###########################################        variavel movel
         self.botao_1home = Button (
                                     # cor botao
                                     bg      = COR_FUNDO_BOTAO_MENU_BAR,          
@@ -167,36 +193,24 @@ class MenuWidget (Class_Banco, barraVisualizarNomeInstituicao):
                                          height=MENU_HEIGHT
         )
 
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+###################################################
+'''class BarraMenuHome():
+    def funcao_'''
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+############################################### menus da janela principal
+class MenuWidget (Class_Banco, barraVisualizarNomeInstituicao, 
+BarraMenuInicializacao):
+
+    #**********************************************
+    ###############################################       função inicial
+    def __init__(self):
 
         ########################################### classe externa
+        self.funcao_class_barra_menus()
         self.funcao_class_barra_instituicao()
+
         
-        ###########################################        nome da igreja
-                         # base inferior do grafico
-    def nome_igreja_base_inferior(self):
-
-                                   # nome da igreja
-                                   
-        self.nome_instituicao = Label (
-                                        # cor de fundo -DeepSkyBlue
-                                        bg   = "#00BFFF",  
-
-                                        # negrito
-                                        font ='Helvetica 20 bold', 
-
-                                        # formato da borda
-                                        relief      ="ridge", 
-                                        # tamanho da borda
-                                        borderwidth = 5       
-        )      
-                                
-        self.nome_instituicao.place(x = 0, y = 758, width = TAMANHO_WIDTH_JANELA,
-                             height = 40
-        )
-
-       
-        
-
     #**********************************************
     ###############################################        funcoes botoes
                                      # funções base       recebe __init__
@@ -208,7 +222,7 @@ class MenuWidget (Class_Banco, barraVisualizarNomeInstituicao):
 
         ###########################################
                                     # ativar widget
-        self.nome_igreja_base_inferior()
+        self.funcao_class_visual_instituicao()
 
         # ativar configurações
         self.ativar_configuracao_state()
@@ -309,7 +323,7 @@ class MenuWidget (Class_Banco, barraVisualizarNomeInstituicao):
     def destruir_home (self):
 
         # nome da igreja
-        self.nome_instituicao.destroy()
+        self.label_nome_instituicao_class.destroy()
 
     def funcao_ini_destruir_configuracao(self):
            
