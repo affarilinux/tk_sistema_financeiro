@@ -145,6 +145,24 @@ class ClassBanco():
             self.sql_cursorr.execute( "INSERT INTO Instituicao VALUES (1, '"+NOME_NOVA_ALIANCA+"')")
             self.sql_connect.commit()
 
+    def funcao_classdb_atalizar_igreja_configuracoes(self):
+
+        self.funcao_classdb_conectar()
+
+        get_entrada_instituicao = self.entry_banco_instituicao.get()
+        maiuscula_instituicao = str(get_entrada_instituicao.upper())
+        
+        self.sql_cursorr.execute("UPDATE Instituicao SET nome_igreja ='"+maiuscula_instituicao+"' WHERE cod = 1")
+        self.sql_connect.commit()
+
+        self. funcao_classdb_desconectar( )
+
+        self.entry_banco_instituicao.destroy()
+        self.botao_salvar_instituicao.destroy()
+
+        self.funcao_class_visualdb_leitura_alianca()
+
+
     ############################################### visualizar dados
     def funcao_classdb_visualizar_1 (self):
 
@@ -169,6 +187,26 @@ class ClassBanco():
         elif self.transfomar_str_nome == NOME_NOVA_ALIANCA:
            
             self.funcao_class_instituicao_salvar_widget()
+
+    def funcao_class_if_destruir_widget(self):
+        
+        self.funcao_classdb_conectar()
+        self.funcao_classdb_visualizar_1()
+
+                
+        destroir_banco_1 = self.visualiza[0]
+        
+        if destroir_banco_1 != NOME_NOVA_ALIANCA: 
+                  
+            self.label_nome_instituicao.destroy()
+            self.botao_atualizar_instituicao.destroy()
+
+        elif destroir_banco_1 == NOME_NOVA_ALIANCA:
+            
+            self.entry_banco_instituicao.destroy()
+            self.botao_salvar_instituicao.destroy()          
+
+        self.funcao_classdb_desconectar()
 
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -249,7 +287,7 @@ class BarraMenuHome():
         self.LABEL_BANCO_INSTITUICAO_FIXA.destroy()
          
         #função
-        self.funcao_ini_destruir_widget_nova_alianca()
+        self.funcao_class_if_destruir_widget()
 
     
 
@@ -313,7 +351,7 @@ class BarraMenuConfiguracoes():
                                                 # cor escrita - Yellow
                                                 fg      = COR_ESCRITA_MENU_BAR,        
                                                 # chamada  
-                                                command = self.salvar_nome_instituicao
+                                                command = self.funcao_classdb_atalizar_igreja_configuracoes
 
         )
 
@@ -375,64 +413,6 @@ class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
         self.funcao_class_barra_menus()
         self.funcao_class_barra_instituicao()   
 
-      
-    #**********************************************
-    ###############################################        banco de dados
-                                   # banco de dados         ligação banco
-    def conectar_banco_dados(self):
-
-        self.sql_conn = sqlite3.connect("banco_de_dados/sistema_financeiro.db")
-        self.sql_cursor = self.sql_conn.cursor()
-
-    def desconectar_banco_dados(self):
-
-        self.sql_conn.close()
-
-    
-    
-    ###############################################  aba    configurações
-                            #salvar - configurações
-    
-    def funcao_ini_destruir_widget_nova_alianca( self):
-
-        self.conectar_banco_dados()
-
-        self.sql_cursor.execute("SELECT nome_igreja FROM Instituicao WHERE cod = 1")
-        self.destruir_nome_1 = self.sql_cursor.fetchone()
-        
-        destroir_banco_1 = self.destruir_nome_1[0]
-        
-        if destroir_banco_1 != NOME_NOVA_ALIANCA: 
-                  
-            self.label_nome_instituicao.destroy()
-            self.botao_atualizar_instituicao.destroy()
-
-        elif destroir_banco_1 == NOME_NOVA_ALIANCA:
-            
-            self.entry_banco_instituicao.destroy()
-            self.botao_salvar_instituicao.destroy()          
-
-        self.desconectar_banco_dados()
-
-    
-    def salvar_nome_instituicao(self):
-
-        self.conectar_banco_dados()
-
-        get_entrada_instituicao = self.entry_banco_instituicao.get()
-        maiuscula_instituicao = str(get_entrada_instituicao.upper())
-        
-        self.sql_cursor.execute("UPDATE Instituicao SET nome_igreja ='"+maiuscula_instituicao+"' WHERE cod = 1")
-        self.sql_conn.commit()
-                
-        self.desconectar_banco_dados()
-
-        self.entry_banco_instituicao.destroy()
-        self.botao_salvar_instituicao.destroy()
-
-        self.funcao_class_visualdb_leitura_alianca()
-      
-        
 
 #**************************************************
 ###################################################
