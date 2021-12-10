@@ -101,6 +101,7 @@ class ClassBanco():
                             
             self.label_nome_instituicao_class .configure(text=visual_nome)
 
+    ###############################################  processo verificacao
     def funcao_class_if_ativar_widget(self):
 
         self.transfomar_str_nome = self.visualiza[0]
@@ -111,7 +112,7 @@ class ClassBanco():
         
         elif self.transfomar_str_nome == NOME_NOVA_ALIANCA:
            
-            self.entry_configuracao()
+            self.funcao_class_instituicao_salvar_widget()
 
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -284,26 +285,7 @@ class BarraMenuConfiguracoes():
         self.funcao_class_if_ativar_widget()   
         self.funcao_classdb_desconectar()
 
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-############################################### menus da janela principal
-class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
-BarraMenuInicializacao, BarraMenuConfiguracoes):
-
-    #**********************************************
-    ###############################################       função inicial
-    def __init__(self):
-
-        ########################################### classe externa
-        self.funcao_class_barra_menus()
-        self.funcao_class_barra_instituicao()
-
-        
-    #**********************************************
-    ###############################################        funcoes botoes
-                                     # funções base       recebe __init__
-    
-
-    def entry_configuracao(self):
+    def funcao_class_instituicao_salvar_widget(self):
 
         self.entry_banco_instituicao = Entry(
                                             
@@ -332,6 +314,25 @@ BarraMenuInicializacao, BarraMenuConfiguracoes):
                                             width= CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH, 
                                             height= CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
         )
+
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+############################################### menus da janela principal
+class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
+BarraMenuInicializacao, BarraMenuConfiguracoes):
+
+    #**********************************************
+    ###############################################       função inicial
+    def __init__(self):
+
+        ########################################### classe externa
+        self.funcao_class_barra_menus()
+        self.funcao_class_barra_instituicao()
+
+        
+    #**********************************************
+    ###############################################        funcoes botoes
+                                     # funções base       recebe __init__      
 
     def label_configuracao_instituicao_atualizar(self):
         
