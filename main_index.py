@@ -150,13 +150,16 @@ class ClassBanco():
         get_entrada_instituicao = self.entry_banco_instituicao.get()
         maiuscula_instituicao = str(get_entrada_instituicao.upper())
         
-        print(type(get_entrada_instituicao))
-        self.sql_cursorr.execute("UPDATE Instituicao SET nome_igreja ='"+maiuscula_instituicao+"' WHERE cod = 1")
-        self.funcao_classdb_commit()
+        if maiuscula_instituicao == "":
 
-        self.funcao_classdb_visualizar_1()
-        for row in self.visualiza:
-            print(row[1])
+            self.funcao_label_fixa_erro_instituicao()
+
+            
+
+        else:
+        
+            self.sql_cursorr.execute("UPDATE Instituicao SET nome_igreja ='"+maiuscula_instituicao+"' WHERE cod = 1")
+            self.funcao_classdb_commit()
 
         self. funcao_classdb_desconectar( )
 
@@ -270,8 +273,23 @@ class BarraMenuHome():
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
-class ConfiguracaoWidgetBarra():
+class ConfiguracaoWidgetDaBarra():
 
+    def funcao_label_fixa_erro_instituicao(self):
+
+        self.LABEL_BANCO_INSTITUICAO_FIXA_ERRO = Label (
+                                                    # cor botao
+                                                    bg      = COR_FUNDO_JANELA,
+                                                    text    = "DIGITE O NOME DE SEU TEMPLO",
+                                                    # negrito
+                                                    font    ='Helvetica 11 bold', 
+
+        )
+
+        self.LABEL_BANCO_INSTITUICAO_FIXA_ERRO.place(x= 20, y=120, width= 250, 
+                                                height= 20
+
+        )
     def funcao_label_fixa_configuracao(self):
 
         self.LABEL_BANCO_INSTITUICAO_FIXA = Label (
@@ -436,7 +454,7 @@ class DestruirWidgetConfiguracao():
 ############################################### menus da janela principal
 class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
                    BarraMenuInicializacao, BarraMenuConfiguracoes,
-                   DestruirWidgetConfiguracao, ConfiguracaoWidgetBarra):
+                   DestruirWidgetConfiguracao, ConfiguracaoWidgetDaBarra):
 
     #**********************************************
     ###############################################       função inicial
