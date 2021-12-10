@@ -172,21 +172,9 @@ class ClassBanco():
 
         for visual_nome in self.visualiza:
                             
-            self.label_nome_instituicao_class .configure(text=visual_nome)
+            self.label_nome_instituicao_class.configure(text=visual_nome)
 
-    ###############################################  processo verificacao
-    def funcao_class_if_ativar_widget(self):
-
-        self.transfomar_str_nome = self.visualiza[0]
-        
-        if self.transfomar_str_nome != NOME_NOVA_ALIANCA:
-            
-            self.funcao_class_institucao_atualizar_widget()
-        
-        elif self.transfomar_str_nome == NOME_NOVA_ALIANCA:
-           
-            self.funcao_class_instituicao_salvar_widget()
-
+    
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
@@ -269,24 +257,12 @@ class BarraMenuHome():
         self.funcao_class_if_destruir_widget()
 
 
-    
-
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
-class BarraMenuConfiguracoes():
+class ConfiguracaoWidgetBarra():
 
-    def funcao_class_menu_configuracao(self):       #funcao inicializacao
+    def funcao_label_fixa_configuracao(self):
 
-        ###########################################
-                                  # destruir widget
-        self.funcao_class_destruir_home()
-
-        ###########################################
-                                    # ativar widget
-                                    # chamar função
-        self.funcao_class_visualdb_leitura_alianca()
-
-                                           # widget
         self.LABEL_BANCO_INSTITUICAO_FIXA = Label (
                                                     # cor botao
                                                     bg      = COR_FUNDO_JANELA,
@@ -301,17 +277,9 @@ class BarraMenuConfiguracoes():
 
         )
 
-        self.funcao_class_desativar_botao_barra_configuracoes()
-        
-    
-    def funcao_class_visualdb_leitura_alianca(self):
+          
 
-        self.funcao_classdb_conectar()
-        self.funcao_classdb_visualizar_1()
-        self.funcao_class_if_ativar_widget()   
-        self.funcao_classdb_desconectar()
-
-    def funcao_class_instituicao_salvar_widget(self):
+    def funcao_salvar_instituicao_widget(self):
 
         self.entry_banco_instituicao = Entry(
                                             
@@ -369,6 +337,32 @@ class BarraMenuConfiguracoes():
                                             height=CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
         )
 
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+###################################################
+class BarraMenuConfiguracoes():
+
+    def funcao_class_menu_configuracao(self):       #funcao inicializacao
+
+        ###########################################
+                                  # destruir widget
+        self.funcao_class_destruir_home()
+
+        ###########################################
+                                    # ativar widget
+        self.funcao_class_visualdb_leitura_alianca()
+        self.funcao_label_fixa_configuracao()
+        
+        self.funcao_class_desativar_botao_barra_configuracoes()
+        
+    
+    def funcao_class_visualdb_leitura_alianca(self):
+
+        self.funcao_classdb_conectar()
+        self.funcao_classdb_visualizar_1()
+        self.funcao_class_if_ativar_widget()   
+        self.funcao_classdb_desconectar()
+
     ############################################### ativado e desativado
     def funcao_class_desativar_botao_barra_configuracoes(self):
         
@@ -379,8 +373,22 @@ class BarraMenuConfiguracoes():
 
         self.botao_2configuracao["state"] ="normal"
 
+    ###############################################  processo verificacao
+    def funcao_class_if_ativar_widget(self):
+
+        self.transfomar_str_nome = self.visualiza[0]
+        
+        if self.transfomar_str_nome != NOME_NOVA_ALIANCA:
+            
+            self.funcao_class_institucao_atualizar_widget()
+        
+        elif self.transfomar_str_nome == NOME_NOVA_ALIANCA:
+           
+            self.funcao_salvar_instituicao_widget()
+
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+###################################################
 class DestruirWidgetConfiguracao():
 
     def funcao_destruir_configuracao_entry_instituicao(self):
@@ -391,6 +399,7 @@ class DestruirWidgetConfiguracao():
 
         self.botao_salvar_instituicao.destroy()
 
+################################################### if-else
     def funcao_class_if_destruir_widget(self):
         
         self.funcao_classdb_conectar()
@@ -416,7 +425,7 @@ class DestruirWidgetConfiguracao():
 ############################################### menus da janela principal
 class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
                    BarraMenuInicializacao, BarraMenuConfiguracoes,
-                   DestruirWidgetConfiguracao):
+                   DestruirWidgetConfiguracao, ConfiguracaoWidgetBarra):
 
     #**********************************************
     ###############################################       função inicial
