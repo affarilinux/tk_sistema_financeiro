@@ -55,7 +55,7 @@ def centralizador_janela(root):
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
-class Class_Banco():
+class ClassBanco():
     
     ############################################### conectar
     def funcao_classdb_conectar(self):
@@ -168,7 +168,7 @@ class BarraMenuInicializacao():
                                     # cor escrita
                                     fg      = COR_ESCRITA_MENU_BAR, 
                                     # chamada         
-                                    command = self.funcao_ini_botao_home           
+                                    command = self.funcao_class_menu_home           
 
         )
 
@@ -195,11 +195,33 @@ class BarraMenuInicializacao():
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
-'''class BarraMenuHome():
-    def funcao_'''
+class BarraMenuHome():
+
+    def funcao_class_menu_home(self):
+
+        ###########################################
+                                  # destruir widget
+        self.funcao_ini_destruir_configuracao()
+
+        ###########################################
+                                    # ativar widget
+        self.funcao_class_visual_instituicao()
+        
+        # ativar configurações barra
+        self.ativar_configuracao_state()
+
+
+        self.funcao_class_visualdb_barra_intituicao()
+
+    def funcao_class_visualdb_barra_intituicao(self):
+
+        self.funcao_classdb_conectar()
+        self.funcao_classdb_visualizar_barra_alianca()
+        self.funcao_classdb_desconectar()
+
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ############################################### menus da janela principal
-class MenuWidget (Class_Banco, barraVisualizarNomeInstituicao, 
+class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
 BarraMenuInicializacao):
 
     #**********************************************
@@ -214,18 +236,7 @@ BarraMenuInicializacao):
     #**********************************************
     ###############################################        funcoes botoes
                                      # funções base       recebe __init__
-    def funcao_ini_botao_home  (self):                          #home
-
-        ###########################################
-                                  # destruir widget
-        self.funcao_ini_destruir_configuracao()
-
-        ###########################################
-                                    # ativar widget
-        self.funcao_class_visual_instituicao()
-
-        # ativar configurações
-        self.ativar_configuracao_state()
+    
 
     def botao_configuracao(self):                  #configuraçao
 
