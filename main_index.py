@@ -12,7 +12,7 @@ from janela.principal.composicao_principal import (
     COR_FUNDO_JANELA, COR_FUNDO_BOTAO_MENU_BAR, COR_ESCRITA_MENU_BAR,
     NOME_NOVA_ALIANCA, COR_BOTAO_FUNDO, CONFIGURACAO_BOTAO_INSTITUICAO_X,
     CONFIGURACAO_BOTAO_INSTITUICAO_Y, CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH,
-    CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
+    CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT, var
 )
 
 ################################################### função principal
@@ -109,6 +109,20 @@ class BarraMenuInicializacao():
                                          height=MENU_HEIGHT
         )
 
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+###################################################
+class BarraMenusState():
+
+    #configurações
+    def funcao_class_desativar_botao_barra_configuracoes(self):
+        
+        # desativa botao
+        self.botao_2configuracao["state"] = "disabled"
+
+    def funcao_class_ativar_botao_barra_configurações(self):
+
+        self.botao_2configuracao["state"] ="normal"
+
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
@@ -130,6 +144,7 @@ class ClassBanco():
             )
              """)
 
+        #self.sql_cursorr.execute
     def funcao_classdb_commit(self):
         self.sql_connect.commit()
 
@@ -141,36 +156,9 @@ class ClassBanco():
     ############################################### inserir dados
     def funcao_classdb_inserir_nova_alianca(self):
                            
-            
         self.sql_cursorr.execute( "INSERT INTO Instituicao VALUES (1, '"+NOME_NOVA_ALIANCA+"')")
         self.funcao_classdb_commit()
-
-    def funcao_classdb_atalizar_igreja_configuracoes(self):
-
-        
-        self.funcao_classdb_conectar()
-
-        get_entrada_instituicao = self.entry_banco_instituicao.get()
-        maiuscula_instituicao = str(get_entrada_instituicao.upper())
-        
-        if maiuscula_instituicao == "":
-
-            self.funcao_label_fixa_erro_instituicao()
-            
-            self.LABEL_INSTITUICAO_FIXA_ERRO.after(7000, self.funcao_destruir_erro)
-
-        else:
-        
-            self.sql_cursorr.execute("UPDATE Instituicao SET nome_igreja ='"+maiuscula_instituicao+"' WHERE cod = 1")
-            self.funcao_classdb_commit()
-
-        self. funcao_classdb_desconectar( )
-
-        self.funcao_destruir_configuracao_entry_instituicao()
-        self.funcao_destruir_configuracao_botao_salvar_igreja() 
-        
-        self.funcao_class_visualdb_leitura_alianca()
-
+    
     ############################################### visualizar dados
     def funcao_classdb_visualizar_1 (self):
 
@@ -373,10 +361,53 @@ class ConfiguracaoWidgetDaBarra():
                                             height=CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
         )
 
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+###################################################
+class ConfiguracoesBanco():
+
+    def funcao_class_visualdb_leitura_alianca(self):
+
+        self.funcao_classdb_conectar()
+        self.funcao_classdb_visualizar_1()
+        self.funcao_class_if_ativar_widget()   
+        self.funcao_classdb_desconectar()
+
+    '''def gh (self):
+            
+            self.LABEL_INSTITUICAO_FIXA_ERRO.after(5000, self.funcao_destruir_erro)'''
+
+    def funcao_classdb_atalizar_igreja_configuracoes(self):
+        
+        self.funcao_classdb_conectar()
+
+        get_entrada_instituicao = self.entry_banco_instituicao.get()
+        maiuscula_instituicao = str(get_entrada_instituicao.upper())
+        
+        if maiuscula_instituicao == "":
+            
+            self.funcao_label_fixa_erro_instituicao()
+
+            
+            
+            
+            
+
+        else:
+        
+            self.sql_cursorr.execute("UPDATE Instituicao SET nome_igreja ='"+maiuscula_instituicao+"' WHERE cod = 1")
+            self.funcao_classdb_commit()
+
+        self. funcao_classdb_desconectar( )
+
+        self.funcao_destruir_configuracao_entry_instituicao()
+        self.funcao_destruir_configuracao_botao_salvar_igreja() 
+        
+        self.funcao_class_visualdb_leitura_alianca()
+
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
-class BarraMenuConfiguracoes():
+class ConfiguracoesProcessosBarra():
 
     def funcao_class_menu_configuracao(self):       #funcao inicializacao
 
@@ -391,24 +422,6 @@ class BarraMenuConfiguracoes():
         
         self.funcao_class_desativar_botao_barra_configuracoes()
         
-    
-    def funcao_class_visualdb_leitura_alianca(self):
-
-        self.funcao_classdb_conectar()
-        self.funcao_classdb_visualizar_1()
-        self.funcao_class_if_ativar_widget()   
-        self.funcao_classdb_desconectar()
-
-    ############################################### ativado e desativado
-    def funcao_class_desativar_botao_barra_configuracoes(self):
-        
-        # desativa botao
-        self.botao_2configuracao["state"] = "disabled"
-
-    def funcao_class_ativar_botao_barra_configurações(self):
-
-        self.botao_2configuracao["state"] ="normal"
-
     ###############################################  processo verificacao
     def funcao_class_if_ativar_widget(self):
 
@@ -425,7 +438,7 @@ class BarraMenuConfiguracoes():
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
-class DestruirWidgetConfiguracao():
+class ConfiguracaoDestruirWidget():
 
     def funcao_destruir_configuracao_entry_instituicao(self):
 
@@ -462,8 +475,9 @@ class DestruirWidgetConfiguracao():
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ############################################### menus da janela principal
 class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
-                   BarraMenuInicializacao, BarraMenuConfiguracoes,
-                   DestruirWidgetConfiguracao, ConfiguracaoWidgetDaBarra):
+                   BarraMenuInicializacao, ConfiguracoesProcessosBarra,
+                   ConfiguracaoDestruirWidget, ConfiguracaoWidgetDaBarra,
+                   ConfiguracoesBanco,BarraMenusState):
 
     #**********************************************
     ###############################################       função inicial
@@ -472,11 +486,6 @@ class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
         ########################################### classe externa
         self.funcao_class_barra_menus()
         self.funcao_class_barra_instituicao()   
-
-    '''def a(self,):
-        root.after(5000,self.pi)
-    def pi():
-        print('certo')'''
 
 #**************************************************
 ###################################################
