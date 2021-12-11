@@ -1,7 +1,10 @@
                               # bibliotecas tkinter
-import tkinter as tk
-from tkinter import *
+from tkinter    import *
+from time       import sleep
+
+import tkinter  as tk
 import sqlite3
+
 
                                  # diretorio do app
 from janela.principal.composicao_principal import (
@@ -153,8 +156,8 @@ class ClassBanco():
         if maiuscula_instituicao == "":
 
             self.funcao_label_fixa_erro_instituicao()
-
             
+            self.LABEL_INSTITUICAO_FIXA_ERRO.after(7000, self.funcao_destruir_erro)
 
         else:
         
@@ -277,7 +280,7 @@ class ConfiguracaoWidgetDaBarra():
 
     def funcao_label_fixa_erro_instituicao(self):
 
-        self.LABEL_BANCO_INSTITUICAO_FIXA_ERRO = Label (
+        self.LABEL_INSTITUICAO_FIXA_ERRO = Label (
                                                     # cor botao
                                                     bg      = COR_FUNDO_JANELA,
                                                     text    = "DIGITE O NOME DE SEU TEMPLO",
@@ -286,10 +289,14 @@ class ConfiguracaoWidgetDaBarra():
 
         )
 
-        self.LABEL_BANCO_INSTITUICAO_FIXA_ERRO.place(x= 20, y=120, width= 250, 
+        self.LABEL_INSTITUICAO_FIXA_ERRO.place(x= 20, y=120, width= 250, 
                                                 height= 20
 
         )
+
+        #sleep(5)
+
+        #self.LABEL_INSTITUICAO_FIXA_ERRO.destroy( )
     def funcao_label_fixa_configuracao(self):
 
         self.LABEL_BANCO_INSTITUICAO_FIXA = Label (
@@ -449,6 +456,8 @@ class DestruirWidgetConfiguracao():
 
         self.funcao_classdb_desconectar()
 
+    def funcao_destruir_erro(self):
+        self.LABEL_INSTITUICAO_FIXA_ERRO.destroy()
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ############################################### menus da janela principal
@@ -464,6 +473,10 @@ class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
         self.funcao_class_barra_menus()
         self.funcao_class_barra_instituicao()   
 
+    '''def a(self,):
+        root.after(5000,self.pi)
+    def pi():
+        print('certo')'''
 
 #**************************************************
 ###################################################
