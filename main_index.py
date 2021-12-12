@@ -109,6 +109,7 @@ class BarraMenuInicializacao():
                                          height=MENU_HEIGHT
         )
 
+
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
 class BarraMenusState():
@@ -144,7 +145,11 @@ class ClassBanco():
             )
              """)
 
-        #self.sql_cursorr.execute
+        self.sql_cursorr.execute(""" 
+            CREATE TABLE IF NOT EXISTS Processos (ID_processos PRIMARY KEY,
+                                                    BOLEANO NUMERIC BOOLEAN)
+            """)
+
     def funcao_classdb_commit(self):
         self.sql_connect.commit()
 
@@ -152,6 +157,11 @@ class ClassBanco():
     def funcao_classdb_desconectar(self):
 
         self.sql_connect.close()
+
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+###################################################
+class BancoExecucao():
 
     ############################################### inserir dados
     def funcao_classdb_inserir_nova_alianca(self):
@@ -175,6 +185,11 @@ class ClassBanco():
                             
             self.label_nome_instituicao_class.configure(text=visual_nome)
 
+    def funcao_db_conectar_e_visualizar_1(self):
+
+        self.funcao_classdb_conectar()
+        self.funcao_classdb_visualizar_1()
+
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
@@ -185,13 +200,7 @@ class barraVisualizarNomeInstituicao():
         #visual
         self.funcao_class_visual_instituicao()
 
-        # banco
-        self.funcao_classdb_conectar()
-        self.funcao_classdb_criar_tabela()                   
-        self.funcao_classdb_visualizar_1() 
-        self.funcao_classdb_desconectar()
-
-        self.funcao_nome_instituicao_db()
+        self.funcao_class_visualdb_barra_intituicao()
 
     def funcao_class_visual_instituicao(self):     # funcao inicializacao
 
@@ -212,18 +221,10 @@ class barraVisualizarNomeInstituicao():
                                         width = TAMANHO_WIDTH_JANELA,
                                         height = 40
         )
-    
-    def funcao_nome_instituicao_db(self):
-
-        self.funcao_classdb_conectar()
-        self.funcao_classdb_visualizar_1() 
-        self.funcao_class_visualdb_instituicao()
-        self.funcao_classdb_desconectar()
 
     def funcao_class_visualdb_barra_intituicao(self):
 
-        self.funcao_classdb_conectar()
-        self.funcao_classdb_visualizar_1()
+        self.funcao_db_conectar_e_visualizar_1()
         self.funcao_class_visualdb_instituicao()
         self.funcao_classdb_desconectar()
 
@@ -367,8 +368,7 @@ class ConfiguracoesBanco():
 
     def funcao_class_visualdb_leitura_alianca(self):
 
-        self.funcao_classdb_conectar()
-        self.funcao_classdb_visualizar_1()
+        self.funcao_db_conectar_e_visualizar_1()
         self.funcao_class_if_ativar_widget()   
         self.funcao_classdb_desconectar()
 
@@ -450,9 +450,8 @@ class ConfiguracaoDestruirWidget():
 
 ################################################### if-else
     def funcao_class_if_destruir_widget(self):
+        self.funcao_db_conectar_e_visualizar_1()
         
-        self.funcao_classdb_conectar()
-        self.funcao_classdb_visualizar_1()
 
                 
         destroir_banco_1 = self.visualiza[0]
@@ -477,15 +476,24 @@ class ConfiguracaoDestruirWidget():
 class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
                    BarraMenuInicializacao, ConfiguracoesProcessosBarra,
                    ConfiguracaoDestruirWidget, ConfiguracaoWidgetDaBarra,
-                   ConfiguracoesBanco,BarraMenusState):
+                   ConfiguracoesBanco, BarraMenusState,BancoExecucao):
 
     #**********************************************
     ###############################################       função inicial
     def __init__(self):
 
+        self.funcao_criar_tabela()
         ########################################### classe externa
         self.funcao_class_barra_menus()
         self.funcao_class_barra_instituicao()   
+
+    def funcao_criar_tabela(self):
+        
+        self.funcao_classdb_conectar()
+        self.funcao_classdb_criar_tabela()   
+        self.funcao_classdb_visualizar_1()  
+        self.funcao_classdb_desconectar()
+
 
 #**************************************************
 ###################################################
