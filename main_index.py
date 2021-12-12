@@ -147,7 +147,7 @@ class ClassBanco():
 
         self.sql_cursorr.execute(""" 
             CREATE TABLE IF NOT EXISTS Processos (ID_processos PRIMARY KEY,
-                                                    BOLEANO NUMERIC BOOLEAN)
+                                                    boleano  BOOLEAN)
             """)
 
     def funcao_classdb_commit(self):
@@ -169,6 +169,11 @@ class BancoExecucao():
         self.sql_cursorr.execute( "INSERT INTO Instituicao VALUES (1, '"+NOME_NOVA_ALIANCA+"')")
         self.funcao_classdb_commit()
     
+    def funcao_cursorrdb_inserir_thue(self):
+
+        self.sql_cursorr.execute("INSERT INTO Processos  VALUES (1, 'Thue')")
+        self.funcao_classdb_commit()
+
     ############################################### visualizar dados
     def funcao_classdb_visualizar_1 (self):
 
@@ -190,6 +195,21 @@ class BancoExecucao():
         self.funcao_classdb_conectar()
         self.funcao_classdb_visualizar_1()
 
+    def funcao_db_visualiar_tbprocessos (self):
+
+        self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos = 1 ")
+        self.visualiza_processos = self.sql_cursorr.fetchone()
+
+        if self.visualiza_processos == None:
+
+            self.funcao_cursorrdb_inserir_thue()
+
+    def funcao_db_update_tbprocessos_linha1(self):
+
+        self.funcao_classdb_conectar()
+        self.sql_cursorr.execute("UPDATE Processos SET boleano = 'Thue' WHERE ID_processos = 1 " )
+        self.funcao_classdb_commit()
+        self.funcao_classdb_desconectar()
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
@@ -283,9 +303,6 @@ class ConfiguracaoWidgetDaBarra():
 
         )
 
-        #sleep(5)
-
-        #self.LABEL_INSTITUICAO_FIXA_ERRO.destroy( )
     def funcao_label_fixa_configuracao(self):
 
         self.LABEL_BANCO_INSTITUICAO_FIXA = Label (
@@ -372,10 +389,6 @@ class ConfiguracoesBanco():
         self.funcao_class_if_ativar_widget()   
         self.funcao_classdb_desconectar()
 
-    '''def gh (self):
-            
-            self.LABEL_INSTITUICAO_FIXA_ERRO.after(5000, self.funcao_destruir_erro)'''
-
     def funcao_classdb_atalizar_igreja_configuracoes(self):
         
         self.funcao_classdb_conectar()
@@ -385,12 +398,17 @@ class ConfiguracoesBanco():
         
         if maiuscula_instituicao == "":
             
-            self.funcao_label_fixa_erro_instituicao()
+            self.funcao_db_visualiar_tbprocessos()
 
-            
-            
-            
-            
+            visualiza_V_F = self.visualiza_processos[0]
+
+            if  visualiza_V_F == 'Thue':
+
+                self.funcao_label_fixa_erro_instituicao()
+                self.LABEL_INSTITUICAO_FIXA_ERRO.after(6000, self.funcao_destruir_erro)
+
+                self.sql_cursorr.execute("UPDATE Processos SET boleano = 'False' WHERE ID_processos = 1 " )
+                self.funcao_classdb_commit()
 
         else:
         
@@ -450,10 +468,9 @@ class ConfiguracaoDestruirWidget():
 
 ################################################### if-else
     def funcao_class_if_destruir_widget(self):
-        self.funcao_db_conectar_e_visualizar_1()
-        
 
-                
+        self.funcao_db_conectar_e_visualizar_1()
+
         destroir_banco_1 = self.visualiza[0]
         
         if destroir_banco_1 != NOME_NOVA_ALIANCA: 
@@ -469,7 +486,11 @@ class ConfiguracaoDestruirWidget():
         self.funcao_classdb_desconectar()
 
     def funcao_destruir_erro(self):
+
         self.LABEL_INSTITUICAO_FIXA_ERRO.destroy()
+
+        self.funcao_db_update_tbprocessos_linha1()
+        
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ############################################### menus da janela principal
@@ -492,6 +513,8 @@ class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
         self.funcao_classdb_conectar()
         self.funcao_classdb_criar_tabela()   
         self.funcao_classdb_visualizar_1()  
+        self.funcao_db_visualiar_tbprocessos()
+        self.funcao_db_update_tbprocessos_linha1()
         self.funcao_classdb_desconectar()
 
 
