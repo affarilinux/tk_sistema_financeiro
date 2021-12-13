@@ -12,7 +12,7 @@ from janela.principal.composicao_principal import (
     COR_FUNDO_JANELA, COR_FUNDO_BOTAO_MENU_BAR, COR_ESCRITA_MENU_BAR,
     NOME_NOVA_ALIANCA, COR_BOTAO_FUNDO, CONFIGURACAO_BOTAO_INSTITUICAO_X,
     CONFIGURACAO_BOTAO_INSTITUICAO_Y, CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH,
-    CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT, var
+    CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
 )
 
 ################################################### função principal
@@ -285,7 +285,7 @@ class BarraMenuHome():
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
-class ConfiguracaoWidgetDaBarra():
+class ConfiguracaoWidgetDaBarraSSalvar():
 
     def funcao_label_fixa_erro_instituicao(self):
 
@@ -351,37 +351,10 @@ class ConfiguracaoWidgetDaBarra():
                                             height= CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
         )
 
-    def funcao_class_institucao_atualizar_widget(self):
-
-        self.label_nome_instituicao = Label (
-                                            text= self.transfomar_str_nome,
-                                            font= 'Helvetica 11 bold'
-        )
-            
-        self.label_nome_instituicao.place( x=20, y= 85, width= 200, height= 25)
-
-        self.botao_atualizar_instituicao = Button ( 
-                                                # cor botao - 
-                                                bg      = COR_BOTAO_FUNDO,          
-                                                text    = "ATUALIZAR",
-                                                # negrito
-                                                font    ='Helvetica 15 bold', 
-                                                # cor escrita - Yellow
-                                                fg      = COR_ESCRITA_MENU_BAR,        
-                                                # chamada  
-                                                #command = self.salvar_nome_instituicao
-
-        )
-
-        self.botao_atualizar_instituicao. place(x=CONFIGURACAO_BOTAO_INSTITUICAO_X, 
-                                            y = CONFIGURACAO_BOTAO_INSTITUICAO_Y, 
-                                            width=CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH, 
-                                            height=CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
-        )
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
-class ConfiguracoesBanco():
+class ConfiguracoesBancoSSalvar():
 
     def funcao_class_visualdb_leitura_alianca(self):
 
@@ -427,7 +400,7 @@ class ConfiguracoesBanco():
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
-class ConfiguracoesProcessosBarra():
+class ConfiguracoesProcessosBarraSSalvar():
 
     def funcao_class_menu_configuracao(self):       #funcao inicializacao
 
@@ -458,7 +431,7 @@ class ConfiguracoesProcessosBarra():
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
-class ConfiguracaoDestruirWidget():
+class ConfiguracaoDestruirWidgetSSalvar():
 
     def funcao_destruir_configuracao_entry_instituicao(self):
 
@@ -495,11 +468,45 @@ class ConfiguracaoDestruirWidget():
         
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+###################################################
+class ConfiguracoesWidgetDaBarraAAtualizar():
+
+    def funcao_class_institucao_atualizar_widget(self):
+
+        self.label_nome_instituicao = Label (
+                                            text= self.transfomar_str_nome,
+                                            font= 'Helvetica 11 bold'
+        )
+            
+        self.label_nome_instituicao.place( x=20, y= 85, width= 200, height= 25)
+
+        self.botao_atualizar_instituicao = Button ( 
+                                                # cor botao - 
+                                                bg      = COR_BOTAO_FUNDO,          
+                                                text    = "ATUALIZAR",
+                                                # negrito
+                                                font    ='Helvetica 15 bold', 
+                                                # cor escrita - Yellow
+                                                fg      = COR_ESCRITA_MENU_BAR,        
+                                                # chamada  
+                                                #command = self.salvar_nome_instituicao
+
+        )
+
+        self.botao_atualizar_instituicao. place(x=CONFIGURACAO_BOTAO_INSTITUICAO_X, 
+                                            y = CONFIGURACAO_BOTAO_INSTITUICAO_Y, 
+                                            width=CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH, 
+                                            height=CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
+        )
+
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ############################################### menus da janela principal
 class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
-                   BarraMenuInicializacao, ConfiguracoesProcessosBarra,
-                   ConfiguracaoDestruirWidget, ConfiguracaoWidgetDaBarra,
-                   ConfiguracoesBanco, BarraMenusState,BancoExecucao):
+                   BarraMenuInicializacao, ConfiguracoesProcessosBarraSSalvar,
+                   ConfiguracaoDestruirWidgetSSalvar, ConfiguracaoWidgetDaBarraSSalvar,
+                   ConfiguracoesBancoSSalvar, BarraMenusState,BancoExecucao,
+                   ConfiguracoesWidgetDaBarraAAtualizar):
 
     #**********************************************
     ###############################################       função inicial
