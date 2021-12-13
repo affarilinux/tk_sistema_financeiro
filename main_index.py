@@ -441,25 +441,6 @@ class ConfiguracaoDestruirWidgetSSalvar():
 
         self.botao_salvar_instituicao.destroy()
 
-################################################### if-else
-    def funcao_class_if_destruir_widget(self):
-
-        self.funcao_db_conectar_e_visualizar_1()
-
-        destroir_banco_1 = self.visualiza[0]
-        
-        if destroir_banco_1 != NOME_NOVA_ALIANCA: 
-                  
-            self.label_nome_instituicao.destroy()
-            self.botao_atualizar_instituicao.destroy()
-
-        elif destroir_banco_1 == NOME_NOVA_ALIANCA:
-            
-            self.funcao_destruir_configuracao_entry_instituicao()
-            self.funcao_destruir_configuracao_botao_salvar_igreja()          
-
-        self.funcao_classdb_desconectar()
-
     def funcao_destruir_erro(self):
 
         self.LABEL_INSTITUICAO_FIXA_ERRO.destroy()
@@ -501,12 +482,36 @@ class ConfiguracoesWidgetDaBarraAAtualizar():
 
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+class ConfiguracaoDestruirWidgetAAtalizar():
+
+################################################### if-else
+    def funcao_class_if_destruir_widget(self):
+
+        self.funcao_db_conectar_e_visualizar_1()
+
+        destroir_banco_1 = self.visualiza[0]
+        
+        if destroir_banco_1 != NOME_NOVA_ALIANCA: 
+                  
+            self.label_nome_instituicao.destroy()
+            self.botao_atualizar_instituicao.destroy()
+
+        elif destroir_banco_1 == NOME_NOVA_ALIANCA:
+            
+            self.funcao_destruir_configuracao_entry_instituicao()
+            self.funcao_destruir_configuracao_botao_salvar_igreja()          
+
+        self.funcao_classdb_desconectar()
+
+        
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ############################################### menus da janela principal
 class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
                    BarraMenuInicializacao, ConfiguracoesProcessosBarraSSalvar,
                    ConfiguracaoDestruirWidgetSSalvar, ConfiguracaoWidgetDaBarraSSalvar,
                    ConfiguracoesBancoSSalvar, BarraMenusState,BancoExecucao,
-                   ConfiguracoesWidgetDaBarraAAtualizar):
+                   ConfiguracoesWidgetDaBarraAAtualizar, 
+                   ConfiguracaoDestruirWidgetAAtalizar):
 
     #**********************************************
     ###############################################       função inicial
