@@ -12,7 +12,7 @@ from janela.principal.composicao_principal import (
     COR_FUNDO_JANELA, COR_FUNDO_BOTAO_MENU_BAR, COR_ESCRITA_MENU_BAR,
     NOME_NOVA_ALIANCA, COR_BOTAO_FUNDO, CONFIGURACAO_BOTAO_INSTITUICAO_X,
     CONFIGURACAO_BOTAO_INSTITUICAO_Y, CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH,
-    CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
+    CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT, CONFIGURACOES_INSTITUICAO_L2_SALVAR
 )
 
 ################################################### função principal
@@ -169,17 +169,22 @@ class BancoExecucao():
         self.sql_cursorr.execute( "INSERT INTO Instituicao VALUES (1, '"+NOME_NOVA_ALIANCA+"')")
         self.funcao_classdb_commit()
     
-    def funcao_cursorrdb_inserir_thue(self):
-
-        self.sql_cursorr.execute("INSERT INTO Processos  VALUES (1, 'Thue')")
-        self.funcao_classdb_commit()
-
     def funcao_db_inserir_instituicao_linha2_none (self):
         
         self.sql_cursorr.execute( "INSERT INTO Instituicao VALUES (2, '"+NOME_NOVA_ALIANCA+"')")
         self.funcao_classdb_commit()
 
-    ############################################### visualizar dados
+    def funcao_cursorrdb_inserir_thue(self):
+
+        self.sql_cursorr.execute("INSERT INTO Processos  VALUES (1, 'Thue')")
+        self.funcao_classdb_commit()
+
+    def funcao_db_inserir_salvar_configuracoes (self):
+
+        self.sql_cursorr.execute("INSERT INTO Processos  VALUES (2, '"+CONFIGURACOES_INSTITUICAO_L2_SALVAR+"')")
+        self.funcao_classdb_commit()
+
+    ############################################### visualizar dados None
     def funcao_classdb_visualizar_1 (self):
 
         self.sql_cursorr.execute( "SELECT nome_igreja FROM Instituicao WHERE cod = 1")
@@ -189,6 +194,35 @@ class BancoExecucao():
 
             self.funcao_classdb_inserir_nova_alianca()
 
+    def funcao_db_visualiza_instituicao_linha2(self):
+
+        self.sql_cursorr.execute( "SELECT nome_igreja FROM Instituicao WHERE cod = 2")
+        self.visualiza_L2 = self.sql_cursorr.fetchone()
+
+        if self.visualiza == None:
+
+            self.funcao_db_inserir_instituicao_linha2_none ()
+
+    def funcao_db_visualiar_tbprocessos (self):
+
+        self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos = 1 ")
+        self.visualiza_processos = self.sql_cursorr.fetchone()
+
+        if self.visualiza_processos == None:
+
+            self.funcao_cursorrdb_inserir_thue()
+
+    def funcao_db_visualiza_tbprocessos_linha2(self):
+
+        self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos =21 ")
+        self.visualiza_processos_L2 = self.sql_cursorr.fetchone()
+
+        if self.visualiza_processos == None:
+
+            self.funcao_db_inserir_salvar_configuracoes()
+
+
+    ############################################### processos
     def funcao_class_visualdb_instituicao (self):
 
         for visual_nome in self.visualiza:
@@ -200,24 +234,7 @@ class BancoExecucao():
         self.funcao_classdb_conectar()
         self.funcao_classdb_visualizar_1()
 
-    def funcao_db_visualiar_tbprocessos (self):
-
-        self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos = 1 ")
-        self.visualiza_processos = self.sql_cursorr.fetchone()
-
-        if self.visualiza_processos == None:
-
-            self.funcao_cursorrdb_inserir_thue()
-
-    def funcao_db_visualiza_instituicao_linha2(self):
-
-        self.sql_cursorr.execute( "SELECT nome_igreja FROM Instituicao WHERE cod = 2")
-        self.visualiza_L2 = self.sql_cursorr.fetchone()
-
-        if self.visualiza == None:
-
-            self.funcao_db_inserir_instituicao_linha2_none ()
-
+    
     ############################################### upgrade
     def funcao_db_update_tbprocessos_linha1(self):
 
@@ -364,12 +381,15 @@ class ConfiguracaoWidgetDaBarraSSalvar():
                                             height= CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
         )
 
+        self.funcao_classdb_conectar()
+        self.funcao_db_inserir_salvar_configuracoes()
+        self. funcao_classdb_desconectar()
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
-class ConfiguracoesBancoSSalvar():
+class ConfiguracoesBancoSSalvar():                 
 
-    def funcao_classdb_atalizar_igreja_configuracoes(self):
+    def funcao_classdb_atalizar_igreja_configuracoes(self):  # botao salvar
         
         self.funcao_classdb_conectar()
 
@@ -397,7 +417,7 @@ class ConfiguracoesBancoSSalvar():
 
             self.funcao_db_update_tbprocessos_linha1()
 
-        self. funcao_classdb_desconectar( )
+        self. funcao_classdb_desconectar()
 
         self.funcao_destruir_configuracao_entry_salvar()
        
