@@ -226,6 +226,11 @@ class BancoExecucao():
         self.funcao_classdb_commit()
         self.funcao_classdb_desconectar()
 
+    def funcao_db_update_tbinstituicao_linha2(self):
+
+        self.sql_cursorr.execute("UPDATE Instituicao SET  nome_igreja = '"+self.destroir_banco_1+"' WHERE cod = 2 " )
+        self.funcao_classdb_commit()
+
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
 class barraVisualizarNomeInstituicao():
@@ -429,22 +434,23 @@ class ConfiguracaoDestruirWidgetSSalvar():
 
 ################################################### if-else  home
     def funcao_class_if_destruir_widget(self):
-        
+
         self.LABEL_BANCO_INSTITUICAO_FIXA.destroy() #Varivel fixa
 
         self.funcao_db_conectar_e_visualizar_1()
-        destroir_banco_1 = self.visualiza [0]
+        self.destroir_banco_1 = self.visualiza [0]
 
         self.funcao_db_visualiza_instituicao_linha2()
         destruir_banco_2 = self.visualiza_L2 [0]
         
         
-        if destroir_banco_1 != destruir_banco_2: 
+        if self.destroir_banco_1 != destruir_banco_2: 
             print(2)
-                  
+            
+            self.funcao_db_update_tbinstituicao_linha2()
             self.funcao_destruir_atalizar_label()
 
-        elif destroir_banco_1 == destruir_banco_2: 
+        elif self.destroir_banco_1 == destruir_banco_2: 
             print(1)
             
             self.funcao_destruir_configuracao_entry_salvar()
