@@ -356,12 +356,6 @@ class ConfiguracaoWidgetDaBarraSSalvar():
 ###################################################
 class ConfiguracoesBancoSSalvar():
 
-    def funcao_class_visualdb_leitura_alianca(self):
-
-        self.funcao_db_conectar_e_visualizar_1()
-        self.funcao_class_if_ativar_widget()   
-        self.funcao_classdb_desconectar()
-
     def funcao_classdb_atalizar_igreja_configuracoes(self):
         
         self.funcao_classdb_conectar()
@@ -392,9 +386,8 @@ class ConfiguracoesBancoSSalvar():
 
         self. funcao_classdb_desconectar( )
 
-        self.funcao_destruir_configuracao_entry_instituicao()
-        self.funcao_destruir_configuracao_botao_salvar_igreja() 
-        
+        self.funcao_destruir_configuracao_entry_salvar()
+       
         self.funcao_class_visualdb_leitura_alianca()
 
 
@@ -402,7 +395,7 @@ class ConfiguracoesBancoSSalvar():
 ###################################################
 class ConfiguracoesProcessosBarraSSalvar():
 
-    def funcao_class_menu_configuracao(self):       #funcao inicializacao
+    def funcao_class_menu_configuracao(self):       #funcao inicializacao configurações
 
         ###########################################
                                   # destruir widget
@@ -420,11 +413,9 @@ class ConfiguracoesProcessosBarraSSalvar():
 ###################################################
 class ConfiguracaoDestruirWidgetSSalvar():
 
-    def funcao_destruir_configuracao_entry_instituicao(self):
+    def funcao_destruir_configuracao_entry_salvar(self):
 
         self.entry_banco_instituicao.destroy()
-
-    def funcao_destruir_configuracao_botao_salvar_igreja(self):
 
         self.botao_salvar_instituicao.destroy()
 
@@ -442,9 +433,8 @@ class ConfiguracaoDestruirWidgetSSalvar():
 
         elif destroir_banco_1 == NOME_NOVA_ALIANCA:
             
-            self.funcao_destruir_configuracao_entry_instituicao()
-            self.funcao_destruir_configuracao_botao_salvar_igreja()          
-
+            self.funcao_destruir_configuracao_entry_salvar()
+                    
         self.funcao_classdb_desconectar()
 
     def funcao_destruir_erro(self):
@@ -457,7 +447,7 @@ class ConfiguracaoDestruirWidgetSSalvar():
 class ConfiguracoesWidgetIntermediario():
 
     ###############################################  processo verificacao
-    def funcao_class_if_ativar_widget(self):
+    def funcao_if_widget_intermediario_salvar_atualizar(self):
 
         self.transfomar_str_nome = self.visualiza[0]
         
@@ -468,6 +458,16 @@ class ConfiguracoesWidgetIntermediario():
         elif self.transfomar_str_nome == NOME_NOVA_ALIANCA:
            
             self.funcao_salvar_instituicao_widget()
+
+    #def funcao_if_widget_intermediario_atualizar_salvar(self):
+
+class ConfiguracoesBancoIntermediario():
+
+    def funcao_class_visualdb_leitura_alianca(self):
+
+        self.funcao_db_conectar_e_visualizar_1()
+        self.funcao_if_widget_intermediario_salvar_atualizar()   
+        self.funcao_classdb_desconectar()
 
 
 class ConfiguracaoWidgetDaBarraAAtualizar():
@@ -507,7 +507,8 @@ class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
                    BarraMenuInicializacao, ConfiguracoesProcessosBarraSSalvar,
                    ConfiguracaoDestruirWidgetSSalvar, ConfiguracaoWidgetDaBarraSSalvar,
                    ConfiguracoesBancoSSalvar, BarraMenusState,BancoExecucao,
-                   ConfiguracaoWidgetDaBarraAAtualizar, ConfiguracoesWidgetIntermediario):
+                   ConfiguracaoWidgetDaBarraAAtualizar, ConfiguracoesWidgetIntermediario,
+                   ConfiguracoesBancoIntermediario):
 
     #**********************************************
     ###############################################       função inicial
