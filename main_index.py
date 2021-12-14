@@ -1,6 +1,6 @@
+
                               # bibliotecas tkinter
 from tkinter    import *
-from time       import sleep
 
 import tkinter  as tk
 import sqlite3
@@ -285,7 +285,7 @@ class BarraMenuHome():
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
-class ConfiguracaoWidgetDaBarraSSalvar():
+class ConfiguracaoWidgetDaBarra():
 
     def funcao_label_fixa_erro_instituicao(self):
 
@@ -351,10 +351,37 @@ class ConfiguracaoWidgetDaBarraSSalvar():
                                             height= CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
         )
 
+    def funcao_class_institucao_atualizar_widget(self):
+
+        self.label_nome_instituicao_atualizar = Label ( bg = '#A9A9A9',
+                                            text= self.transfomar_str_nome,
+                                            font= 'Helvetica 11 bold'
+        )
+            
+        self.label_nome_instituicao_atualizar.place( x=20, y= 85, width= 200, height= 25)
+
+        self.botao_atualizar_instituicao_atualizar = Button ( 
+                                                # cor botao - 
+                                                bg      = COR_BOTAO_FUNDO,          
+                                                text    = "ATUALIZAR",
+                                                # negrito
+                                                font    ='Helvetica 15 bold', 
+                                                # cor escrita - Yellow
+                                                fg      = COR_ESCRITA_MENU_BAR,        
+                                                # chamada  
+                                                #command = self.salvar_nome_instituicao
+
+        )
+
+        self.botao_atualizar_instituicao_atualizar. place(x=CONFIGURACAO_BOTAO_INSTITUICAO_X, 
+                                            y = CONFIGURACAO_BOTAO_INSTITUICAO_Y, 
+                                            width=CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH, 
+                                            height=CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
+        )
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
-class ConfiguracoesBancoSSalvar():
+class ConfiguracoesBanco():
 
     def funcao_class_visualdb_leitura_alianca(self):
 
@@ -366,10 +393,10 @@ class ConfiguracoesBancoSSalvar():
         
         self.funcao_classdb_conectar()
 
-        get_entrada_instituicao = self.entry_banco_instituicao.get()
-        maiuscula_instituicao = str(get_entrada_instituicao.upper())
+        get_entrada_instituicao = str(self.entry_banco_instituicao.get())
+       
         
-        if maiuscula_instituicao == "":
+        if get_entrada_instituicao == "":
             
             self.funcao_db_visualiar_tbprocessos()
 
@@ -378,17 +405,17 @@ class ConfiguracoesBancoSSalvar():
             if  visualiza_V_F == 'Thue':
 
                 self.funcao_label_fixa_erro_instituicao()
-                self.LABEL_INSTITUICAO_FIXA_ERRO.after(6000, self.funcao_destruir_erro)
+                self.LABEL_INSTITUICAO_FIXA_ERRO.after(4000, self.funcao_destruir_erro)
 
                 self.sql_cursorr.execute("UPDATE Processos SET boleano = 'False' WHERE ID_processos = 1 " )
                 self.funcao_classdb_commit()
 
         else:
         
-            self.sql_cursorr.execute("UPDATE Instituicao SET nome_igreja ='"+maiuscula_instituicao+"' WHERE cod = 1")
+            self.sql_cursorr.execute("UPDATE Instituicao SET nome_igreja ='"+get_entrada_instituicao+"' WHERE cod = 1")
             self.funcao_classdb_commit()
 
-            self.funcao_destruir_erro()
+            self.funcao_db_update_tbprocessos_linha1()
 
         self. funcao_classdb_desconectar( )
 
@@ -400,7 +427,7 @@ class ConfiguracoesBancoSSalvar():
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
-class ConfiguracoesProcessosBarraSSalvar():
+class ConfiguracoesProcessosBarra():
 
     def funcao_class_menu_configuracao(self):       #funcao inicializacao
 
@@ -431,7 +458,7 @@ class ConfiguracoesProcessosBarraSSalvar():
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
-class ConfiguracaoDestruirWidgetSSalvar():
+class ConfiguracaoDestruirWidget():
 
     def funcao_destruir_configuracao_entry_instituicao(self):
 
@@ -440,49 +467,6 @@ class ConfiguracaoDestruirWidgetSSalvar():
     def funcao_destruir_configuracao_botao_salvar_igreja(self):
 
         self.botao_salvar_instituicao.destroy()
-
-    def funcao_destruir_erro(self):
-
-        self.LABEL_INSTITUICAO_FIXA_ERRO.destroy()
-
-        self.funcao_db_update_tbprocessos_linha1()
-        
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-###################################################
-class ConfiguracoesWidgetDaBarraAAtualizar():
-
-    def funcao_class_institucao_atualizar_widget(self):
-
-        self.label_nome_instituicao = Label (
-                                            text= self.transfomar_str_nome,
-                                            font= 'Helvetica 11 bold'
-        )
-            
-        self.label_nome_instituicao.place( x=20, y= 85, width= 200, height= 25)
-
-        self.botao_atualizar_instituicao = Button ( 
-                                                # cor botao - 
-                                                bg      = COR_BOTAO_FUNDO,          
-                                                text    = "ATUALIZAR",
-                                                # negrito
-                                                font    ='Helvetica 15 bold', 
-                                                # cor escrita - Yellow
-                                                fg      = COR_ESCRITA_MENU_BAR,        
-                                                # chamada  
-                                                #command = self.salvar_nome_instituicao
-
-        )
-
-        self.botao_atualizar_instituicao. place(x=CONFIGURACAO_BOTAO_INSTITUICAO_X, 
-                                            y = CONFIGURACAO_BOTAO_INSTITUICAO_Y, 
-                                            width=CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH, 
-                                            height=CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
-        )
-
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-class ConfiguracaoDestruirWidgetAAtalizar():
 
 ################################################### if-else
     def funcao_class_if_destruir_widget(self):
@@ -493,8 +477,8 @@ class ConfiguracaoDestruirWidgetAAtalizar():
         
         if destroir_banco_1 != NOME_NOVA_ALIANCA: 
                   
-            self.label_nome_instituicao.destroy()
-            self.botao_atualizar_instituicao.destroy()
+            self.label_nome_instituicao_atualizar.destroy()
+            self.botao_atualizar_instituicao_atualizar.destroy()
 
         elif destroir_banco_1 == NOME_NOVA_ALIANCA:
             
@@ -503,15 +487,19 @@ class ConfiguracaoDestruirWidgetAAtalizar():
 
         self.funcao_classdb_desconectar()
 
+    def funcao_destruir_erro(self):
+
+        self.LABEL_INSTITUICAO_FIXA_ERRO.destroy()
+
+        self.funcao_db_update_tbprocessos_linha1()
         
+
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ############################################### menus da janela principal
 class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
-                   BarraMenuInicializacao, ConfiguracoesProcessosBarraSSalvar,
-                   ConfiguracaoDestruirWidgetSSalvar, ConfiguracaoWidgetDaBarraSSalvar,
-                   ConfiguracoesBancoSSalvar, BarraMenusState,BancoExecucao,
-                   ConfiguracoesWidgetDaBarraAAtualizar, 
-                   ConfiguracaoDestruirWidgetAAtalizar):
+                   BarraMenuInicializacao, ConfiguracoesProcessosBarra,
+                   ConfiguracaoDestruirWidget, ConfiguracaoWidgetDaBarra,
+                   ConfiguracoesBanco, BarraMenusState,BancoExecucao):
 
     #**********************************************
     ###############################################       função inicial
