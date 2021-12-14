@@ -257,7 +257,7 @@ class BarraMenuHome():
 
         ###########################################
                                   # destruir widget
-        self.funcao_class_destruir_conguracao_instituicao()
+        self.funcao_class_if_destruir_widget()
 
         ###########################################
                                     # ativar widget
@@ -274,13 +274,6 @@ class BarraMenuHome():
     def funcao_class_destruir_home(self):          
 
         self.label_nome_instituicao_class.destroy()
-
-    def funcao_class_destruir_conguracao_instituicao(self):
-        
-        self.LABEL_BANCO_INSTITUICAO_FIXA.destroy()
-         
-        #função
-        self.funcao_class_if_destruir_widget()
 
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -321,7 +314,7 @@ class ConfiguracaoWidgetDaBarraSSalvar():
 
           
 
-    def funcao_salvar_instituicao_widget(self):
+    def funcao_instituicao_entry_buton(self):
 
         self.entry_banco_instituicao = Entry(
                                             
@@ -422,6 +415,8 @@ class ConfiguracaoDestruirWidgetSSalvar():
 ################################################### if-else
     def funcao_class_if_destruir_widget(self):
 
+        self.LABEL_BANCO_INSTITUICAO_FIXA.destroy()
+
         self.funcao_db_conectar_e_visualizar_1()
 
         destroir_banco_1 = self.visualiza[0]
@@ -456,11 +451,14 @@ class ConfiguracoesWidgetIntermediario():
         
         elif self.transfomar_str_nome == NOME_NOVA_ALIANCA:
            
-            self.funcao_salvar_instituicao_widget()
+            self.funcao_instituicao_entry_buton()
 
     def funcao_if_widget_intermediario_atualizar_salvar(self):
 
         self.funcao_destruir_atalizar_label()
+        
+        self.funcao_instituicao_entry_buton()
+
 
 class ConfiguracoesBancoIntermediario():
 
