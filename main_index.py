@@ -428,8 +428,7 @@ class ConfiguracaoDestruirWidgetSSalvar():
         
         if destroir_banco_1 != NOME_NOVA_ALIANCA: 
                   
-            self.label_nome_instituicao_atualizar.destroy()
-            self.botao_atualizar_instituicao_atualizar.destroy()
+            self.funcao_destruir_atalizar_label()
 
         elif destroir_banco_1 == NOME_NOVA_ALIANCA:
             
@@ -459,7 +458,9 @@ class ConfiguracoesWidgetIntermediario():
            
             self.funcao_salvar_instituicao_widget()
 
-    #def funcao_if_widget_intermediario_atualizar_salvar(self):
+    def funcao_if_widget_intermediario_atualizar_salvar(self):
+
+        self.funcao_destruir_atalizar_label()
 
 class ConfiguracoesBancoIntermediario():
 
@@ -490,7 +491,7 @@ class ConfiguracaoWidgetDaBarraAAtualizar():
                                                 # cor escrita - Yellow
                                                 fg      = COR_ESCRITA_MENU_BAR,        
                                                 # chamada  
-                                                #command = self.salvar_nome_instituicao
+                                                command = self.funcao_if_widget_intermediario_atualizar_salvar
 
         )
 
@@ -500,6 +501,12 @@ class ConfiguracaoWidgetDaBarraAAtualizar():
                                             height=CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
         )
 
+class ConfiguracaoDestruirWidgetAAtualizar():
+    
+    def funcao_destruir_atalizar_label(self):
+
+        self.label_nome_instituicao_atualizar.destroy()
+        self.botao_atualizar_instituicao_atualizar.destroy()
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ############################################### menus da janela principal
@@ -508,7 +515,8 @@ class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
                    ConfiguracaoDestruirWidgetSSalvar, ConfiguracaoWidgetDaBarraSSalvar,
                    ConfiguracoesBancoSSalvar, BarraMenusState,BancoExecucao,
                    ConfiguracaoWidgetDaBarraAAtualizar, ConfiguracoesWidgetIntermediario,
-                   ConfiguracoesBancoIntermediario):
+                   ConfiguracoesBancoIntermediario, ConfiguracaoDestruirWidgetAAtualizar
+                   ):
 
     #**********************************************
     ###############################################       função inicial
