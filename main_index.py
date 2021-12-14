@@ -415,19 +415,6 @@ class ConfiguracoesProcessosBarraSSalvar():
         
         self.funcao_class_desativar_botao_barra_configuracoes()
         
-    ###############################################  processo verificacao
-    def funcao_class_if_ativar_widget(self):
-
-        self.transfomar_str_nome = self.visualiza[0]
-        
-        if self.transfomar_str_nome != NOME_NOVA_ALIANCA:
-            
-            self.funcao_class_institucao_atualizar_widget()
-        
-        elif self.transfomar_str_nome == NOME_NOVA_ALIANCA:
-           
-            self.funcao_salvar_instituicao_widget()
-
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ###################################################
@@ -465,7 +452,24 @@ class ConfiguracaoDestruirWidgetSSalvar():
         self.LABEL_INSTITUICAO_FIXA_ERRO.destroy()
 
         self.funcao_db_update_tbprocessos_linha1()
+
+
+class ConfiguracoesWidgetIntermediario():
+
+    ###############################################  processo verificacao
+    def funcao_class_if_ativar_widget(self):
+
+        self.transfomar_str_nome = self.visualiza[0]
         
+        if self.transfomar_str_nome != NOME_NOVA_ALIANCA:
+            
+            self.funcao_class_institucao_atualizar_widget()
+        
+        elif self.transfomar_str_nome == NOME_NOVA_ALIANCA:
+           
+            self.funcao_salvar_instituicao_widget()
+
+
 class ConfiguracaoWidgetDaBarraAAtualizar():
 
     def funcao_class_institucao_atualizar_widget(self):
@@ -503,7 +507,7 @@ class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
                    BarraMenuInicializacao, ConfiguracoesProcessosBarraSSalvar,
                    ConfiguracaoDestruirWidgetSSalvar, ConfiguracaoWidgetDaBarraSSalvar,
                    ConfiguracoesBancoSSalvar, BarraMenusState,BancoExecucao,
-                   ConfiguracaoWidgetDaBarraAAtualizar):
+                   ConfiguracaoWidgetDaBarraAAtualizar, ConfiguracoesWidgetIntermediario):
 
     #**********************************************
     ###############################################       função inicial
