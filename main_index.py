@@ -544,6 +544,9 @@ class ConfiguracaoWidgetDaBarraAAtualizar():
 
         self.funcao_classdb_conectar()
 
+        self.sql_cursorr.execute("UPDATE Processos SET boleano = '"+CONFIGURACOES_INSTITUICAO_L2_ATUALIZAR+"' WHERE ID_processos = 2 " )
+        self.funcao_classdb_commit()
+
         self.funcao_classdb_desconectar()
 class ConfiguracaoDestruirWidgetAAtualizar():
     
