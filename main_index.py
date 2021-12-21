@@ -12,7 +12,8 @@ from janela.principal.composicao_principal import (
     COR_FUNDO_JANELA, COR_FUNDO_BOTAO_MENU_BAR, COR_ESCRITA_MENU_BAR,
     NOME_NOVA_ALIANCA, COR_BOTAO_FUNDO, CONFIGURACAO_BOTAO_INSTITUICAO_X,
     CONFIGURACAO_BOTAO_INSTITUICAO_Y, CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH,
-    CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT, CONFIGURACOES_INSTITUICAO_L2_SALVAR
+    CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT, CONFIGURACOES_INSTITUICAO_L2_SALVAR,
+    CONFIGURACOES_INSTITUICAO_L2_ATUALIZAR
 )
 
 ################################################### função principal
@@ -31,7 +32,7 @@ def main():
 
 
     ###############################################
-    root.mainloop() # starts the mainloop
+    root.mainloop() # starts the mainloop 
 
 
 ############################################## funções controle da janela
@@ -58,7 +59,7 @@ def centralizador_janela(root):
 ###################################################
 class BarraMenuInicializacao():
         
-    def funcao_class_barra_menus(self):            # funcao inicializacao
+    def funcao_class_barra_menus(self):        # funcao inicializacao
 
         ###########################################            label fixa
                                         
@@ -179,9 +180,17 @@ class BancoExecucao():
         self.sql_cursorr.execute("INSERT INTO Processos  VALUES (1, 'Thue')")
         self.funcao_classdb_commit()
 
+        self.sql_cursorr.execute("INSERT INTO Processos  VALUES (2, '"+CONFIGURACOES_INSTITUICAO_L2_SALVAR+"')")
+        self.funcao_classdb_commit()
+
     def funcao_db_inserir_salvar_configuracoes (self):
 
         self.sql_cursorr.execute("INSERT INTO Processos  VALUES (2, '"+CONFIGURACOES_INSTITUICAO_L2_SALVAR+"')")
+        self.funcao_classdb_commit()
+
+    def funcao_db_inserir_atualizar_configuracoes(self):
+
+        self.sql_cursorr.execute("INSERT INTO Processos  VALUES (2, 'iniciar')")
         self.funcao_classdb_commit()
 
     ############################################### visualizar dados None
@@ -214,10 +223,11 @@ class BancoExecucao():
 
     def funcao_db_visualiza_tbprocessos_linha2(self):
 
-        self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos =21 ")
+        self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos =2 ")
         self.visualiza_processos_L2 = self.sql_cursorr.fetchone()
 
         if self.visualiza_processos == None:
+            print("227")
 
             self.funcao_db_inserir_salvar_configuracoes()
 
@@ -382,7 +392,21 @@ class ConfiguracaoWidgetDaBarraSSalvar():
         )
 
         self.funcao_classdb_conectar()
-        self.funcao_db_inserir_salvar_configuracoes()
+        
+        #try:
+        #self.funcao_db_visualiza_tbprocessos_linha2()
+        self.sql_cursorr.execute("UPDATE Processos SET boleano = '"+CONFIGURACOES_INSTITUICAO_L2_SALVAR+"' WHERE ID_processos = 2 " )
+        self.funcao_classdb_commit()
+
+        '''if OperationalError:
+            self.funcao_db_inserir_salvar_configuracoes()'''
+        '''except:
+            
+            self.funcao_db_inserir_salvar_configuracoes()
+            print("as")'''
+
+
+        
         self. funcao_classdb_desconectar()
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -419,7 +443,7 @@ class ConfiguracoesBancoSSalvar():
 
         self. funcao_classdb_desconectar()
 
-        self.funcao_destruir_configuracao_entry_salvar()
+        #self.funcao_destruir_configuracao_entry_salvar()
        
         self.funcao_class_visualdb_leitura_alianca()
 
@@ -446,11 +470,11 @@ class ConfiguracoesProcessosBarraSSalvar():
 ###################################################
 class ConfiguracaoDestruirWidgetSSalvar():
 
-    def funcao_destruir_configuracao_entry_salvar(self):
+    #def funcao_destruir_configuracao_entry_salvar(self):
 
-        self.entry_banco_instituicao.destroy()
+        #self.entry_banco_instituicao.destroy()
 
-        self.botao_salvar_instituicao.destroy()
+        #self.botao_salvar_instituicao.destroy()
 
 ################################################### if-else  home
     def funcao_class_if_destruir_widget(self):
@@ -473,7 +497,7 @@ class ConfiguracaoDestruirWidgetSSalvar():
         elif self.destroir_banco_1 == destruir_banco_2: 
             print(1)
             
-            self.funcao_destruir_configuracao_entry_salvar()
+            #self.funcao_destruir_configuracao_entry_salvar()
                     
         self.funcao_classdb_desconectar()
 
@@ -545,6 +569,9 @@ class ConfiguracaoWidgetDaBarraAAtualizar():
                                             height=CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
         )
 
+        self.funcao_classdb_conectar()
+
+        self.funcao_classdb_desconectar()
 class ConfiguracaoDestruirWidgetAAtualizar():
     
     def funcao_destruir_atalizar_label(self):
