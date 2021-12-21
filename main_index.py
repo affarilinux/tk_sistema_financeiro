@@ -183,16 +183,6 @@ class BancoExecucao():
         self.sql_cursorr.execute("INSERT INTO Processos  VALUES (2, '"+CONFIGURACOES_INSTITUICAO_L2_SALVAR+"')")
         self.funcao_classdb_commit()
 
-    def funcao_db_inserir_salvar_configuracoes (self):
-
-        self.sql_cursorr.execute("INSERT INTO Processos  VALUES (2, '"+CONFIGURACOES_INSTITUICAO_L2_SALVAR+"')")
-        self.funcao_classdb_commit()
-
-    def funcao_db_inserir_atualizar_configuracoes(self):
-
-        self.sql_cursorr.execute("INSERT INTO Processos  VALUES (2, 'iniciar')")
-        self.funcao_classdb_commit()
-
     ############################################### visualizar dados None
     def funcao_classdb_visualizar_1 (self):
 
@@ -225,12 +215,6 @@ class BancoExecucao():
 
         self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos =2 ")
         self.visualiza_processos_L2 = self.sql_cursorr.fetchone()
-
-        if self.visualiza_processos == None:
-            print("227")
-
-            self.funcao_db_inserir_salvar_configuracoes()
-
 
     ############################################### processos
     def funcao_class_visualdb_instituicao (self):
@@ -393,19 +377,8 @@ class ConfiguracaoWidgetDaBarraSSalvar():
 
         self.funcao_classdb_conectar()
         
-        #try:
-        #self.funcao_db_visualiza_tbprocessos_linha2()
         self.sql_cursorr.execute("UPDATE Processos SET boleano = '"+CONFIGURACOES_INSTITUICAO_L2_SALVAR+"' WHERE ID_processos = 2 " )
         self.funcao_classdb_commit()
-
-        '''if OperationalError:
-            self.funcao_db_inserir_salvar_configuracoes()'''
-        '''except:
-            
-            self.funcao_db_inserir_salvar_configuracoes()
-            print("as")'''
-
-
         
         self. funcao_classdb_desconectar()
 
