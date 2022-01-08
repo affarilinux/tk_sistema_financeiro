@@ -169,11 +169,6 @@ class BancoExecucao():
                            
         self.sql_cursorr.execute( "INSERT INTO Instituicao VALUES (1, '"+NOME_NOVA_ALIANCA+"')")
         self.funcao_classdb_commit()
-    
-    def funcao_db_inserir_instituicao_linha2_none (self):
-        
-        self.sql_cursorr.execute( "INSERT INTO Instituicao VALUES (2, '"+NOME_NOVA_ALIANCA+"')")
-        self.funcao_classdb_commit()
 
     def funcao_cursorrdb_inserir_thue(self):
 
@@ -192,15 +187,6 @@ class BancoExecucao():
         if self.visualiza == None:
 
             self.funcao_classdb_inserir_nova_alianca()
-
-    def funcao_db_visualiza_instituicao_linha2(self):
-
-        self.sql_cursorr.execute( "SELECT nome_igreja FROM Instituicao WHERE cod = 2")
-        self.visualiza_L2 = self.sql_cursorr.fetchone()
-
-        if self.visualiza == None:
-
-            self.funcao_db_inserir_instituicao_linha2_none ()
 
     def funcao_db_visualiar_tbprocessos (self):
 
@@ -275,9 +261,11 @@ class barraVisualizarNomeInstituicao():
         self.funcao_db_conectar_e_visualizar_1()
 
         for visual_nome in self.visualiza:
+
+            upper_label = visual_nome.upper()
                             
-            self.label_nome_instituicao_class.configure(text=visual_nome)
-        
+            self.label_nome_instituicao_class.configure(text=upper_label)
+            
         self.funcao_classdb_desconectar()
 
         
@@ -466,26 +454,7 @@ class ConfiguracaoDestruirWidgetSSalvar():
         elif visualizar_s_f == "ATUALIZAR":
             
             self.funcao_destruir_atalizar_label()
-        '''
-        self.destroir_banco_1 = self.visualiza [0]
-
-        self.funcao_db_visualiza_instituicao_linha2()
-        destruir_banco_2 = self.visualiza_L2 [0]
-        
-        
-        if self.destroir_banco_1 != destruir_banco_2: 
-            print(2)
-            
-            self.funcao_db_update_tbinstituicao_linha2()
-            self.funcao_destruir_atalizar_label()
-
-        elif self.destroir_banco_1 == destruir_banco_2: 
-            print(1)
-            
-            self.entry_banco_instituicao.destroy()
-            self.botao_salvar_instituicao.destroy()
-            #self.funcao_destruir_configuracao_entry_salvar()'''
-                    
+                
         self.funcao_classdb_desconectar()
 
     def funcao_destruir_erro(self):
@@ -613,7 +582,6 @@ class MenuWidget ( ClassBanco,barraVisualizarNomeInstituicao, BarraMenuHome,
         self.funcao_classdb_conectar()
         self.funcao_classdb_criar_tabela()   
         self.funcao_classdb_visualizar_1()  
-        self.funcao_db_visualiza_instituicao_linha2()
         self.funcao_db_visualiar_tbprocessos()
         self.funcao_db_update_tbprocessos_linha1()
         self.funcao_classdb_desconectar()
