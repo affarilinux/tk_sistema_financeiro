@@ -102,7 +102,8 @@ class BarraMenuInicializacao():
                                     # negrito
                                     font    ='Helvetica 10 bold', 
                                     # cor escrita
-                                    fg      = COR_ESCRITA_MENU_BAR
+                                    fg      = COR_ESCRITA_MENU_BAR,
+                                    command = self.funcao_command_projeto
         )
 
         self.botao_2projetos.place(x=190, y = MENU_Y, width=MENUS_WIDTH, 
@@ -116,28 +117,30 @@ class BarraMenuInicializacao():
                                     # negrito
                                     font    ='Helvetica 10 bold', 
                                     # cor escrita
-                                    fg      = COR_ESCRITA_MENU_BAR
+                                    fg      = COR_ESCRITA_MENU_BAR,
+                                    command= self.funcao_command_recurso
         )
 
         self.botao_3recursos.place(x=350, y = MENU_Y, width=MENUS_WIDTH, 
                                 height=MENU_HEIGHT
         )
 
-        self.botao_3cadastro = Button(
+        self.botao_4cadastro = Button(
                                     # cor botao
                                     bg      = COR_FUNDO_BOTAO_MENU_BAR,          
                                     text    = "CADASTRO",
                                     # negrito
                                     font    ='Helvetica 10 bold', 
                                     # cor escrita
-                                    fg      = COR_ESCRITA_MENU_BAR
+                                    fg      = COR_ESCRITA_MENU_BAR,
+                                    command= self.funcao_command_cadastro
         )
 
-        self.botao_3cadastro.place(x=510, y = MENU_Y, width=MENUS_WIDTH, 
+        self.botao_4cadastro.place(x=510, y = MENU_Y, width=MENUS_WIDTH, 
                                 height=MENU_HEIGHT
         )
 
-        self.botao_4configuracao = Button (
+        self.botao_5configuracao = Button (
                                             # cor botao
                                             bg      = COR_FUNDO_BOTAO_MENU_BAR,          
                                             text    = "CONFIGURAÇÕES",
@@ -150,11 +153,11 @@ class BarraMenuInicializacao():
 
         )
 
-        self.botao_4configuracao.place(x=670, y = MENU_Y, width=MENUS_WIDTH, 
+        self.botao_5configuracao.place(x=670, y = MENU_Y, width=MENUS_WIDTH, 
                                          height=MENU_HEIGHT
         )
 
-        self.botao_5APP = Button(
+        self.botao_6APP = Button(
                                 # cor botao
                                 bg      = COR_FUNDO_BOTAO_MENU_BAR,          
                                 text    = "INFORMAÇÕES",
@@ -165,7 +168,7 @@ class BarraMenuInicializacao():
                                 command = self.funcao_command_informacao
         )
 
-        self.botao_5APP.place(x=830, y = MENU_Y, width=MENUS_WIDTH, 
+        self.botao_6APP.place(x=830, y = MENU_Y, width=MENUS_WIDTH, 
                             height=MENU_HEIGHT
 
         )
@@ -175,6 +178,7 @@ class BarraMenuInicializacao():
 ###################################################
 class BarraMenusState():
 
+    #1
     def funcao_desativar_botao_barra_home(self):
 
         self.botao_1home["state"] = "disabled"
@@ -183,21 +187,50 @@ class BarraMenusState():
 
         self.botao_1home["state"] ="normal"
 
+    #2
+    def funcao_desativar_botao_barra_projetos(self):
+
+        self.botao_2projetos["state"] = "disabled"
+
+    def funcao_ativar_botao_barra_projetos(self):
+
+        self.botao_2projetos["state"] ="normal"
+
+    #3
+    def funcao_desativar_botao_barra_recursos(self):
+
+        self.botao_3recursos["state"] = "disabled"
+
+    def funcao_ativar_botao_barra_recursos(self):
+
+        self.botao_3recursos["state"] ="normal"
+
+    #4
+    def funcao_desativar_botao_barra_cadastro(self):
+
+        self.botao_4cadastro["state"] = "disabled"
+
+    def funcao_ativar_botao_barra_cadastro(self):
+
+        self.botao_4cadastro["state"] ="normal"
+
+    #5
     def funcao_class_desativar_botao_barra_configuracoes(self):
         
-        self.botao_4configuracao["state"] = "disabled"
+        self.botao_5configuracao["state"] = "disabled"
 
     def funcao_class_ativar_botao_barra_configurações(self):
 
-        self.botao_4configuracao["state"] ="normal"
+        self.botao_5configuracao["state"] ="normal"
 
+    #6
     def funcao_desativar_botao_barra_informacoes(self):
         
-        self.botao_5APP["state"] = "disabled"
+        self.botao_6APP["state"] = "disabled"
 
     def funcao_ativar_botao_barra_informacoes(self):
 
-        self.botao_5APP["state"] ="normal"
+        self.botao_6APP["state"] ="normal"
 
 
 """BANCO"""
@@ -240,11 +273,13 @@ class ClassBanco():
 class BancoExecucaoConfiguracoes():
 
     ############################################### inserir if none
+    """instituicao"""
     def funcao_classdb_inserir_nova_alianca(self):
-                           
+            
         self.sql_cursorr.execute( "INSERT INTO Instituicao VALUES (1, '"+NOME_NOVA_ALIANCA+"')")
         self.funcao_classdb_commit()
 
+    """processos"""
     def funcao_cursorrdb_inserir_thue(self):
 
         self.sql_cursorr.execute("INSERT INTO Processos  VALUES (1, 'Thue')")
@@ -253,9 +288,13 @@ class BancoExecucaoConfiguracoes():
         self.sql_cursorr.execute("INSERT INTO Processos  VALUES (2, '"+CONFIGURACOES_INSTITUICAO_L2_SALVAR+"')")
         self.funcao_classdb_commit()
 
-    ############################################### visualizar dados None
-    def funcao_classdb_visualizar_1 (self):
+        self.sql_cursorr.execute("INSERT INTO Processos  VALUES (3, '1')")
+        self.funcao_classdb_commit()
 
+    ############################################### visualizar dados None
+    """instituicao"""
+    def funcao_classdb_visualizar_1 (self):
+        
         self.sql_cursorr.execute( "SELECT nome_igreja FROM Instituicao WHERE cod = 1")
         self.visualiza = self.sql_cursorr.fetchone()
 
@@ -263,6 +302,7 @@ class BancoExecucaoConfiguracoes():
 
             self.funcao_classdb_inserir_nova_alianca()
 
+    """processos"""
     def funcao_db_visualiar_tbprocessos (self):
 
         self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos = 1 ")
@@ -276,6 +316,7 @@ class BancoExecucaoConfiguracoes():
 
         self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos =2 ")
         self.visualiza_processos_L2 = self.sql_cursorr.fetchone()
+
 
     def funcao_db_conectar_e_visualizar_1(self):
 
@@ -358,12 +399,17 @@ class ProcessoHome():
         # funcao barra inferior visualizar
         self.funcao_class_visualdb_barra_intituicao()
 
-        #state desativar
+        #state desativar home
         self.funcao_desativar_botao_barra_home()# desativar home
 
         #state ativar
+        #1
+        self.funcao_ativar_botao_barra_projetos()
+        self.funcao_ativar_botao_barra_recursos()
+        self.funcao_ativar_botao_barra_cadastro()
         self.funcao_class_ativar_botao_barra_configurações()
         self.funcao_ativar_botao_barra_informacoes()
+
 
 class DestruirHomeExterno():
 
@@ -387,6 +433,58 @@ class DestruirHomeExterno():
             self.funcao_destruir_atalizar_label()
                 
         self.funcao_classdb_desconectar()
+
+
+"""projetos"""
+class ProcessoProjetos():
+
+    def funcao_command_projeto(self):
+
+        #state desativar projetos
+        self.funcao_desativar_botao_barra_projetos()
+
+        #state ativar
+        self.funcao_ativar_botao_barra_home()
+        #2
+        self.funcao_ativar_botao_barra_recursos()
+        self.funcao_ativar_botao_barra_cadastro()
+        self.funcao_class_ativar_botao_barra_configurações()
+        self.funcao_ativar_botao_barra_informacoes()
+
+
+"""recursos"""
+class ProcessoRecurso():
+
+    def funcao_command_recurso(self):
+
+        #state desativar projetos
+        self.funcao_desativar_botao_barra_recursos()
+
+        #state ativar
+        self.funcao_ativar_botao_barra_home()
+        self.funcao_ativar_botao_barra_projetos()
+        #3
+        self.funcao_ativar_botao_barra_cadastro()
+        self.funcao_class_ativar_botao_barra_configurações()
+        self.funcao_ativar_botao_barra_informacoes()
+
+
+"""cadastro"""
+class ProcessoCadastro():
+
+    def funcao_command_cadastro(self):
+
+        #state desativar projetos
+        self.funcao_desativar_botao_barra_cadastro()
+
+        #state ativar
+        self.funcao_ativar_botao_barra_home()
+        self.funcao_ativar_botao_barra_projetos()
+        self.funcao_ativar_botao_barra_recursos()
+        #4
+        self.funcao_class_ativar_botao_barra_configurações()
+        self.funcao_ativar_botao_barra_informacoes()
+
 
 
 """CONFIGURAÇÕES"""
@@ -575,11 +673,15 @@ class ProcessoConfiguracoes():
         self.funcao_if_widget_intermediario_salvar_atualizar()
         self.funcao_label_fixa_configuracao()
         
-        #state desativar
+        #state desativar configuracao
         self.funcao_class_desativar_botao_barra_configuracoes()
 
         #state ativar
         self.funcao_ativar_botao_barra_home()
+        self.funcao_ativar_botao_barra_projetos()
+        self.funcao_ativar_botao_barra_recursos()
+        self.funcao_ativar_botao_barra_cadastro()
+        #5
         self.funcao_ativar_botao_barra_informacoes()
 
 
@@ -638,12 +740,16 @@ class ProcessoInformacao():
         #destruir widget externo
         self.funcao_class_destruir_home()
 
-        #state desativar
+        #state desativar informacao
         self.funcao_desativar_botao_barra_informacoes()
 
         #state ativar
         self.funcao_ativar_botao_barra_home()
+        self.funcao_ativar_botao_barra_projetos()
+        self.funcao_ativar_botao_barra_recursos()
+        self.funcao_ativar_botao_barra_cadastro()
         self.funcao_class_ativar_botao_barra_configurações()
+        #6
 
 
 #class DestruirinformacoesExterno():
@@ -658,15 +764,21 @@ class MenuWidget ( BarraMenuInicializacao, # barra
                 ClassBanco, BancoExecucaoConfiguracoes,
                 #barra instituicao
                 BarraVisualizarNomeInstituicao,
-                #home
+                #home 1
                 ProcessoHome,
                 DestruirHomeExterno,
-                #configurações
+                #projetos 2
+                ProcessoProjetos,
+                # recursos 3
+                ProcessoRecurso,
+                # cadastro 4
+                ProcessoCadastro,
+                #configurações 5
                 WidgetConfiguracoes, #widget
                 ProcessoConfiguracoes,
                 ConfiguracaoDestruir,
                 DestruirconfiguracoesExterno,
-                #informacao
+                #informacao 6
                 ProcessoInformacao
     ):
 
