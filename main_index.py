@@ -317,6 +317,10 @@ class BancoExecucaoConfiguracoes():
         self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos =2 ")
         self.visualiza_processos_L2 = self.sql_cursorr.fetchone()
 
+    def funcao_db_visualiza_tbprocessos_linha3(self):
+
+        self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos =3 ")
+        self.visualiza_processos_L3 = self.sql_cursorr.fetchone()
 
     def funcao_db_conectar_e_visualizar_1(self):
 
@@ -339,6 +343,17 @@ class BancoExecucaoConfiguracoes():
 
         self.sql_cursorr.execute("UPDATE Instituicao SET  nome_igreja = '"+self.destroir_banco_1+"' WHERE cod = 2 " )
         self.funcao_classdb_commit()
+
+    def funcao_update_processo_home_l3(self):
+
+        # atualizar banco
+        self.funcao_classdb_conectar()
+
+        self.sql_cursorr.execute("UPDATE Processos SET boleano = '"+self.up_processo_l3+"' WHERE ID_processos = 3 ")
+        self.funcao_classdb_commit()
+
+        self.funcao_classdb_desconectar()
+
 
 """LABEL INSTITUICAO BARRA"""
 class BarraVisualizarNomeInstituicao():
@@ -388,12 +403,14 @@ class ProcessoHome():
 
     def funcao_command_menu_home(self):              #  inicializacao botao
 
-        ###########################################
-                                  # destruir widget
-        self.funcao_class_if_destruir_widget()
+        # destruir externamente
+        self.funcao_analizar_processos_l3()
 
-        ###########################################
-                                    # ativar widget
+        # atualizar banco processos l3
+        self.up_processo_l3 =str(1)
+        self.funcao_update_processo_home_l3()
+        
+        # ativar widget
         self.funcao_class_visual_instituicao()
 
         # funcao barra inferior visualizar
@@ -440,6 +457,13 @@ class ProcessoProjetos():
 
     def funcao_command_projeto(self):
 
+        # destruir externamente
+        self.funcao_analizar_processos_l3()
+
+        # atualizar banco
+        self.up_processo_l3 =str(2)
+        self.funcao_update_processo_home_l3()
+
         #state desativar projetos
         self.funcao_desativar_botao_barra_projetos()
 
@@ -456,6 +480,13 @@ class ProcessoProjetos():
 class ProcessoRecurso():
 
     def funcao_command_recurso(self):
+
+        # destruir externamente
+        self.funcao_analizar_processos_l3()
+
+        # atualizar banco
+        self.up_processo_l3 =str(3)
+        self.funcao_update_processo_home_l3()
 
         #state desativar projetos
         self.funcao_desativar_botao_barra_recursos()
@@ -474,6 +505,15 @@ class ProcessoCadastro():
 
     def funcao_command_cadastro(self):
 
+        # destruir externamente
+        self.funcao_analizar_processos_l3()
+
+        # atualizar banco
+        self.up_processo_l3 =str(4)
+        self.funcao_update_processo_home_l3()
+
+        self.funcao_classdb_desconectar()
+
         #state desativar projetos
         self.funcao_desativar_botao_barra_cadastro()
 
@@ -484,7 +524,6 @@ class ProcessoCadastro():
         #4
         self.funcao_class_ativar_botao_barra_configurações()
         self.funcao_ativar_botao_barra_informacoes()
-
 
 
 """CONFIGURAÇÕES"""
@@ -625,6 +664,7 @@ class ProcessoConfiguracoes():
         self.funcao_destruir_atalizar_label()
         
         self.funcao_instituicao_entry_buton()
+
     """salvar"""
     def funcao_classdb_atalizar_igreja_configuracoes(self):  # botao salvar
         
@@ -664,10 +704,12 @@ class ProcessoConfiguracoes():
 
     def funcao_command_menu_configuracao(self):       #funcao inicializacao configurações
 
-        ###########################################
-                                  # destruir widget
-        self.funcao_class_destruir_home()
+        # destruir externamente
+        self.funcao_analizar_processos_l3()
 
+        self.up_processo_l3 =str(5)
+        self.funcao_update_processo_home_l3()
+        
         ###########################################
                                     # ativar widget
         self.funcao_if_widget_intermediario_salvar_atualizar()
@@ -737,6 +779,13 @@ class ProcessoInformacao():
 
     def funcao_command_informacao(self):
 
+        # destruir externamente
+        self.funcao_analizar_processos_l3()
+
+        # atualizar banco
+        self.up_processo_l3 =str(6)
+        self.funcao_update_processo_home_l3()
+
         #destruir widget externo
         self.funcao_class_destruir_home()
 
@@ -752,9 +801,37 @@ class ProcessoInformacao():
         #6
 
 
-#class DestruirinformacoesExterno():
+class Destruir_Widget_Barra():
 
-    #def funcao_destruir_widget_barra_instituicao(self):
+    def funcao_analizar_processos_l3(self):
+       
+        self.funcao_classdb_conectar()
+        self.funcao_db_visualiza_tbprocessos_linha3()
+
+        db_if = self.visualiza_processos_L3[0]
+
+        if db_if == 1:
+
+            self.funcao_class_destruir_home()
+
+        elif db_if ==2:
+            print(2)
+
+        elif db_if ==3:
+            print(3)
+
+        elif db_if ==4:
+            print(4)
+
+        elif db_if == 5:
+
+            self.funcao_class_if_destruir_widget()
+
+        elif db_if == 6:
+
+            self.funcao_class_destruir_home()
+
+        self.funcao_classdb_desconectar()
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ############################################### menus da janela principal
@@ -779,7 +856,9 @@ class MenuWidget ( BarraMenuInicializacao, # barra
                 ConfiguracaoDestruir,
                 DestruirconfiguracoesExterno,
                 #informacao 6
-                ProcessoInformacao
+                ProcessoInformacao,
+                #sistema destruir
+                Destruir_Widget_Barra
     ):
 
     #**********************************************
@@ -797,11 +876,20 @@ class MenuWidget ( BarraMenuInicializacao, # barra
     def funcao_criar_tabela(self):
         
         self.funcao_classdb_conectar()
+        "criar"
         self.funcao_classdb_criar_tabela()   
+        "visualizar"
         self.funcao_classdb_visualizar_1()  
         self.funcao_db_visualiar_tbprocessos()
+        "update"
         self.funcao_db_update_tbprocessos_linha1()
+        
         self.funcao_classdb_desconectar()
+
+        "update"
+        self.up_processo_l3 =str(1)
+        self.funcao_update_processo_home_l3()
+        
 
 
 #**************************************************
