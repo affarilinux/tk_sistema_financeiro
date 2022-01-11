@@ -303,6 +303,18 @@ class BancoExecucaoConfiguracoes():
             self.funcao_classdb_inserir_nova_alianca()
 
     """processos"""
+
+    def funcao_db_visualizar_tbprocesso(self):
+        
+        self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos = '"+self.boleano_id+"' ")
+        self.visualiza_processo = self.sql_cursorr.fetchone()
+        print(self.boleano_id)
+        print(self.visualiza_processo)
+
+        if self.visualiza_processo == None:
+
+            self.funcao_cursorrdb_inserir_thue()
+
     def funcao_db_visualiar_tbprocessos (self):
 
         self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos = 1 ")
@@ -673,10 +685,11 @@ class ProcessoConfiguracoes():
         if get_entrada_instituicao == "":
 
             self.funcao_classdb_conectar()
-            
-            self.funcao_db_visualiar_tbprocessos()
 
-            visualiza_V_F = self.visualiza_processos[0]
+            self.boleano_id = 2
+            self.funcao_db_visualizar_tbprocesso()
+
+            visualiza_V_F = self.visualiza_processo[0]
 
             if  visualiza_V_F == 'Thue':
 
@@ -880,7 +893,9 @@ class MenuWidget ( BarraMenuInicializacao, # barra
         self.funcao_classdb_criar_tabela()   
         "visualizar"
         self.funcao_classdb_visualizar_1()  
-        self.funcao_db_visualiar_tbprocessos()
+        #self.funcao_db_visualiar_tbprocessos()
+        self.boleano_id = str(1)
+        self.funcao_db_visualizar_tbprocesso()
         "update"
         self.funcao_db_update_tbprocessos_linha1()
         
