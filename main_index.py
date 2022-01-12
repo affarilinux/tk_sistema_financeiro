@@ -13,7 +13,10 @@ from janela.principal.composicao_principal import (
     NOME_NOVA_ALIANCA, COR_BOTAO_FUNDO, CONFIGURACAO_BOTAO_INSTITUICAO_X,
     CONFIGURACAO_BOTAO_INSTITUICAO_Y, CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH,
     CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT, CONFIGURACOES_INSTITUICAO_L2_SALVAR,
-    CONFIGURACOES_INSTITUICAO_L2_ATUALIZAR
+    CONFIGURACOES_INSTITUICAO_L2_ATUALIZAR, 
+    DB_THUE,
+    DB_1,
+    DB_0,DB_STR_1
 )
 
 ################################################### função principal
@@ -282,13 +285,13 @@ class BancoExecucaoConfiguracoes():
     """processos"""
     def funcao_cursorrdb_inserir_thue(self):
 
-        self.sql_cursorr.execute("INSERT INTO Processos  VALUES (1, 'Thue')")
+        self.sql_cursorr.execute("INSERT INTO Processos  VALUES (1, '"+DB_THUE+"')")
         self.funcao_classdb_commit()
 
         self.sql_cursorr.execute("INSERT INTO Processos  VALUES (2, '"+CONFIGURACOES_INSTITUICAO_L2_SALVAR+"')")
         self.funcao_classdb_commit()
 
-        self.sql_cursorr.execute("INSERT INTO Processos  VALUES (3, '1')")
+        self.sql_cursorr.execute("INSERT INTO Processos  VALUES (3, '"+DB_STR_1+"')")
         self.funcao_classdb_commit()
 
     ############################################### visualizar dados None
@@ -306,13 +309,22 @@ class BancoExecucaoConfiguracoes():
 
     def funcao_db_visualizar_tbprocesso(self, id_boleano):
         
-        #asb = self.boleano_id
         self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos = ?", (id_boleano,) )
         self.visualiza_processo = self.sql_cursorr.fetchone()
         
         if self.visualiza_processo == None:
 
             self.funcao_cursorrdb_inserir_thue()
+
+    def funcao_db_update_tbprocessos_linhaid(self,up_processo):
+
+        self.funcao_classdb_conectar()
+        
+        sql_update_tbprocessos = """UPDATE Processos SET boleano = ? WHERE ID_processos = ?"""
+        self.sql_cursorr.execute(sql_update_tbprocessos, up_processo)
+        self.funcao_classdb_commit()
+        
+        self.funcao_classdb_desconectar()
 
     def funcao_db_conectar_e_visualizar_1(self):
 
@@ -324,12 +336,7 @@ class BancoExecucaoConfiguracoes():
 
         self.funcao_destruir_erro_bd()
 
-        self.funcao_classdb_conectar()
-
-        self.sql_cursorr.execute("UPDATE Processos SET boleano = 'Thue' WHERE ID_processos = 1 " )
-        self.funcao_classdb_commit()
-
-        self.funcao_classdb_desconectar()
+        self.funcao_db_update_tbprocessos_linhaid((DB_THUE,DB_1))
 
     def funcao_db_update_tbinstituicao_linha2(self):
 
@@ -399,7 +406,7 @@ class ProcessoHome():
         self.funcao_analizar_processos_l3()
 
         # atualizar banco processos l3
-        self.funcao_update_processo_home_l3('1')
+        self.funcao_update_processo_home_l3(DB_STR_1)
         
         # ativar widget
         self.funcao_class_visual_instituicao()
@@ -664,9 +671,9 @@ class ProcessoConfiguracoes():
 
             self.funcao_db_visualizar_tbprocesso(1)
 
-            visualiza_V_F = self.visualiza_processo[0]
-
-            if  visualiza_V_F == 'Thue':
+            visualiza_V_F = self.visualiza_processo[DB_0]
+           
+            if  visualiza_V_F == DB_THUE:
 
                 self.funcao_label_fixa_erro_instituicao()
                 self.LABEL_INSTITUICAO_FIXA_ERRO.after(4000, self.funcao_destruir_erro)
@@ -733,9 +740,9 @@ class ConfiguracaoDestruir():
 
         self.funcao_classdb_conectar()
 
-        self.funcao_db_visualizar_tbprocesso(1)
+        self.funcao_db_visualizar_tbprocesso(DB_1)
 
-        ad = self.visualiza_processo[0]
+        ad = self.visualiza_processo[DB_0]
     
         if ad == 'False':
             
@@ -796,9 +803,9 @@ class Destruir_Widget_Barra():
 
         self.funcao_db_visualizar_tbprocesso(3)
 
-        db_if = self.visualiza_processo[0]
+        db_if = self.visualiza_processo[DB_0]
 
-        if db_if == 1:
+        if db_if == DB_1:
 
             self.funcao_class_destruir_home()
 
@@ -868,14 +875,14 @@ class MenuWidget ( BarraMenuInicializacao, # barra
         self.funcao_classdb_criar_tabela()   
         "visualizar"
         self.funcao_classdb_visualizar_1()  
-        self.funcao_db_visualizar_tbprocesso(1)
+        self.funcao_db_visualizar_tbprocesso(DB_1)
         "update"
-        self.funcao_db_update_tbprocessos_linha1()
+        self.funcao_db_update_tbprocessos_linhaid((DB_THUE,DB_1))
         
         self.funcao_classdb_desconectar()
 
         "update"
-        self.funcao_update_processo_home_l3('1')
+        self.funcao_update_processo_home_l3(DB_STR_1)
         
 
 
