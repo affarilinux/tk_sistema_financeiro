@@ -304,35 +304,15 @@ class BancoExecucaoConfiguracoes():
 
     """processos"""
 
-    def funcao_db_visualizar_tbprocesso(self):
+    def funcao_db_visualizar_tbprocesso(self, id_boleano):
         
-        self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos = '"+self.boleano_id+"' ")
+        #asb = self.boleano_id
+        self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos = ?", (id_boleano,) )
         self.visualiza_processo = self.sql_cursorr.fetchone()
-        print(self.boleano_id)
-        print(self.visualiza_processo)
-
+        
         if self.visualiza_processo == None:
 
             self.funcao_cursorrdb_inserir_thue()
-
-    def funcao_db_visualiar_tbprocessos (self):
-
-        self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos = 1 ")
-        self.visualiza_processos = self.sql_cursorr.fetchone()
-
-        if self.visualiza_processos == None:
-
-            self.funcao_cursorrdb_inserir_thue()
-
-    def funcao_db_visualiza_tbprocessos_linha2(self):
-
-        self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos =2 ")
-        self.visualiza_processos_L2 = self.sql_cursorr.fetchone()
-
-    def funcao_db_visualiza_tbprocessos_linha3(self):
-
-        self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos =3 ")
-        self.visualiza_processos_L3 = self.sql_cursorr.fetchone()
 
     def funcao_db_conectar_e_visualizar_1(self):
 
@@ -356,12 +336,12 @@ class BancoExecucaoConfiguracoes():
         self.sql_cursorr.execute("UPDATE Instituicao SET  nome_igreja = '"+self.destroir_banco_1+"' WHERE cod = 2 " )
         self.funcao_classdb_commit()
 
-    def funcao_update_processo_home_l3(self):
+    def funcao_update_processo_home_l3(self,up_processo_l3):
 
         # atualizar banco
         self.funcao_classdb_conectar()
 
-        self.sql_cursorr.execute("UPDATE Processos SET boleano = '"+self.up_processo_l3+"' WHERE ID_processos = 3 ")
+        self.sql_cursorr.execute("UPDATE Processos SET boleano = '"+up_processo_l3+"' WHERE ID_processos = 3 ")
         self.funcao_classdb_commit()
 
         self.funcao_classdb_desconectar()
@@ -419,8 +399,7 @@ class ProcessoHome():
         self.funcao_analizar_processos_l3()
 
         # atualizar banco processos l3
-        self.up_processo_l3 =str(1)
-        self.funcao_update_processo_home_l3()
+        self.funcao_update_processo_home_l3('1')
         
         # ativar widget
         self.funcao_class_visual_instituicao()
@@ -449,8 +428,8 @@ class DestruirHomeExterno():
 
         self.funcao_classdb_conectar()
 
-        self.funcao_db_visualiza_tbprocessos_linha2()
-        visualizar_s_f = self.visualiza_processos_L2[0]
+        self.funcao_db_visualizar_tbprocesso(2)
+        visualizar_s_f = self.visualiza_processo[0]
 
         if visualizar_s_f == CONFIGURACOES_INSTITUICAO_L2_SALVAR:
             
@@ -473,8 +452,7 @@ class ProcessoProjetos():
         self.funcao_analizar_processos_l3()
 
         # atualizar banco
-        self.up_processo_l3 =str(2)
-        self.funcao_update_processo_home_l3()
+        self.funcao_update_processo_home_l3('2')
 
         #state desativar projetos
         self.funcao_desativar_botao_barra_projetos()
@@ -497,8 +475,7 @@ class ProcessoRecurso():
         self.funcao_analizar_processos_l3()
 
         # atualizar banco
-        self.up_processo_l3 =str(3)
-        self.funcao_update_processo_home_l3()
+        self.funcao_update_processo_home_l3('3')
 
         #state desativar projetos
         self.funcao_desativar_botao_barra_recursos()
@@ -521,8 +498,7 @@ class ProcessoCadastro():
         self.funcao_analizar_processos_l3()
 
         # atualizar banco
-        self.up_processo_l3 =str(4)
-        self.funcao_update_processo_home_l3()
+        self.funcao_update_processo_home_l3('4')
 
         self.funcao_classdb_desconectar()
 
@@ -686,8 +662,7 @@ class ProcessoConfiguracoes():
 
             self.funcao_classdb_conectar()
 
-            self.boleano_id = 2
-            self.funcao_db_visualizar_tbprocesso()
+            self.funcao_db_visualizar_tbprocesso(1)
 
             visualiza_V_F = self.visualiza_processo[0]
 
@@ -720,8 +695,8 @@ class ProcessoConfiguracoes():
         # destruir externamente
         self.funcao_analizar_processos_l3()
 
-        self.up_processo_l3 =str(5)
-        self.funcao_update_processo_home_l3()
+        # atualizar banco
+        self.funcao_update_processo_home_l3('5')
         
         ###########################################
                                     # ativar widget
@@ -758,9 +733,9 @@ class ConfiguracaoDestruir():
 
         self.funcao_classdb_conectar()
 
-        self.funcao_db_visualiar_tbprocessos()
+        self.funcao_db_visualizar_tbprocesso(1)
 
-        ad = self.visualiza_processos[0]
+        ad = self.visualiza_processo[0]
     
         if ad == 'False':
             
@@ -796,8 +771,7 @@ class ProcessoInformacao():
         self.funcao_analizar_processos_l3()
 
         # atualizar banco
-        self.up_processo_l3 =str(6)
-        self.funcao_update_processo_home_l3()
+        self.funcao_update_processo_home_l3('6')
 
         #destruir widget externo
         self.funcao_class_destruir_home()
@@ -819,9 +793,10 @@ class Destruir_Widget_Barra():
     def funcao_analizar_processos_l3(self):
        
         self.funcao_classdb_conectar()
-        self.funcao_db_visualiza_tbprocessos_linha3()
 
-        db_if = self.visualiza_processos_L3[0]
+        self.funcao_db_visualizar_tbprocesso(3)
+
+        db_if = self.visualiza_processo[0]
 
         if db_if == 1:
 
@@ -893,17 +868,14 @@ class MenuWidget ( BarraMenuInicializacao, # barra
         self.funcao_classdb_criar_tabela()   
         "visualizar"
         self.funcao_classdb_visualizar_1()  
-        #self.funcao_db_visualiar_tbprocessos()
-        self.boleano_id = str(1)
-        self.funcao_db_visualizar_tbprocesso()
+        self.funcao_db_visualizar_tbprocesso(1)
         "update"
         self.funcao_db_update_tbprocessos_linha1()
         
         self.funcao_classdb_desconectar()
 
         "update"
-        self.up_processo_l3 =str(1)
-        self.funcao_update_processo_home_l3()
+        self.funcao_update_processo_home_l3('1')
         
 
 
