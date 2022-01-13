@@ -8,15 +8,15 @@ import sqlite3
 
                                  # diretorio do app
 from janela.principal.composicao_principal import (
-    TAMANHO_WIDTH_JANELA, MENUS_WIDTH, MENU_Y, MENU_HEIGHT, 
+    DB_STR_2, TAMANHO_WIDTH_JANELA, MENUS_WIDTH, MENU_Y, MENU_HEIGHT, 
     COR_FUNDO_JANELA, COR_FUNDO_BOTAO_MENU_BAR, COR_ESCRITA_MENU_BAR,
     NOME_NOVA_ALIANCA, COR_BOTAO_FUNDO, CONFIGURACAO_BOTAO_INSTITUICAO_X,
     CONFIGURACAO_BOTAO_INSTITUICAO_Y, CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH,
     CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT, CONFIGURACOES_INSTITUICAO_L2_SALVAR,
     CONFIGURACOES_INSTITUICAO_L2_ATUALIZAR, 
-    DB_THUE,
-    DB_1,
-    DB_0,DB_STR_1
+    DB_THUE, DB_FALSE,DB_SALVAR, DB_ATUALIZAR,
+    DB_1, DB_2, DB_3, DB_4, DB_5, DB_6, 
+    DB_0, DB_STR_1, DB_STR_2, DB_STR_3, DB_STR_4, DB_STR_5, DB_STR_6
 )
 
 ################################################### função principal
@@ -338,21 +338,6 @@ class BancoExecucaoConfiguracoes():
 
         self.funcao_db_update_tbprocessos_linhaid((DB_THUE,DB_1))
 
-    def funcao_db_update_tbinstituicao_linha2(self):
-
-        self.sql_cursorr.execute("UPDATE Instituicao SET  nome_igreja = '"+self.destroir_banco_1+"' WHERE cod = 2 " )
-        self.funcao_classdb_commit()
-
-    def funcao_update_processo_home_l3(self,up_processo_l3):
-
-        # atualizar banco
-        self.funcao_classdb_conectar()
-
-        self.sql_cursorr.execute("UPDATE Processos SET boleano = '"+up_processo_l3+"' WHERE ID_processos = 3 ")
-        self.funcao_classdb_commit()
-
-        self.funcao_classdb_desconectar()
-
 
 """LABEL INSTITUICAO BARRA"""
 class BarraVisualizarNomeInstituicao():
@@ -406,7 +391,7 @@ class ProcessoHome():
         self.funcao_analizar_processos_l3()
 
         # atualizar banco processos l3
-        self.funcao_update_processo_home_l3(DB_STR_1)
+        self.funcao_db_update_tbprocessos_linhaid((DB_STR_1,DB_3))
         
         # ativar widget
         self.funcao_class_visual_instituicao()
@@ -459,7 +444,7 @@ class ProcessoProjetos():
         self.funcao_analizar_processos_l3()
 
         # atualizar banco
-        self.funcao_update_processo_home_l3('2')
+        self.funcao_db_update_tbprocessos_linhaid((DB_STR_2,DB_3))
 
         #state desativar projetos
         self.funcao_desativar_botao_barra_projetos()
@@ -482,7 +467,7 @@ class ProcessoRecurso():
         self.funcao_analizar_processos_l3()
 
         # atualizar banco
-        self.funcao_update_processo_home_l3('3')
+        self.funcao_db_update_tbprocessos_linhaid((DB_STR_3,DB_3))
 
         #state desativar projetos
         self.funcao_desativar_botao_barra_recursos()
@@ -505,7 +490,7 @@ class ProcessoCadastro():
         self.funcao_analizar_processos_l3()
 
         # atualizar banco
-        self.funcao_update_processo_home_l3('4')
+        self.funcao_db_update_tbprocessos_linhaid((DB_STR_4,DB_3))
 
         self.funcao_classdb_desconectar()
 
@@ -588,12 +573,7 @@ class WidgetConfiguracoes():
                                             height= CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
         )
 
-        self.funcao_classdb_conectar()
-        
-        self.sql_cursorr.execute("UPDATE Processos SET boleano = '"+CONFIGURACOES_INSTITUICAO_L2_SALVAR+"' WHERE ID_processos = 2 " )
-        self.funcao_classdb_commit()
-        
-        self. funcao_classdb_desconectar()
+        self.funcao_db_update_tbprocessos_linhaid((DB_SALVAR,DB_2))
 
     """atualizar instituição"""
     def funcao_class_institucao_atualizar_widget(self):
@@ -624,16 +604,14 @@ class WidgetConfiguracoes():
                                             height=CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
         )
 
-        
         self.funcao_db_conectar_e_visualizar_1()
 
         for label_nome in self.visualiza:
             self.label_nome_instituicao_atualizar.configure(text= label_nome)
 
-        self.sql_cursorr.execute("UPDATE Processos SET boleano = '"+CONFIGURACOES_INSTITUICAO_L2_ATUALIZAR+"' WHERE ID_processos = 2 " )
-        self.funcao_classdb_commit()
-
         self.funcao_classdb_desconectar()
+
+        self.funcao_db_update_tbprocessos_linhaid((DB_ATUALIZAR,DB_2))
     
 
 class ProcessoConfiguracoes():
@@ -678,10 +656,9 @@ class ProcessoConfiguracoes():
                 self.funcao_label_fixa_erro_instituicao()
                 self.LABEL_INSTITUICAO_FIXA_ERRO.after(4000, self.funcao_destruir_erro)
 
-                self.sql_cursorr.execute("UPDATE Processos SET boleano = 'False' WHERE ID_processos = 1 " )
-                self.funcao_classdb_commit()
-
             self. funcao_classdb_desconectar()
+
+            self.funcao_db_update_tbprocessos_linhaid((DB_FALSE,DB_1))
 
         else:
             
@@ -703,7 +680,7 @@ class ProcessoConfiguracoes():
         self.funcao_analizar_processos_l3()
 
         # atualizar banco
-        self.funcao_update_processo_home_l3('5')
+        self.funcao_db_update_tbprocessos_linhaid((DB_STR_5,DB_3))
         
         ###########################################
                                     # ativar widget
@@ -778,7 +755,7 @@ class ProcessoInformacao():
         self.funcao_analizar_processos_l3()
 
         # atualizar banco
-        self.funcao_update_processo_home_l3('6')
+        self.funcao_db_update_tbprocessos_linhaid((DB_STR_6,DB_3))
 
         #destruir widget externo
         self.funcao_class_destruir_home()
@@ -805,24 +782,24 @@ class Destruir_Widget_Barra():
 
         db_if = self.visualiza_processo[DB_0]
 
-        if db_if == DB_1:
+        if db_if   ==  DB_1:
 
             self.funcao_class_destruir_home()
 
-        elif db_if ==2:
+        elif db_if == DB_2:
             print(2)
 
-        elif db_if ==3:
+        elif db_if == DB_3:
             print(3)
 
-        elif db_if ==4:
+        elif db_if ==DB_4:
             print(4)
 
-        elif db_if == 5:
+        elif db_if == DB_5:
 
             self.funcao_class_if_destruir_widget()
 
-        elif db_if == 6:
+        elif db_if == DB_6:
 
             self.funcao_class_destruir_home()
 
@@ -882,7 +859,7 @@ class MenuWidget ( BarraMenuInicializacao, # barra
         self.funcao_classdb_desconectar()
 
         "update"
-        self.funcao_update_processo_home_l3(DB_STR_1)
+        self.funcao_db_update_tbprocessos_linhaid((DB_STR_1,DB_3))
         
 
 
