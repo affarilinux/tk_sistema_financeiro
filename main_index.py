@@ -8,15 +8,15 @@ import sqlite3
 
                                  # diretorio do app
 from janela.principal.composicao_principal import (
-    DB_STR_2, TAMANHO_WIDTH_JANELA, MENUS_WIDTH, MENU_Y, MENU_HEIGHT, 
+    TAMANHO_WIDTH_JANELA, 
+    MENUS_WIDTH, MENU_Y, MENU_HEIGHT, 
     COR_FUNDO_JANELA, COR_FUNDO_BOTAO_MENU_BAR, COR_ESCRITA_MENU_BAR,
-    NOME_NOVA_ALIANCA, COR_BOTAO_FUNDO, CONFIGURACAO_BOTAO_INSTITUICAO_X,
-    CONFIGURACAO_BOTAO_INSTITUICAO_Y, CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH,
-    CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT, CONFIGURACOES_INSTITUICAO_L2_SALVAR,
-    CONFIGURACOES_INSTITUICAO_L2_ATUALIZAR, 
+    NOME_NOVA_ALIANCA, COR_BOTAO_FUNDO, 
+    CONFIGURACAO_BOTAO_INSTITUICAO_X, CONFIGURACAO_BOTAO_INSTITUICAO_Y, 
+    CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH, CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT, 
     DB_THUE, DB_FALSE,DB_SALVAR, DB_ATUALIZAR,
-    DB_1, DB_2, DB_3, DB_4, DB_5, DB_6, 
-    DB_0, DB_STR_1, DB_STR_2, DB_STR_3, DB_STR_4, DB_STR_5, DB_STR_6
+    DB_0, DB_1, DB_2, DB_3, DB_4, DB_5, DB_6, 
+     
 )
 
 ################################################### função principal
@@ -76,7 +76,7 @@ class BarraMenuInicializacao():
 
         self.MENU_PROCESSOS_BARRA_FIXO.place(x = 2, y = 5, width = (
                                             TAMANHO_WIDTH_JANELA - 4),
-                                        height = 30
+                                        height = 35
         )
 
         """botoes chamada da estrutura"""
@@ -288,10 +288,10 @@ class BancoExecucaoConfiguracoes():
         self.sql_cursorr.execute("INSERT INTO Processos  VALUES (1, '"+DB_THUE+"')")
         self.funcao_classdb_commit()
 
-        self.sql_cursorr.execute("INSERT INTO Processos  VALUES (2, '"+CONFIGURACOES_INSTITUICAO_L2_SALVAR+"')")
+        self.sql_cursorr.execute("INSERT INTO Processos  VALUES (2, '"+DB_SALVAR+"')")
         self.funcao_classdb_commit()
 
-        self.sql_cursorr.execute("INSERT INTO Processos  VALUES (3, '"+DB_STR_1+"')")
+        self.sql_cursorr.execute("INSERT INTO Processos  VALUES (3, '"+str(DB_1)+"')")
         self.funcao_classdb_commit()
 
     ############################################### visualizar dados None
@@ -391,7 +391,7 @@ class ProcessoHome():
         self.funcao_analizar_processos_l3()
 
         # atualizar banco processos l3
-        self.funcao_db_update_tbprocessos_linhaid((DB_STR_1,DB_3))
+        self.funcao_db_update_tbprocessos_linhaid((str(DB_1),DB_3))
         
         # ativar widget
         self.funcao_class_visual_instituicao()
@@ -423,12 +423,12 @@ class DestruirHomeExterno():
         self.funcao_db_visualizar_tbprocesso(2)
         visualizar_s_f = self.visualiza_processo[0]
 
-        if visualizar_s_f == CONFIGURACOES_INSTITUICAO_L2_SALVAR:
+        if visualizar_s_f == DB_SALVAR:
             
            self.funcao_destruir_entry_btsalvar()
            self.funcao_db_update_tbprocessos_linha1()
 
-        elif visualizar_s_f == "ATUALIZAR":
+        elif visualizar_s_f == DB_ATUALIZAR:
             
             self.funcao_destruir_atalizar_label()
                 
@@ -444,7 +444,7 @@ class ProcessoProjetos():
         self.funcao_analizar_processos_l3()
 
         # atualizar banco
-        self.funcao_db_update_tbprocessos_linhaid((DB_STR_2,DB_3))
+        self.funcao_db_update_tbprocessos_linhaid((str(DB_2),DB_3))
 
         #state desativar projetos
         self.funcao_desativar_botao_barra_projetos()
@@ -459,6 +459,77 @@ class ProcessoProjetos():
 
 
 """recursos"""
+class WidgetRecursos():
+
+    def funcao_frame_widget_recursos(self):
+
+        "label fixa"
+        self.MENU_RECURSOS_BARRA_FIXO = Label ( 
+                                                # ForestGreen
+                                                bg     = "#228B22", 
+                                                # formato da borda
+                                                relief = "groove"  
+        )
+
+        self.MENU_RECURSOS_BARRA_FIXO.place(x = 2, y = 50, width = (
+                                            TAMANHO_WIDTH_JANELA - 4),
+                                        height = 40
+        )
+
+        """botoes chamada da estrutura"""
+        
+
+        self.botao_1entradas_recursos= Button (
+                                    # cor botao
+                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                                    text    = "ENTRADAS",
+                                    # negrito
+                                    font    ='Helvetica 15 bold', 
+                                    # cor escrita
+                                    fg      = COR_ESCRITA_MENU_BAR
+                                    # chamada         
+                                    #command = self.funcao_command_menu_home           
+
+        )
+
+        self.botao_1entradas_recursos. place(x=400, y = 55, width=150, 
+                                height= 30
+        )
+
+        self.botao_2gastos_recursos= Button (
+                                    # cor botao
+                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                                    text    = "GASTOS",
+                                    # negrito
+                                    font    ='Helvetica 15 bold', 
+                                    # cor escrita
+                                    fg      = COR_ESCRITA_MENU_BAR
+                                    # chamada         
+                                    #command = self.funcao_command_menu_home           
+
+        )
+
+        self.botao_2gastos_recursos. place(x=100, y = 55, width=150, 
+                                height= 30
+        )
+
+        self.botao_3resultado_recursos= Button (
+                                    # cor botao
+                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                                    text    = "RESULTADO",
+                                    # negrito
+                                    font    ='Helvetica 15 bold', 
+                                    # cor escrita
+                                    fg      = COR_ESCRITA_MENU_BAR
+                                    # chamada         
+                                    #command = self.funcao_command_menu_home           
+
+        )
+
+        self.botao_3resultado_recursos. place(x=700, y = 55, width=150, 
+                                height= 30
+        )
+    
 class ProcessoRecurso():
 
     def funcao_command_recurso(self):
@@ -467,7 +538,10 @@ class ProcessoRecurso():
         self.funcao_analizar_processos_l3()
 
         # atualizar banco
-        self.funcao_db_update_tbprocessos_linhaid((DB_STR_3,DB_3))
+        self.funcao_db_update_tbprocessos_linhaid((str(DB_3),DB_3))
+
+        # frame widget
+        self.funcao_frame_widget_recursos()
 
         #state desativar projetos
         self.funcao_desativar_botao_barra_recursos()
@@ -482,18 +556,206 @@ class ProcessoRecurso():
 
 
 """cadastro"""
+class WidgetCadastro():
+
+    def funcao_frame_widget_cadastro(self):
+
+        "label fixa"
+        self.MENU_CADASTRO_BARRA_FIXO = Label ( 
+                                                # ForestGreen
+                                                bg     = "#228B22", 
+                                                # formato da borda
+                                                relief = "groove"  
+        )
+
+        self.MENU_CADASTRO_BARRA_FIXO.place(x = 2, y = 50, width = 180,
+                                        height = 745
+        )
+
+        """botoes chamada da estrutura"""
+        self.botao_1banco_cadastro= Button (
+                                    # cor botao
+                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                                    text    = "BANCO",
+                                    # negrito
+                                    font    ='Helvetica 15 bold', 
+                                    # cor escrita
+                                    fg      = COR_ESCRITA_MENU_BAR
+                                    # chamada         
+                                    #command = self.funcao_command_menu_home           
+
+        )
+
+        self.botao_1banco_cadastro. place(x=20, y = 60, width=150, 
+                                height= 30
+        )
+
+        self.botao_2entradas_cadastros= Button (
+                                    # cor botao
+                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                                    text    = "ENTRADAS",
+                                    # negrito
+                                    font    ='Helvetica 15 bold', 
+                                    # cor escrita
+                                    fg      = COR_ESCRITA_MENU_BAR
+                                    # chamada         
+                                    #command = self.funcao_command_menu_home           
+
+        )
+
+        self.botao_2entradas_cadastros. place(x=20, y = 120, width=150, 
+                                height= 30
+        )
+
+        self.botao_3gastos_cadastros= Button (
+                                    # cor botao
+                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                                    text    = "GASTOS",
+                                    # negrito
+                                    font    ='Helvetica 15 bold', 
+                                    # cor escrita
+                                    fg      = COR_ESCRITA_MENU_BAR
+                                    # chamada         
+                                    #command = self.funcao_command_menu_home           
+
+        )
+
+        self.botao_3gastos_cadastros. place(x=20, y = 180, width=150, 
+                                height= 30
+        )
+
+        self.botao_4membros_cadastros= Button (
+                                    # cor botao
+                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                                    text    = "MEMBROS",
+                                    # negrito
+                                    font    ='Helvetica 15 bold', 
+                                    # cor escrita
+                                    fg      = COR_ESCRITA_MENU_BAR,
+                                    # chamada         
+                                    command = self.funcao_command_cadastromembros          
+
+        )
+
+        self.botao_4membros_cadastros. place(x=20, y = 240, width=150, 
+                                height= 30
+        )
+
+
+    def funcao_desativar_bancocadastro_1(self):
+
+        self.botao_1banco_cadastro["state"] = "disabled"
+        
+    def funcao_ativar_bancocadastro_1(self):
+
+        self.botao_1banco_cadastro["state"] = "normal"
+
+    def funcao_desativar_entradascadastro_1(self):
+
+        self.botao_2entradas_cadastros["state"] = "disabled"
+
+    def funcao_ativar_entradascadastro_1(self):
+
+        self.botao_2entradas_cadastros["state"] = "normal"
+
+    def funcao_desativar_gastoscadastro_1(self):
+
+        self.botao_3gastos_cadastros["state"] = "disabled"
+
+    def funcao_ativar_gastoscadastro_1(self):
+
+        self.botao_3gastos_cadastros["state"] = "normal"
+
+    def funcao_desativar_membroscadastro_1(self):
+
+        self.botao_4membros_cadastros["state"] = "disabled"
+
+    def funcao_ativar_membroscadastro_1(self):
+
+        self.botao_4membros_cadastros["state"] = "normal"
+
+    "membros"
+    def funcao_frame_widget_cadastromembros(self):
+
+        "label fixa"
+        self.MENU_CADASTRO_BARRA_FIXO_FRAME2 = Label ( 
+                                                # ForestGreen
+                                                bg     = "#228B22", 
+                                                # formato da borda
+                                                relief = "groove"  
+        )
+
+        self.MENU_CADASTRO_BARRA_FIXO_FRAME2.place(x = 190, y = 50, width = 800,
+                                        height = 40
+        )
+
+        """botoes chamada da estrutura"""
+        self.botao_1cadastrar_cadastro_frame2= Button (
+                                    # cor botao
+                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                                    text    = "CADASTRAR",
+                                    # negrito
+                                    font    ='Helvetica 15 bold', 
+                                    # cor escrita
+                                    fg      = COR_ESCRITA_MENU_BAR
+                                    # chamada         
+                                    #command = self.funcao_command_menu_home           
+
+        )
+
+        self.botao_1cadastrar_cadastro_frame2. place(x=200, y = 55, width=150, 
+                                height= 30
+        )
+
+        
+        self.botao_2atualizar_cadastro_frame2= Button (
+                                    # cor botao
+                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                                    text    = "ATUALIZAR",
+                                    # negrito
+                                    font    ='Helvetica 15 bold', 
+                                    # cor escrita
+                                    fg      = COR_ESCRITA_MENU_BAR
+                                    # chamada         
+                                    #command = self.funcao_command_menu_home           
+
+        )
+
+        self.botao_2atualizar_cadastro_frame2. place(x=500, y = 55, width=150, 
+                                height= 30
+        )
+
+        self.botao_3informacoes_cadastro_frame2= Button (
+                                    # cor botao
+                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                                    text    = "INFORMAÇÕES",
+                                    # negrito
+                                    font    ='Helvetica 15 bold', 
+                                    # cor escrita
+                                    fg      = COR_ESCRITA_MENU_BAR
+                                    # chamada         
+                                    #command = self.funcao_command_menu_home           
+
+        )
+
+        self.botao_3informacoes_cadastro_frame2. place(x=800, y = 55, width=150, 
+                                height= 30
+        )
+
+
 class ProcessoCadastro():
 
+    "cadastro"
     def funcao_command_cadastro(self):
 
         # destruir externamente
         self.funcao_analizar_processos_l3()
 
         # atualizar banco
-        self.funcao_db_update_tbprocessos_linhaid((DB_STR_4,DB_3))
+        self.funcao_db_update_tbprocessos_linhaid((str(DB_4),DB_3))
 
-        self.funcao_classdb_desconectar()
-
+        # frame widget
+        self.funcao_frame_widget_cadastro()
         #state desativar projetos
         self.funcao_desativar_botao_barra_cadastro()
 
@@ -505,6 +767,21 @@ class ProcessoCadastro():
         self.funcao_class_ativar_botao_barra_configurações()
         self.funcao_ativar_botao_barra_informacoes()
 
+    "membros"
+    def funcao_command_cadastromembros (self):
+
+        #frame
+        self.funcao_frame_widget_cadastromembros()
+
+        #state desativar
+        self.funcao_desativar_membroscadastro_1()
+
+        #state ativar
+
+        self.funcao_ativar_bancocadastro_1()
+        self.funcao_ativar_entradascadastro_1()
+        self.funcao_ativar_gastoscadastro_1()
+        #4
 
 """CONFIGURAÇÕES"""
 class WidgetConfiguracoes():
@@ -557,7 +834,7 @@ class WidgetConfiguracoes():
         self.botao_salvar_instituicao = Button ( 
                                                 # cor botao 
                                                 bg      = COR_BOTAO_FUNDO,          
-                                                text    = CONFIGURACOES_INSTITUICAO_L2_SALVAR,
+                                                text    = DB_SALVAR,
                                                 # negrito
                                                 font    ='Helvetica 20 bold', 
                                                 # cor escrita - Yellow
@@ -588,7 +865,7 @@ class WidgetConfiguracoes():
         self.botao_atualizar_instituicao_atualizar = Button ( 
                                                 # cor botao - 
                                                 bg      = COR_BOTAO_FUNDO,          
-                                                text    = "ATUALIZAR",
+                                                text    = DB_ATUALIZAR,
                                                 # negrito
                                                 font    ='Helvetica 15 bold', 
                                                 # cor escrita - Yellow
@@ -680,7 +957,7 @@ class ProcessoConfiguracoes():
         self.funcao_analizar_processos_l3()
 
         # atualizar banco
-        self.funcao_db_update_tbprocessos_linhaid((DB_STR_5,DB_3))
+        self.funcao_db_update_tbprocessos_linhaid((str(DB_5),DB_3))
         
         ###########################################
                                     # ativar widget
@@ -721,7 +998,7 @@ class ConfiguracaoDestruir():
 
         ad = self.visualiza_processo[DB_0]
     
-        if ad == 'False':
+        if ad == DB_FALSE:
             
             self.funcao_destruir_widget_erro()
          
@@ -755,7 +1032,7 @@ class ProcessoInformacao():
         self.funcao_analizar_processos_l3()
 
         # atualizar banco
-        self.funcao_db_update_tbprocessos_linhaid((DB_STR_6,DB_3))
+        self.funcao_db_update_tbprocessos_linhaid((str(DB_6),DB_3))
 
         #destruir widget externo
         self.funcao_class_destruir_home()
@@ -778,7 +1055,7 @@ class Destruir_Widget_Barra():
        
         self.funcao_classdb_conectar()
 
-        self.funcao_db_visualizar_tbprocesso(3)
+        self.funcao_db_visualizar_tbprocesso(DB_3)
 
         db_if = self.visualiza_processo[DB_0]
 
@@ -790,20 +1067,34 @@ class Destruir_Widget_Barra():
             print(2)
 
         elif db_if == DB_3:
-            print(3)
+            
+            self.MENU_RECURSOS_BARRA_FIXO.destroy()
+
+            self.botao_1entradas_recursos.destroy()
+            self.botao_2gastos_recursos.destroy()
+            self.botao_3resultado_recursos.destroy()
 
         elif db_if ==DB_4:
-            print(4)
+            
+            self.MENU_CADASTRO_BARRA_FIXO.destroy()
+
+            self.botao_1banco_cadastro.destroy()
+            self.botao_2entradas_cadastros.destroy()
+            self.botao_3gastos_cadastros.destroy()
+            self.botao_4membros_cadastros.destroy()
+
 
         elif db_if == DB_5:
 
             self.funcao_class_if_destruir_widget()
+            
 
         elif db_if == DB_6:
 
             self.funcao_class_destruir_home()
 
         self.funcao_classdb_desconectar()
+
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ############################################### menus da janela principal
@@ -819,8 +1110,10 @@ class MenuWidget ( BarraMenuInicializacao, # barra
                 #projetos 2
                 ProcessoProjetos,
                 # recursos 3
+                WidgetRecursos,
                 ProcessoRecurso,
                 # cadastro 4
+                WidgetCadastro,
                 ProcessoCadastro,
                 #configurações 5
                 WidgetConfiguracoes, #widget
@@ -859,7 +1152,7 @@ class MenuWidget ( BarraMenuInicializacao, # barra
         self.funcao_classdb_desconectar()
 
         "update"
-        self.funcao_db_update_tbprocessos_linhaid((DB_STR_1,DB_3))
+        self.funcao_db_update_tbprocessos_linhaid((str(DB_1),DB_3))
         
 
 

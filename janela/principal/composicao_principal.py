@@ -3,7 +3,7 @@ TAMANHO_WIDTH_JANELA     = 1000
 
 MENUS_WIDTH              = 130
 MENU_Y                   = 10
-MENU_HEIGHT              = 20
+MENU_HEIGHT              = 25
 
 COR_FUNDO_JANELA         = '#C0C0C0' #cor Silver
 
@@ -19,9 +19,6 @@ CONFIGURACAO_BOTAO_INSTITUICAO_Y      = 80
 CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH  = 150
 CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT = 35
 
-CONFIGURACOES_INSTITUICAO_L2_SALVAR = "SALVAR"
-CONFIGURACOES_INSTITUICAO_L2_ATUALIZAR = "ATUALIZAR"
-
 DB_THUE      = "Thue"
 DB_FALSE     = "False"
 DB_ATUALIZAR = "ATUALIZAR"
@@ -34,14 +31,6 @@ DB_3 = 3
 DB_4 = 4
 DB_5 = 5
 DB_6 = 6
-
-DB_STR_1 = "1"
-DB_STR_2 = "2"
-DB_STR_3 = "3"
-DB_STR_4 = "4"
-DB_STR_5 = "5"
-DB_STR_6 = "6"
-
 
 
  #self.sql_cursorr.execute("UPDATE '"+self.c+"' '"+self.cs+"' = '"+self.destroir_banco_1+"' WHERE cod = '"self.vf"' " )
