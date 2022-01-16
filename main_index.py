@@ -8,14 +8,32 @@ import sqlite3
 
                                  # diretorio do app
 from janela.principal.composicao_principal import (
-    TAMANHO_WIDTH_JANELA, 
+    CADASTRO_FRAME1HEIGHT, CADASTRO_FRAME1WIGHT, CADASTRO_FRAME1X, CADASTRO_FRAME2Y, TAMANHO_WIDTH_JANELA, TAMANHO_HEIGHT_JANELA,
+
     MENUS_WIDTH, MENU_Y, MENU_HEIGHT, 
-    COR_FUNDO_JANELA, COR_FUNDO_BOTAO_MENU_BAR, COR_ESCRITA_MENU_BAR,
-    NOME_NOVA_ALIANCA, COR_BOTAO_FUNDO, 
+
+    COR_FUNDO_JANELA, COR_FUNDO_BOTAO_MENU_BAR, COR_BOTAO_FUNDO, COR_FUNDO_1,
+    COR_FUNDO_2,
+
+    COR_ESCRITA_MENU_BAR, COR_ESCRITA1,
+
+    NOME_NOVA_ALIANCA, 
+
     CONFIGURACAO_BOTAO_INSTITUICAO_X, CONFIGURACAO_BOTAO_INSTITUICAO_Y, 
-    CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH, CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT, 
+    CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH, CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT,
+
+    CONFIGURACAO_ENTRYX, CONFIGURACAO_ENTRYY, CONFIGURACAO_ENTRYWIDGET, 
+    CONFIGURACAO_ENTRYHEIGHT,
+
     DB_THUE, DB_FALSE,DB_SALVAR, DB_ATUALIZAR,
+
     DB_0, DB_1, DB_2, DB_3, DB_4, DB_5, DB_6, 
+
+    WIDGET_2, WIDGET_4,
+
+    CADASTRO_FRAME1X, CADASTRO_FRAME1WIGHT, CADASTRO_FRAME1HEIGHT,
+
+    CADASTRO_FRAME2Y, CADASTRO_FRAME2W, CADASTRO_FRAME2H
      
 )
 
@@ -43,7 +61,7 @@ def main():
 def centralizador_janela(root):
 
     WIDTH = TAMANHO_WIDTH_JANELA # width for the Tk root
-    HEIGHT = 800 # height for the Tk root
+    HEIGHT = TAMANHO_HEIGHT_JANELA # height for the Tk root
 
     # get screen width and height
     WS = root.winfo_screenwidth() # width of the screen
@@ -68,111 +86,125 @@ class BarraMenuInicializacao():
         ###########################################            label fixa
                                         
         self.MENU_PROCESSOS_BARRA_FIXO = Label ( 
-                                                # cor Aqua / Cyan
-                                                bg     = "#00FFFF", 
-                                                # formato da borda
-                                                relief = "groove"  
+                    # cor Aqua / Cyan
+                    bg     = "#00FFFF", 
+                    # formato da borda
+                    relief = "groove"  
         )
 
-        self.MENU_PROCESSOS_BARRA_FIXO.place(x = 2, y = 5, width = (
-                                            TAMANHO_WIDTH_JANELA - 4),
-                                        height = 35
+        self.MENU_PROCESSOS_BARRA_FIXO.place(
+                    x = WIDGET_2, y = 5, 
+
+                    width = TAMANHO_WIDTH_JANELA - WIDGET_4,
+                    height = 35
         )
 
         """botoes chamada da estrutura"""
         ###########################################        variavel movel
         self.botao_1home = Button (
-                                    # cor botao
-                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
-                                    text    = "HOME",
-                                    # negrito
-                                    font    ='Helvetica 10 bold', 
-                                    # cor escrita
-                                    fg      = COR_ESCRITA_MENU_BAR, 
-                                    # chamada         
-                                    command = self.funcao_command_menu_home           
+                    # cor botao
+                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                    text    = "HOME",
+                    # negrito
+                    font    ='Helvetica 10 bold', 
+                    # cor escrita
+                    fg      = COR_ESCRITA_MENU_BAR, 
+                        # chamada         
+                    command = self.funcao_command_menu_home           
 
         )
 
-        self.botao_1home. place(x=30, y = MENU_Y, width=MENUS_WIDTH, 
-                                height=MENU_HEIGHT
+        self.botao_1home. place(
+                    x=100, y = MENU_Y, 
+
+                    width=MENUS_WIDTH, height=MENU_HEIGHT
         )
 
         self.botao_2projetos = Button(
-                                    # cor botao
-                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
-                                    text    = "PROJETOS",
-                                    # negrito
-                                    font    ='Helvetica 10 bold', 
-                                    # cor escrita
-                                    fg      = COR_ESCRITA_MENU_BAR,
-                                    command = self.funcao_command_projeto
+                    # cor botao
+                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                    text    = "PROJETOS",
+                    # negrito
+                    font    ='Helvetica 10 bold', 
+                    # cor escrita
+                    fg      = COR_ESCRITA_MENU_BAR,
+                    command = self.funcao_command_projeto
         )
 
-        self.botao_2projetos.place(x=190, y = MENU_Y, width=MENUS_WIDTH, 
-                                height=MENU_HEIGHT
+        self.botao_2projetos.place(
+                    x=290, y = MENU_Y, 
+
+                    width=MENUS_WIDTH, height=MENU_HEIGHT
         )
 
         self.botao_3recursos = Button(
-                                    # cor botao
-                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
-                                    text    = "RECURSOS",
-                                    # negrito
-                                    font    ='Helvetica 10 bold', 
-                                    # cor escrita
-                                    fg      = COR_ESCRITA_MENU_BAR,
-                                    command= self.funcao_command_recurso
+                    # cor botao
+                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                    text    = "RECURSOS",
+                    # negrito
+                    font    ='Helvetica 10 bold', 
+                    # cor escrita
+                    fg      = COR_ESCRITA_MENU_BAR,
+                    command= self.funcao_command_recurso
         )
 
-        self.botao_3recursos.place(x=350, y = MENU_Y, width=MENUS_WIDTH, 
-                                height=MENU_HEIGHT
+        self.botao_3recursos.place(
+                    x=490, y = MENU_Y, 
+                        
+                    width=MENUS_WIDTH, height=MENU_HEIGHT
         )
 
         self.botao_4cadastro = Button(
-                                    # cor botao
-                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
-                                    text    = "CADASTRO",
-                                    # negrito
-                                    font    ='Helvetica 10 bold', 
-                                    # cor escrita
-                                    fg      = COR_ESCRITA_MENU_BAR,
-                                    command= self.funcao_command_cadastro
+                    # cor botao
+                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                    text    = "CADASTRO",
+                    # negrito
+                    font    ='Helvetica 10 bold', 
+                    # cor escrita
+                    fg      = COR_ESCRITA_MENU_BAR,
+                    command= self.funcao_command_cadastro
         )
 
-        self.botao_4cadastro.place(x=510, y = MENU_Y, width=MENUS_WIDTH, 
-                                height=MENU_HEIGHT
+        self.botao_4cadastro.place(
+                    x=690, y = MENU_Y, 
+
+                    width=MENUS_WIDTH, height=MENU_HEIGHT
         )
 
         self.botao_5configuracao = Button (
-                                            # cor botao
-                                            bg      = COR_FUNDO_BOTAO_MENU_BAR,          
-                                            text    = "CONFIGURAÇÕES",
-                                            # negrito
-                                            font    ='Helvetica 10 bold', 
-                                            # cor escrita
-                                            fg      = COR_ESCRITA_MENU_BAR,    
-                                            # chamada       
-                                            command = self.funcao_command_menu_configuracao  
+                    # cor botao
+                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                    text    = "CONFIGURAÇÕES",
+                    # negrito
+                    font    ='Helvetica 10 bold', 
+                    # cor escrita
+                    fg      = COR_ESCRITA_MENU_BAR,    
+                    # chamada       
+                    command = self.funcao_command_menu_configuracao  
 
         )
 
-        self.botao_5configuracao.place(x=670, y = MENU_Y, width=MENUS_WIDTH, 
-                                         height=MENU_HEIGHT
+        self.botao_5configuracao.place(
+                    x=890, y = MENU_Y, 
+
+                    width=MENUS_WIDTH, height=MENU_HEIGHT
         )
 
         self.botao_6APP = Button(
-                                # cor botao
-                                bg      = COR_FUNDO_BOTAO_MENU_BAR,          
-                                text    = "INFORMAÇÕES",
-                                # negrito
-                                font    ='Helvetica 10 bold', 
-                                # cor escrita
-                                fg      = COR_ESCRITA_MENU_BAR,
-                                command = self.funcao_command_informacao
+                    # cor botao
+                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                    text    = "INFORMAÇÕES",
+                    # negrito
+                    font    ='Helvetica 10 bold', 
+                    # cor escrita
+                    fg      = COR_ESCRITA_MENU_BAR,
+                    command = self.funcao_command_informacao
         )
 
-        self.botao_6APP.place(x=830, y = MENU_Y, width=MENUS_WIDTH, 
-                            height=MENU_HEIGHT
+        self.botao_6APP.place(
+                    x=1080, y = MENU_Y, 
+                    
+                    width=MENUS_WIDTH, height=MENU_HEIGHT
 
         )
 
@@ -352,21 +384,22 @@ class BarraVisualizarNomeInstituicao():
     def funcao_class_visual_instituicao(self):     # funcao inicializacao
 
         self.label_nome_instituicao_class= Label (
-                                        # cor de fundo -DeepSkyBlue
-                                        bg   = "#00BFFF",  
+                    # cor de fundo -DeepSkyBlue
+                    bg   = "#00BFFF",  
 
-                                        # negrito
-                                        font ='Helvetica 20 bold', 
+                    # negrito
+                    font ='Helvetica 20 bold', 
 
-                                        # formato da borda
-                                        relief      ="ridge", 
-                                        # tamanho da borda
-                                        borderwidth = 5       
+                    # formato da borda
+                    relief      ="ridge", 
+                    # tamanho da borda
+                    borderwidth = 5       
         )      
                                 
-        self.label_nome_instituicao_class.place(x = 0, y = 758, 
-                                        width = TAMANHO_WIDTH_JANELA,
-                                        height = 40
+        self.label_nome_instituicao_class.place(
+                    x = WIDGET_2, y = TAMANHO_HEIGHT_JANELA - 50, 
+
+                    width = TAMANHO_WIDTH_JANELA - WIDGET_4, height = 40
         )
 
     def funcao_class_visualdb_barra_intituicao(self):
@@ -465,69 +498,73 @@ class WidgetRecursos():
 
         "label fixa"
         self.MENU_RECURSOS_BARRA_FIXO = Label ( 
-                                                # ForestGreen
-                                                bg     = "#228B22", 
-                                                # formato da borda
-                                                relief = "groove"  
+                    # ForestGreen
+                    bg     = "#228B22", 
+                    # formato da borda
+                    relief = "groove"  
         )
 
-        self.MENU_RECURSOS_BARRA_FIXO.place(x = 2, y = 50, width = (
-                                            TAMANHO_WIDTH_JANELA - 4),
-                                        height = 40
+        self.MENU_RECURSOS_BARRA_FIXO.place(
+                    x = 2, y = 50, 
+                    
+                    width = TAMANHO_WIDTH_JANELA - 4, height= 40
         )
 
         """botoes chamada da estrutura"""
         
-
         self.botao_1entradas_recursos= Button (
-                                    # cor botao
-                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
-                                    text    = "ENTRADAS",
-                                    # negrito
-                                    font    ='Helvetica 15 bold', 
-                                    # cor escrita
-                                    fg      = COR_ESCRITA_MENU_BAR
-                                    # chamada         
-                                    #command = self.funcao_command_menu_home           
+                    # cor botao
+                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                    text    = "ENTRADAS",
+                    # negrito
+                    font    ='Helvetica 15 bold', 
+                    # cor escrita
+                    fg      = COR_ESCRITA_MENU_BAR
+                    # chamada         
+                    #command = self.funcao_command_menu_home           
 
         )
 
-        self.botao_1entradas_recursos. place(x=400, y = 55, width=150, 
-                                height= 30
+        self.botao_1entradas_recursos. place(
+                    x=400, y = 55, 
+                    width=150, height= 30
         )
 
         self.botao_2gastos_recursos= Button (
-                                    # cor botao
-                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
-                                    text    = "GASTOS",
-                                    # negrito
-                                    font    ='Helvetica 15 bold', 
-                                    # cor escrita
-                                    fg      = COR_ESCRITA_MENU_BAR
-                                    # chamada         
-                                    #command = self.funcao_command_menu_home           
+                    # cor botao
+                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                    text    = "GASTOS",
+                    # negrito
+                    font    ='Helvetica 15 bold', 
+                    # cor escrita
+                    fg      = COR_ESCRITA_MENU_BAR
+                    # chamada         
+                    #command = self.funcao_command_menu_home           
 
         )
 
-        self.botao_2gastos_recursos. place(x=100, y = 55, width=150, 
-                                height= 30
+        self.botao_2gastos_recursos. place(
+                    x=100, y = 55, 
+                    
+                    width=150, height= 30
         )
 
         self.botao_3resultado_recursos= Button (
-                                    # cor botao
-                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
-                                    text    = "RESULTADO",
-                                    # negrito
-                                    font    ='Helvetica 15 bold', 
-                                    # cor escrita
-                                    fg      = COR_ESCRITA_MENU_BAR
-                                    # chamada         
-                                    #command = self.funcao_command_menu_home           
+                    # cor botao
+                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
+                    text    = "RESULTADO",
+                    # negrito
+                    font    ='Helvetica 15 bold', 
+                    # cor escrita
+                    fg      = COR_ESCRITA_MENU_BAR
+                    # chamada         
+                    #command = self.funcao_command_menu_home           
 
         )
 
-        self.botao_3resultado_recursos. place(x=700, y = 55, width=150, 
-                                height= 30
+        self.botao_3resultado_recursos. place(
+                    x=700, y = 55, 
+                    width=150, height= 30
         )
     
 class ProcessoRecurso():
@@ -562,83 +599,104 @@ class WidgetCadastro():
 
         "label fixa"
         self.MENU_CADASTRO_BARRA_FIXO = Label ( 
-                                                # ForestGreen
-                                                bg     = "#228B22", 
-                                                # formato da borda
-                                                relief = "groove"  
+                    bg     = COR_FUNDO_2, 
+                    # formato da borda
+                    relief = "groove"  
         )
 
-        self.MENU_CADASTRO_BARRA_FIXO.place(x = 2, y = 50, width = 180,
-                                        height = 745
+        self.MENU_CADASTRO_BARRA_FIXO.place(
+                    x = 2, y = 50, 
+                    
+                    width = 180, height = TAMANHO_HEIGHT_JANELA- 60
+        )
+
+        self.MENU_CADASTRO_BARRA_FIXO_FRAME2 = Label ( 
+                    bg     = COR_FUNDO_2, 
+                    # formato da borda
+                    relief = "groove"  
+        )
+
+        self.MENU_CADASTRO_BARRA_FIXO_FRAME2.place(
+                    x = 190, y = 50, 
+                    
+                    width = TAMANHO_WIDTH_JANELA -200, height = 40
         )
 
         """botoes chamada da estrutura"""
         self.botao_1banco_cadastro= Button (
-                                    # cor botao
-                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
-                                    text    = "BANCO",
-                                    # negrito
-                                    font    ='Helvetica 15 bold', 
-                                    # cor escrita
-                                    fg      = COR_ESCRITA_MENU_BAR
-                                    # chamada         
-                                    #command = self.funcao_command_menu_home           
+                    # cor botao
+                    bg      = COR_FUNDO_1,          
+                    text    = "BANCO",
+                    # negrito
+                    font    ='Helvetica 15 bold', 
+                    # cor escrita
+                    fg      = COR_ESCRITA1
+                    # chamada         
+                    #command = self.funcao_command_menu_home           
 
         )
 
-        self.botao_1banco_cadastro. place(x=20, y = 60, width=150, 
-                                height= 30
+        self.botao_1banco_cadastro. place(
+                    x=CADASTRO_FRAME1X, y = 60, 
+
+                    width= CADASTRO_FRAME1WIGHT, height= CADASTRO_FRAME1HEIGHT
         )
 
         self.botao_2entradas_cadastros= Button (
-                                    # cor botao
-                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
-                                    text    = "ENTRADAS",
-                                    # negrito
-                                    font    ='Helvetica 15 bold', 
-                                    # cor escrita
-                                    fg      = COR_ESCRITA_MENU_BAR
-                                    # chamada         
-                                    #command = self.funcao_command_menu_home           
+                    # cor botao
+                    bg      = COR_FUNDO_1,          
+                    text    = "ENTRADAS",
+                    # negrito
+                    font    ='Helvetica 15 bold', 
+                    # cor escrita
+                    fg      = COR_ESCRITA1
+                    # chamada         
+                    #command = self.funcao_command_menu_home           
 
         )
 
-        self.botao_2entradas_cadastros. place(x=20, y = 120, width=150, 
-                                height= 30
+        self.botao_2entradas_cadastros. place(
+                    x=CADASTRO_FRAME1X, y = 120, 
+
+                    width=CADASTRO_FRAME1WIGHT, height= CADASTRO_FRAME1HEIGHT
         )
 
         self.botao_3gastos_cadastros= Button (
-                                    # cor botao
-                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
-                                    text    = "GASTOS",
-                                    # negrito
-                                    font    ='Helvetica 15 bold', 
-                                    # cor escrita
-                                    fg      = COR_ESCRITA_MENU_BAR
-                                    # chamada         
-                                    #command = self.funcao_command_menu_home           
+                    # cor botao
+                    bg      = COR_FUNDO_1,          
+                    text    = "GASTOS",
+                    # negrito
+                    font    ='Helvetica 15 bold', 
+                    # cor escrita
+                    fg      = COR_ESCRITA1
+                    # chamada         
+                    #command = self.funcao_command_menu_home           
 
         )
 
-        self.botao_3gastos_cadastros. place(x=20, y = 180, width=150, 
-                                height= 30
+        self.botao_3gastos_cadastros. place(
+                    x=CADASTRO_FRAME1X, y = 180, 
+                    width=CADASTRO_FRAME1WIGHT, 
+                    height= CADASTRO_FRAME1HEIGHT
         )
 
         self.botao_4membros_cadastros= Button (
-                                    # cor botao
-                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
-                                    text    = "MEMBROS",
-                                    # negrito
-                                    font    ='Helvetica 15 bold', 
-                                    # cor escrita
-                                    fg      = COR_ESCRITA_MENU_BAR,
-                                    # chamada         
-                                    command = self.funcao_command_cadastromembros          
+                    # cor botao
+                    bg      = COR_FUNDO_1,          
+                    text    = "MEMBROS",
+                    # negrito
+                    font    ='Helvetica 15 bold', 
+                    # cor escrita
+                    fg      = COR_ESCRITA1,
+                    # chamada         
+                    command = self.funcao_command_cadastromembros          
 
         )
 
-        self.botao_4membros_cadastros. place(x=20, y = 240, width=150, 
-                                height= 30
+        self.botao_4membros_cadastros. place(
+                    x=CADASTRO_FRAME1X, y = 240, 
+
+                    width=CADASTRO_FRAME1WIGHT, height= CADASTRO_FRAME1HEIGHT
         )
 
 
@@ -649,6 +707,14 @@ class WidgetCadastro():
     def funcao_ativar_bancocadastro_1(self):
 
         self.botao_1banco_cadastro["state"] = "normal"
+    
+    def funcao_desativar_btmembros_cadastrar_cadastro_2(self):
+
+        self.botao_1cadastrar_cadastro_frame2["state"] = "disabled"
+
+    def funcao_ativar_btmembros_cadastrar_cadastro_2(self):
+
+        self.botao_1cadastrar_cadastro_frame2["state"] = "normal"
 
     def funcao_desativar_entradascadastro_1(self):
 
@@ -677,71 +743,80 @@ class WidgetCadastro():
     "membros"
     def funcao_frame_widget_cadastromembros(self):
 
-        "label fixa"
-        self.MENU_CADASTRO_BARRA_FIXO_FRAME2 = Label ( 
-                                                # ForestGreen
-                                                bg     = "#228B22", 
-                                                # formato da borda
-                                                relief = "groove"  
-        )
-
-        self.MENU_CADASTRO_BARRA_FIXO_FRAME2.place(x = 190, y = 50, width = 800,
-                                        height = 40
-        )
-
         """botoes chamada da estrutura"""
         self.botao_1cadastrar_cadastro_frame2= Button (
-                                    # cor botao
-                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
-                                    text    = "CADASTRAR",
-                                    # negrito
-                                    font    ='Helvetica 15 bold', 
-                                    # cor escrita
-                                    fg      = COR_ESCRITA_MENU_BAR
-                                    # chamada         
-                                    #command = self.funcao_command_menu_home           
+                    # cor botao
+                    bg      = COR_FUNDO_1,          
+                    text    = "CADASTRAR",
+                    # negrito
+                    font    ='Helvetica 15 bold', 
+                    # cor escrita
+                    fg      = COR_ESCRITA1,
+                    # chamada         
+                    command = self.funcao_command_menu_home           
 
         )
 
-        self.botao_1cadastrar_cadastro_frame2. place(x=200, y = 55, width=150, 
-                                height= 30
+        self.botao_1cadastrar_cadastro_frame2. place(
+                    x=300, y = CADASTRO_FRAME2Y, 
+                    
+                    width=CADASTRO_FRAME2W, height= CADASTRO_FRAME2H
         )
 
         
         self.botao_2atualizar_cadastro_frame2= Button (
-                                    # cor botao
-                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
-                                    text    = "ATUALIZAR",
-                                    # negrito
-                                    font    ='Helvetica 15 bold', 
-                                    # cor escrita
-                                    fg      = COR_ESCRITA_MENU_BAR
-                                    # chamada         
-                                    #command = self.funcao_command_menu_home           
+                    # cor botao
+                    bg      = COR_FUNDO_1,          
+                    text    = DB_ATUALIZAR,
+                    # negrito
+                    font    ='Helvetica 15 bold', 
+                    # cor escrita
+                    fg      = COR_ESCRITA1
+                    # chamada         
+                    #command = self.funcao_command_menu_home           
 
         )
 
-        self.botao_2atualizar_cadastro_frame2. place(x=500, y = 55, width=150, 
-                                height= 30
+        self.botao_2atualizar_cadastro_frame2. place(
+                    x=650, y = CADASTRO_FRAME2Y, 
+                    
+                    width=CADASTRO_FRAME2W, height= CADASTRO_FRAME2H
         )
 
         self.botao_3informacoes_cadastro_frame2= Button (
-                                    # cor botao
-                                    bg      = COR_FUNDO_BOTAO_MENU_BAR,          
-                                    text    = "INFORMAÇÕES",
-                                    # negrito
-                                    font    ='Helvetica 15 bold', 
-                                    # cor escrita
-                                    fg      = COR_ESCRITA_MENU_BAR
-                                    # chamada         
-                                    #command = self.funcao_command_menu_home           
+                    # cor botao
+                    bg      = COR_FUNDO_1,          
+                    text    = "INFORMAÇÕES",
+                    # negrito
+                    font    ='Helvetica 15 bold', 
+                    # cor escrita
+                    fg      = COR_ESCRITA1
+                    # chamada         
+                    #command = self.funcao_command_menu_home           
 
         )
 
-        self.botao_3informacoes_cadastro_frame2. place(x=800, y = 55, width=150, 
-                                height= 30
+        self.botao_3informacoes_cadastro_frame2. place(
+                    x=980, y = CADASTRO_FRAME2Y, 
+                    
+                    width=CADASTRO_FRAME2W, height= CADASTRO_FRAME2H
         )
 
+    def funcao_desativar_btmembros_atualizar_cadastro_2(self):
+
+        self.botao_2atualizar_cadastro_frame2["state"] = "disabled"
+
+    def funcao_ativar_btmembros_atualizar_cadastro_2(self):
+
+        self.botao_2atualizar_cadastro_frame2["state"] = "normal"
+
+    def funcao_desativar_btmembros_informacoes_cadastro_2(self):
+
+        self.botao_3informacoes_cadastro_frame2["state"] = "disabled"
+
+    def funcao_ativar_btmembros_informacoes_cadastro_2(self):
+
+        self.botao_3informacoes_cadastro_frame2["state"] = "normal"
 
 class ProcessoCadastro():
 
@@ -783,6 +858,15 @@ class ProcessoCadastro():
         self.funcao_ativar_gastoscadastro_1()
         #4
 
+class CadastroDestroy():
+
+    def funcao_if_widget_cadastrar_processo(self):
+
+        self.botao_1cadastrar_cadastro_frame2.destroy()
+        self.botao_2atualizar_cadastro_frame2.destroy()
+        self.botao_3informacoes_cadastro_frame2.destroy()
+
+
 """CONFIGURAÇÕES"""
 class WidgetConfiguracoes():
 
@@ -790,32 +874,36 @@ class WidgetConfiguracoes():
     def funcao_label_fixa_erro_instituicao(self):
 
         self.LABEL_INSTITUICAO_FIXA_ERRO = Label (
-                                                    # cor botao
-                                                    bg      = COR_FUNDO_JANELA,
-                                                    text    = "DIGITE O NOME DO TEMPLO",
-                                                    # negrito
-                                                    font    ='Helvetica 11 bold', 
+                    # cor botao
+                    bg      = COR_FUNDO_JANELA,
+                    text    = "DIGITE O NOME DO TEMPLO",
+                    # negrito
+                    font    ='Helvetica 11 bold', 
 
         )
 
-        self.LABEL_INSTITUICAO_FIXA_ERRO.place(x= 20, y=120, width= 250, 
-                                                height= 20
+        self.LABEL_INSTITUICAO_FIXA_ERRO.place(
+                    x= 20, y=120, 
+                    
+                    width= 250, height= 20
 
         )
 
     def funcao_label_fixa_configuracao(self):
 
         self.LABEL_BANCO_INSTITUICAO_FIXA = Label (
-                                                    # cor botao
-                                                    bg      = COR_FUNDO_JANELA,
-                                                    text    = "NOME DO TEMPLO:",
-                                                    # negrito
-                                                    font    ='Helvetica 10 bold', 
+                    # cor botao
+                    bg      = COR_FUNDO_JANELA,
+                    text    = "NOME DO TEMPLO:",
+                    # negrito
+                    font    ='Helvetica 10 bold', 
 
         )
 
-        self.LABEL_BANCO_INSTITUICAO_FIXA.place(x= 20, y=60, width=140, 
-                                                height= 20
+        self.LABEL_BANCO_INSTITUICAO_FIXA.place(
+                    x= 20, y=60, 
+                    
+                    width=140, height= 20
 
         )
 
@@ -824,30 +912,34 @@ class WidgetConfiguracoes():
 
         self.entry_banco_instituicao = Entry(
                                             
-                                            font    ='Helvetica 10', 
+                    font    ='Helvetica 10', 
         )
 
         self.entry_banco_instituicao.place(
-                                            x=20, y= 85, width= 200, height= 25
+                    x=CONFIGURACAO_ENTRYX, y= CONFIGURACAO_ENTRYY, 
+                    width= CONFIGURACAO_ENTRYWIDGET, 
+                    height= CONFIGURACAO_ENTRYHEIGHT
         )
 
         self.botao_salvar_instituicao = Button ( 
-                                                # cor botao 
-                                                bg      = COR_BOTAO_FUNDO,          
-                                                text    = DB_SALVAR,
-                                                # negrito
-                                                font    ='Helvetica 20 bold', 
-                                                # cor escrita - Yellow
-                                                fg      = COR_ESCRITA_MENU_BAR,        
-                                                # chamada  
-                                                command = self.funcao_classdb_atalizar_igreja_configuracoes
+                    # cor botao 
+                    bg      = COR_BOTAO_FUNDO,          
+                    text    = DB_SALVAR,
+                    # negrito
+                    font    ='Helvetica 20 bold', 
+                    # cor escrita - Yellow
+                    fg      = COR_ESCRITA_MENU_BAR,        
+                    # chamada  
+                    command = self.funcao_classdb_atalizar_igreja_configuracoes
 
         )
 
-        self.botao_salvar_instituicao. place(x=CONFIGURACAO_BOTAO_INSTITUICAO_X, 
-                                            y = CONFIGURACAO_BOTAO_INSTITUICAO_Y,
-                                            width= CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH, 
-                                            height= CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
+        self.botao_salvar_instituicao. place(
+                    x=CONFIGURACAO_BOTAO_INSTITUICAO_X, 
+                    y = CONFIGURACAO_BOTAO_INSTITUICAO_Y,
+
+                    width= CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH, 
+                    height= CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
         )
 
         self.funcao_db_update_tbprocessos_linhaid((DB_SALVAR,DB_2))
@@ -855,30 +947,37 @@ class WidgetConfiguracoes():
     """atualizar instituição"""
     def funcao_class_institucao_atualizar_widget(self):
 
-        self.label_nome_instituicao_atualizar = Label ( bg = '#A9A9A9',
-    
-                                                        font= 'Helvetica 11 bold'
+        self.label_nome_instituicao_atualizar = Label ( 
+                    bg = '#A9A9A9',
+                    font= 'Helvetica 11 bold'
         )
             
-        self.label_nome_instituicao_atualizar.place( x=20, y= 85, width= 200, height= 25)
+        self.label_nome_instituicao_atualizar.place( 
+                    x=CONFIGURACAO_ENTRYX, 
+                    y= CONFIGURACAO_ENTRYY, 
+
+                    width= CONFIGURACAO_ENTRYWIDGET, 
+                    height= CONFIGURACAO_ENTRYHEIGHT)
 
         self.botao_atualizar_instituicao_atualizar = Button ( 
-                                                # cor botao - 
-                                                bg      = COR_BOTAO_FUNDO,          
-                                                text    = DB_ATUALIZAR,
-                                                # negrito
-                                                font    ='Helvetica 15 bold', 
-                                                # cor escrita - Yellow
-                                                fg      = COR_ESCRITA_MENU_BAR,        
-                                                # chamada  
-                                                command = self.funcao_if_widget_intermediario_atualizar_salvar
+                    # cor botao - 
+                    bg      = COR_BOTAO_FUNDO,          
+                    text    = DB_ATUALIZAR,
+                    # negrito
+                    font    ='Helvetica 15 bold', 
+                    # cor escrita - Yellow
+                    fg      = COR_ESCRITA_MENU_BAR,        
+                    # chamada  
+                    command = self.funcao_if_widget_intermediario_atualizar_salvar
 
         )
 
-        self.botao_atualizar_instituicao_atualizar. place(x=CONFIGURACAO_BOTAO_INSTITUICAO_X, 
-                                            y = CONFIGURACAO_BOTAO_INSTITUICAO_Y, 
-                                            width=CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH, 
-                                            height=CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
+        self.botao_atualizar_instituicao_atualizar. place(
+                    x=CONFIGURACAO_BOTAO_INSTITUICAO_X, 
+                    y = CONFIGURACAO_BOTAO_INSTITUICAO_Y, 
+                    
+                    width=CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH, 
+                    height=CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
         )
 
         self.funcao_db_conectar_e_visualizar_1()
@@ -1034,10 +1133,7 @@ class ProcessoInformacao():
         # atualizar banco
         self.funcao_db_update_tbprocessos_linhaid((str(DB_6),DB_3))
 
-        #destruir widget externo
-        self.funcao_class_destruir_home()
-
-        #state desativar informacao
+       #state desativar informacao
         self.funcao_desativar_botao_barra_informacoes()
 
         #state ativar
@@ -1077,12 +1173,15 @@ class Destruir_Widget_Barra():
         elif db_if ==DB_4:
             
             self.MENU_CADASTRO_BARRA_FIXO.destroy()
+            self.MENU_CADASTRO_BARRA_FIXO_FRAME2.destroy()
 
             self.botao_1banco_cadastro.destroy()
             self.botao_2entradas_cadastros.destroy()
             self.botao_3gastos_cadastros.destroy()
             self.botao_4membros_cadastros.destroy()
 
+            self.funcao_if_widget_cadastrar_processo()
+            
 
         elif db_if == DB_5:
 
@@ -1115,6 +1214,7 @@ class MenuWidget ( BarraMenuInicializacao, # barra
                 # cadastro 4
                 WidgetCadastro,
                 ProcessoCadastro,
+                CadastroDestroy,
                 #configurações 5
                 WidgetConfiguracoes, #widget
                 ProcessoConfiguracoes,
@@ -1145,7 +1245,8 @@ class MenuWidget ( BarraMenuInicializacao, # barra
         self.funcao_classdb_criar_tabela()   
         "visualizar"
         self.funcao_classdb_visualizar_1()  
-        self.funcao_db_visualizar_tbprocesso(DB_1)
+        self.funcao_for_seguranca_tbprocessos()
+        
         "update"
         self.funcao_db_update_tbprocessos_linhaid((DB_THUE,DB_1))
         
@@ -1153,8 +1254,25 @@ class MenuWidget ( BarraMenuInicializacao, # barra
 
         "update"
         self.funcao_db_update_tbprocessos_linhaid((str(DB_1),DB_3))
-        
 
+    def funcao_for_seguranca_tbprocessos(self):
+
+        #self.funcao_cursorrdb_inserir_thue()
+        self.funcao_classdb_conectar()
+        self.sql_cursorr.execute("SELECT boleano  FROM Processos ")
+        visualizar_id = self.sql_cursorr.fetchall()
+        
+        if len(visualizar_id) == 0:
+            self.funcao_cursorrdb_inserir_thue()
+
+        elif len(visualizar_id) <3:
+            
+            self.sql_cursorr.execute("DELETE FROM Processos ")
+            self.funcao_classdb_commit()
+
+            self.funcao_cursorrdb_inserir_thue()
+
+        self.funcao_classdb_desconectar()
 
 #**************************************************
 ###################################################
