@@ -294,6 +294,22 @@ class ClassBanco():
                                                     boleano  BOOLEAN)
             """)
 
+        self.sql_cursorr.execute("""
+            CREATE TABLE IF NOT EXISTS MEMBROS ( ID_cod INTEGER PRIMARY KEY AUTOINCREMENT,
+                                                Nome TEXT NOT NULL UNIQUE)
+        """)
+
+        self.sql_cursorr.execute("""
+            CREATE TABLE IF NOT EXISTS ESTADO_CIVIL( 
+                        ID_COD_ESTADO INTEGER PRIMARY KEY AUTOINCREMENT,
+                        ID_casal1 INTEGER,
+                        ID_casal2 INTEGER,
+                        ID_solteiro INTEGER,
+                        FOREIGN KEY (ID_casal1) REFERENCES MEMBROS (ID_cod),
+                        FOREIGN KEY (ID_casal2) REFERENCES MEMBROS (ID_cod),
+                        FOREIGN KEY (ID_solteiro) REFERENCES MEMBROS (ID_cod)
+            )
+        """)
     def funcao_classdb_commit(self):
         self.sql_connect.commit()
 
@@ -327,8 +343,7 @@ class BancoExecucaoConfiguracoes():
         self.funcao_classdb_commit()
 
         self.sql_cursorr.execute("INSERT INTO Processos  VALUES (4, '"+str(DB_0)+"')")
-        self.funcao_classdb_commit()
-
+        self.funcao_classdb_commit()     
 
     ############################################### visualizar dados None
     """instituicao"""
@@ -342,7 +357,6 @@ class BancoExecucaoConfiguracoes():
             self.funcao_classdb_inserir_nova_alianca()
 
     """processos"""
-
     def funcao_db_visualizar_tbprocesso(self, id_boleano):
         
         self.sql_cursorr.execute("SELECT boleano FROM Processos WHERE ID_processos = ?", (id_boleano,) )
@@ -735,9 +749,9 @@ class WidgetCadastro():
                     # negrito
                     font    ='Helvetica 15 bold', 
                     # cor escrita
-                    fg      = COR_ESCRITA1
+                    fg      = COR_ESCRITA1,
                     # chamada         
-                    #command = self.funcao_command_menu_home           
+                    command = self.funcao_command_cadastrar_frame2_cadastro           
 
         )
 
@@ -813,6 +827,78 @@ class WidgetCadastro():
 
         self.botao_3informacoes_cadastro_frame2["state"] = "normal"
 
+    "frame 2 cadastrar membros"
+    def funcao_command_cadastrar_frame2_cadastro(self):
+
+        "label fixa"
+        self.LABEL_NOME_1 = Label (
+                    # cor botao
+                    bg      = COR_FUNDO_JANELA,
+                    text    = "NOME DO MEMBRO",
+                    # negrito
+                    font    ='Helvetica 11 bold', 
+
+        )
+
+        self.LABEL_NOME_1.place(
+                    x= 250, y=120, 
+                    
+                    width= 160, height= 25
+
+        )
+
+        self.LABEL_NOME_2 = Label (
+                    # cor botao
+                    bg      = COR_FUNDO_JANELA,
+                    text    = "* escreva nome completo.",
+                    # negrito
+                    font    ='Helvetica 11 bold',
+
+                    fg = "#FF0000"
+
+        )
+
+        self.LABEL_NOME_2.place(
+                    x= 650, y=120, 
+                    
+                    width= 200, height= 25
+
+        )
+
+        "variaveis"
+        self.entry_nome1 = Entry(
+                                            
+                    font    ='Helvetica 15', 
+        )
+
+        self.entry_nome1.place(
+                    x=250, y= 150, 
+                    width= 600, 
+                    height= 30
+        )
+
+        self.botao_salvar_instituicao = Button ( 
+                    # cor botao 
+                    bg      = COR_BOTAO_FUNDO,          
+                    text    = DB_SALVAR,
+                    # negrito
+                    font    ='Helvetica 20 bold', 
+                    # cor escrita - Yellow
+                    fg      = COR_ESCRITA_MENU_BAR,        
+                    # chamada  
+                    command = self.funcao_command_salvarnome
+
+        )
+
+        self.botao_salvar_instituicao. place(
+                    x=900, 
+                    y = 145,
+
+                    width= 150, 
+                    height= 40
+        )
+
+
 class ProcessoCadastro():
 
     "cadastro barra"
@@ -878,6 +964,14 @@ class ProcessoCadastro():
         #state desativar
         self.funcao_desativar_membroscadastro_1()
 
+    "frame 2 membros cadastrar"
+    def funcao_command_salvarnome(self):
+            
+        insertmembros = str(self.entry_nome1.get())
+        self.funcao_classdb_conectar()
+        self.sql_cursorr.execute( "INSERT INTO MEMBROS VALUES (NULL,'"+insertmembros+"')")
+        self.funcao_classdb_commit()
+        self.funcao_classdb_desconectar()
 
 class CadastroDestroy():
 
