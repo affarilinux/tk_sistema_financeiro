@@ -353,13 +353,7 @@ class BancoExecucaoConfiguracoes():
         self.DB_commit()
 
         self.sql_cursor.execute("INSERT INTO Processos  VALUES (2, '"+DB_SALVAR+"')")
-        self.DB_commit()
-
-        self.sql_cursor.execute("INSERT INTO Processos  VALUES (3, '"+str(DB_1)+"')")
-        self.DB_commit()
-
-        self.sql_cursor.execute("INSERT INTO Processos  VALUES (4, '"+str(DB_0)+"')")
-        self.DB_commit()     
+        self.DB_commit() 
 
     def DBinserir_PROCESOSbarraapp(self):
 
@@ -370,7 +364,7 @@ class BancoExecucaoConfiguracoes():
         self.DB_commit()  
 
 
-    ############################################### visualizar dados None
+    ############################################### visualizar dados 
     """instituicao"""
     def funcao_classdb_visualizar_1 (self):
         
@@ -381,12 +375,28 @@ class BancoExecucaoConfiguracoes():
 
             self.funcao_classdb_inserir_nova_alianca()
 
+    """processo barra"""
+    def DB_visualizar_PROCESOSbarraapp(self, id_numero_barra):
+        
+        self.sql_cursor.execute("SELECT numero_barra FROM PROCESOSbarraapp WHERE ID_barra = ?", (id_numero_barra,) )
+        self.visualiza_barraapp = self.sql_cursor.fetchone()
+    
     """processos"""
     def funcao_db_visualizar_tbprocesso(self, id_boleano):
         
         self.sql_cursor.execute("SELECT boleano FROM Processos WHERE ID_processos = ?", (id_boleano,) )
         self.visualiza_processo = self.sql_cursor.fetchone()
         
+    """update tabelas"""
+    def DB_update_PROCESOSbarraapp(self,up_barra):
+
+        self.DB_connectar()
+
+        sql_update_PROCESSObarra = """UPDATE PROCESOSbarraapp SET numero_barra = ? WHERE ID_barra = ?"""
+        self.sql_cursor.execute(sql_update_PROCESSObarra, up_barra)
+        self.DB_commit()
+        
+        self.DB_desconectar()
 
     def funcao_db_update_tbprocessos_linhaid(self,up_processo):
 
@@ -457,7 +467,7 @@ class ProcessoHome():
         self.DESTROIR_externoif_widget_barra()
 
         # atualizar banco processos l3
-        self.funcao_db_update_tbprocessos_linhaid((str(DB_1),DB_3))
+        self.DB_update_PROCESOSbarraapp((DB_1,DB_1))
         
         # ativar widget
         self.funcao_class_visual_instituicao()
@@ -502,7 +512,7 @@ class ProcessoProjetos():
         self.DESTROIR_externoif_widget_barra()
 
         # atualizar banco
-        self.funcao_db_update_tbprocessos_linhaid((str(DB_2),DB_3))
+        self.DB_update_PROCESOSbarraapp((DB_2,DB_1))
 
         #state desativar projetos
         self.STATE1_desativar_projetos()
@@ -592,7 +602,7 @@ class ProcessoRecurso():
         self.DESTROIR_externoif_widget_barra()
 
         # atualizar banco
-        self.funcao_db_update_tbprocessos_linhaid((str(DB_3),DB_3))
+        self.DB_update_PROCESOSbarraapp((DB_3,DB_1))
 
         # frame widget
         self.funcao_frame_widget_recursos()
@@ -751,7 +761,7 @@ class WidgetCadastro():
     def FC_WIDGETframe44_processo_banco(self):
         
         # update linha4 tbprocessos
-        self.funcao_db_update_tbprocessos_linhaid((str(DB_1),DB_4))
+        self.DB_update_PROCESOSbarraapp((DB_1,DB_2))
 
         #state desativar
         self.STATE44_desativar_banco()
@@ -929,7 +939,7 @@ class ProcessoCadastro():
         self.DESTROIR_externoif_widget_barra()
 
         # atualizar banco
-        self.funcao_db_update_tbprocessos_linhaid((str(DB_4),DB_3))
+        self.DB_update_PROCESOSbarraapp((DB_4,DB_1))
 
         # frame widget
         self.WIDGETframe44_cadastro()
@@ -953,7 +963,7 @@ class ProcessoCadastro():
         self.DESTROIR4_internoif_widget_cadastro()
         self.DB_desconectar()
         #tb processos updatye linha 4
-        self.funcao_db_update_tbprocessos_linhaid((str(DB_2),DB_4))
+        self.DB_update_PROCESOSbarraapp((DB_2,DB_2))
 
         #state desativar
         self.STATE44_desativar_entradas()
@@ -965,8 +975,7 @@ class ProcessoCadastro():
         self.DESTROIR4_internoif_widget_cadastro()
         self.DB_desconectar()
         #tb processos updatye linha 4
-        self.funcao_db_update_tbprocessos_linhaid((str(DB_3),DB_4))
-
+        self.DB_update_PROCESOSbarraapp((DB_3,DB_2))
         #state desativar
         self.STATE44_desativar_gastos()
 
@@ -977,7 +986,7 @@ class ProcessoCadastro():
         self.DESTROIR4_internoif_widget_cadastro()
         self.DB_desconectar()
         #tb processos updatye linha 4
-        self.funcao_db_update_tbprocessos_linhaid((str(DB_4),DB_4))
+        self.DB_update_PROCESOSbarraapp((DB_4,DB_2))
         
         #frame
         self.WIDGETframe44_cadastromembros()
@@ -1010,8 +1019,8 @@ class CadastroDestroy():
     """frame2"""
     def DESTROIR4_internoif_widget_cadastro(self):
 
-        self.funcao_db_visualizar_tbprocesso(DB_4)
-        db_if_viasualizar = self.visualiza_processo[0]
+        self.DB_visualizar_PROCESOSbarraapp(DB_2)
+        db_if_viasualizar = self.visualiza_barraapp[0]
 
         if db_if_viasualizar == DB_1:
 
@@ -1228,7 +1237,7 @@ class ProcessoConfiguracoes():
         self.DESTROIR_externoif_widget_barra()
 
         # atualizar banco
-        self.funcao_db_update_tbprocessos_linhaid((str(DB_5),DB_3))
+        self.DB_update_PROCESOSbarraapp((DB_5,DB_1))
         
         ###########################################
                                     # ativar widget
@@ -1294,7 +1303,7 @@ class ProcessoInformacao():
         self.DESTROIR_externoif_widget_barra()
 
         # atualizar banco
-        self.funcao_db_update_tbprocessos_linhaid((str(DB_6),DB_3))
+        self.DB_update_PROCESOSbarraapp((DB_6,DB_1))
 
        #state desativar informacao
         self.STATE1_desativar_informacoes()
@@ -1306,9 +1315,9 @@ class Destruir_Widget_Barra():
        
         self.DB_connectar()
 
-        self.funcao_db_visualizar_tbprocesso(DB_3)
+        self.DB_visualizar_PROCESOSbarraapp(DB_1)
 
-        db_if = self.visualiza_processo[DB_0]
+        db_if = self.visualiza_barraapp[0]
 
         if db_if   ==  DB_1:
             
@@ -1353,8 +1362,8 @@ class Destruir_Widget_Barra():
             self.botao_3gastos_cadastros.destroy()
             self.botao_4membros_cadastros.destroy()
 
-            # update tb processo lonha 4
-            self.funcao_db_update_tbprocessos_linhaid((str(DB_0),DB_4))
+            # update tb processobarraapp lonha 4
+            self.DB_update_PROCESOSbarraapp((DB_0,DB_2))
 
         elif db_if == DB_5:
             
@@ -1485,8 +1494,11 @@ class MenuWidget ( BarraMenuInicializacao, # barra
         self.DB_desconectar()
 
         "update"
-        self.funcao_db_update_tbprocessos_linhaid((str(DB_1),DB_3))
-        self.funcao_db_update_tbprocessos_linhaid((str(DB_0),DB_4))
+        #barra principal
+        self.DB_update_PROCESOSbarraapp((DB_1,DB_1))
+
+        #subbarra
+        self.DB_update_PROCESOSbarraapp((DB_0,DB_2))
 #**************************************************
 ###################################################
                               # somente uma entrada
