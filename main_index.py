@@ -370,7 +370,7 @@ class BancoExecucaoConfiguracoes():
 
     ############################################### visualizar dados 
     """instituicao"""
-    def funcao_classdb_visualizar_1 (self):
+    def DB_visualizar_instituicao (self):
         
         self.sql_cursor.execute( "SELECT nome_igreja FROM Instituicao WHERE cod = 1")
         self.visualiza = self.sql_cursor.fetchone()
@@ -415,7 +415,7 @@ class BancoExecucaoConfiguracoes():
     def funcao_db_conectar_e_visualizar_1(self):
 
         self.DB_connectar()
-        self.funcao_classdb_visualizar_1()
+        self.DB_visualizar_instituicao()
 
         ############################################### upgrade
     def funcao_db_update_tbprocessos_linha1(self):
@@ -1032,6 +1032,7 @@ class WidgetCadastro():
         )
 
         self.WIDGETfc_atualizar_instiruicao()
+        self.FC_dbvisualiar_instituicao()
 
     def WIDGETfc_atualizar_instiruicao(self):
 
@@ -1042,9 +1043,9 @@ class WidgetCadastro():
                     # negrito
                     font    ='Helvetica 15 bold', 
                     # cor escrita - Yellow
-                    fg      = COR_ESCRITA_MENU_BAR        
+                    fg      = COR_ESCRITA_MENU_BAR,        
                     # chamada  
-                    #command = self.funcao_if_widget_intermediario_atualizar_salvar
+                    command = self.COMMAND_4instituicao_atualizar
 
         )
 
@@ -1056,11 +1057,6 @@ class WidgetCadastro():
                     height = CADAST_BOTAO_INSTITUICAO_H
         )
 
-    def FC_dbvisualiar_instituicao(self):
-
-        self.DB_connectar()
-
-        self.DB_desconectar()
 
 class ProcessoCadastro():
 
@@ -1165,7 +1161,24 @@ class ProcessoCadastro():
         # Exception as Erro:
             #print(Erro.__class__)
 
-    #def 
+    def FC_dbvisualiar_instituicao(self):
+
+        self.DB_connectar()
+
+        self.DB_visualizar_instituicao()
+        var_db_visual_instituicao = self.visualiza
+
+        self.LABELvariavel_sistema_nome.configure(text=var_db_visual_instituicao)
+
+        self.DB_desconectar()
+
+    def COMMAND_4instituicao_atualizar(self):
+
+        #destruir botao atualizar
+
+        self.BOTAOfcInstituicao.destroy()
+
+
 class CadastroDestroy():
 
     """frame2"""
@@ -1642,7 +1655,7 @@ class MenuWidget ( BarraMenuInicializacao, # barra
         self.DB_connectar()
          
         "visualizar"
-        self.funcao_classdb_visualizar_1()  
+        self.DB_visualizar_instituicao()  
         
         
         "update"
