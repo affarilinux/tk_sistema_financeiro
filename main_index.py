@@ -8,12 +8,13 @@ import sqlite3
 
                                  # diretorio do app
 from janela.principal.composicao_principal import (
-    CADASTRO_FRAME1HEIGHT, CADASTRO_FRAME1WIGHT, CADASTRO_FRAME1X, CADASTRO_FRAME2Y, TAMANHO_WIDTH_JANELA, TAMANHO_HEIGHT_JANELA,
+    CADASTRO_FRAME1HEIGHT, CADASTRO_FRAME1WIGHT, CADASTRO_FRAME1X, 
+    CADASTRO_FRAME2Y, TAMANHO_WIDTH_JANELA, TAMANHO_HEIGHT_JANELA,
 
     MENUS_WIDTH, MENU_Y, MENU_HEIGHT, 
 
     COR_FUNDO_JANELA, COR_FUNDO_BOTAO_MENU_BAR, COR_BOTAO_FUNDO, COR_FUNDO_1,
-    COR_FUNDO_2,
+    COR_FUNDO_2, COR_FUNDO_3,
 
     COR_ESCRITA_MENU_BAR, COR_ESCRITA1,
 
@@ -25,15 +26,18 @@ from janela.principal.composicao_principal import (
     CONFIGURACAO_ENTRYX, CONFIGURACAO_ENTRYY, CONFIGURACAO_ENTRYWIDGET, 
     CONFIGURACAO_ENTRYHEIGHT,
 
-    DB_THUE, DB_FALSE,DB_SALVAR, DB_ATUALIZAR,
+    TEXT_THUE, TEXT_FALSE,TEXT_SALVAR, TEXT_ATUALIZAR,
 
-    DB_0, DB_1, DB_2, DB_3, DB_4, DB_5, DB_6, 
+    NUM_0, NUM_1, NUM_2, NUM_3, NUM_4, NUM_5, NUM_6, 
 
     WIDGET_2, WIDGET_4,
 
     CADASTRO_FRAME1X, CADASTRO_FRAME1WIGHT, CADASTRO_FRAME1HEIGHT,
 
-    CADASTRO_FRAME2Y, CADASTRO_FRAME2W, CADASTRO_FRAME2H
+    CADASTRO_FRAME2Y, CADASTRO_FRAME2W, CADASTRO_FRAME2H,
+
+    CADAST_BOTAO_INSTITUICAO_X, CADAST_BOTAO_INSTITUICAO_Y,
+    CADAST_BOTAO_INSTITUICAO_W, CADAST_BOTAO_INSTITUICAO_H
      
 )
 
@@ -349,18 +353,18 @@ class BancoExecucaoConfiguracoes():
     """processos"""
     def funcao_cursorrdb_inserir_thue(self):
 
-        self.sql_cursor.execute("INSERT INTO Processos  VALUES (1, '"+DB_THUE+"')")
+        self.sql_cursor.execute("INSERT INTO Processos  VALUES (1, '"+TEXT_THUE+"')")
         self.DB_commit()
 
-        self.sql_cursor.execute("INSERT INTO Processos  VALUES (2, '"+DB_SALVAR+"')")
+        self.sql_cursor.execute("INSERT INTO Processos  VALUES (2, '"+TEXT_SALVAR+"')")
         self.DB_commit() 
 
     def DBinserir_PROCESOSbarraapp(self):
 
-        self.sql_cursor.execute("INSERT INTO PROCESOSbarraapp  VALUES (1, '"+str(DB_1)+"')")
+        self.sql_cursor.execute("INSERT INTO PROCESOSbarraapp  VALUES (1, '"+str(NUM_1)+"')")
         self.DB_commit()
 
-        self.sql_cursor.execute("INSERT INTO PROCESOSbarraapp  VALUES (2, '"+str(DB_0)+"')")
+        self.sql_cursor.execute("INSERT INTO PROCESOSbarraapp  VALUES (2, '"+str(NUM_0)+"')")
         self.DB_commit()  
 
 
@@ -418,7 +422,7 @@ class BancoExecucaoConfiguracoes():
 
         self.funcao_destruir_erro_bd()
 
-        self.funcao_db_update_tbprocessos_linhaid((DB_THUE,DB_1))
+        self.funcao_db_update_tbprocessos_linhaid((TEXT_THUE,NUM_1))
 
     
 """LABEL INSTITUICAO BARRA"""
@@ -467,7 +471,7 @@ class ProcessoHome():
         self.DESTROIR_externoif_widget_barra()
 
         # atualizar banco processos l3
-        self.DB_update_PROCESOSbarraapp((DB_1,DB_1))
+        self.DB_update_PROCESOSbarraapp((NUM_1,NUM_1))
         
         # ativar widget
         self.funcao_class_visual_instituicao()
@@ -488,15 +492,15 @@ class DestruirHomeExterno():
 
         self.DB_connectar()
 
-        self.funcao_db_visualizar_tbprocesso(DB_2)
+        self.funcao_db_visualizar_tbprocesso(NUM_2)
         visualizar_s_f = self.visualiza_processo[0]
 
-        if visualizar_s_f == DB_SALVAR:
+        if visualizar_s_f == TEXT_SALVAR:
             
            self.funcao_destruir_entry_btsalvar()
            self.funcao_db_update_tbprocessos_linha1()
 
-        elif visualizar_s_f == DB_ATUALIZAR:
+        elif visualizar_s_f == TEXT_ATUALIZAR:
             
             self.funcao_destruir_atalizar_label()
                 
@@ -512,7 +516,7 @@ class ProcessoProjetos():
         self.DESTROIR_externoif_widget_barra()
 
         # atualizar banco
-        self.DB_update_PROCESOSbarraapp((DB_2,DB_1))
+        self.DB_update_PROCESOSbarraapp((NUM_2,NUM_1))
 
         #state desativar projetos
         self.STATE1_desativar_projetos()
@@ -602,7 +606,7 @@ class ProcessoRecurso():
         self.DESTROIR_externoif_widget_barra()
 
         # atualizar banco
-        self.DB_update_PROCESOSbarraapp((DB_3,DB_1))
+        self.DB_update_PROCESOSbarraapp((NUM_3,NUM_1))
 
         # frame widget
         self.funcao_frame_widget_recursos()
@@ -719,6 +723,26 @@ class WidgetCadastro():
                     height= CADASTRO_FRAME1HEIGHT
         )
 
+        self.botao_4instituicao_cadastros= Button (
+                    # cor botao
+                    bg      = COR_FUNDO_1,          
+                    text    = "INSTITUIÇÃO",
+                    # negrito
+                    font    ='Helvetica 15 bold', 
+                    # cor escrita
+                    fg      = COR_ESCRITA1,
+                    # chamada         
+                    command = self.COMMANDframe44_instituicaocd          
+
+        )
+
+        self.botao_4instituicao_cadastros. place(
+                    x=CADASTRO_FRAME1X, y = 300, 
+
+                    width=CADASTRO_FRAME1WIGHT, 
+                    height= CADASTRO_FRAME1HEIGHT
+        )
+
         self.FC_WIDGETframe44_processo_banco()
 
     #1
@@ -757,11 +781,20 @@ class WidgetCadastro():
 
         self.botao_4membros_cadastros["state"] = "normal"
 
+    #5
+    def STATE44_desativar_instituicao(self):
+
+        self.botao_4instituicao_cadastros["state"] = "disabled"
+
+    def STATE44_ativar_instituicao(self):
+
+        self.botao_4instituicao_cadastros["state"] = "normal"
+
     "banco"
     def FC_WIDGETframe44_processo_banco(self):
         
         # update linha4 tbprocessos
-        self.DB_update_PROCESOSbarraapp((DB_1,DB_2))
+        self.DB_update_PROCESOSbarraapp((NUM_1,NUM_2))
 
         #state desativar
         self.STATE44_desativar_banco()
@@ -795,7 +828,7 @@ class WidgetCadastro():
         self.botao_2atualizar_cadastro_frame2= Button (
                     # cor botao
                     bg      = COR_FUNDO_1,          
-                    text    = DB_ATUALIZAR,
+                    text    = TEXT_ATUALIZAR,
                     # negrito
                     font    ='Helvetica 15 bold', 
                     # cor escrita
@@ -911,7 +944,7 @@ class WidgetCadastro():
         self.botao_salvar_instituicao = Button ( 
                     # cor botao 
                     bg      = COR_BOTAO_FUNDO,          
-                    text    = DB_SALVAR,
+                    text    = TEXT_SALVAR,
                     # negrito
                     font    ='Helvetica 20 bold', 
                     # cor escrita - Yellow
@@ -929,6 +962,105 @@ class WidgetCadastro():
                     height= 40
         )
 
+    "5 widget instituicao"
+    def WIDGETframe44_sistemamembros(self):
+
+        #sistema
+        self.LABELfixo_sistema2 = Label (
+                    # cor botao
+                    bg      = COR_FUNDO_2,
+                    text    = "INFORMAÇÕES INSTITUIÇÃO",
+                    # negrito
+                    font    ='Helvetica 20 bold',
+
+                    fg = COR_ESCRITA1
+
+        )
+
+        self.LABELfixo_sistema2.place(
+                    x= 500, y=55, 
+                    
+                    width= 400, height= 30
+
+        )
+
+        self.LABELfixo_sistema = Label ( 
+                    bg     = COR_FUNDO_3, 
+                    # formato da borda
+                    relief = "groove"  
+        )
+
+        self.LABELfixo_sistema.place(
+                    x = 190, y = 130, 
+                    
+                    width = TAMANHO_WIDTH_JANELA -200, height = 150
+        )
+
+        self.LABELfixo_sistema_nome = Label (
+                    # cor botao
+                    bg      = COR_FUNDO_3,
+                    text    = "Nome da Instituição:",
+                    # negrito
+                    font    ='Helvetica 14 bold',
+
+                    fg = COR_ESCRITA1
+        )
+
+        self.LABELfixo_sistema_nome.place(
+                    x= 200, y=140, 
+                    
+                    width= 190, height= 25
+
+        )
+
+        #label varivel
+
+        self.LABELvariavel_sistema_nome = Label (
+                    # cor botao
+                    bg      = COR_FUNDO_3,
+                    
+                    # negrito
+                    font    ='Helvetica 13 bold',
+
+                    fg      = COR_ESCRITA1
+        )
+
+        self.LABELvariavel_sistema_nome.place(
+                    x= 400, y=140, 
+                    
+                    width= 250, height= 25
+        )
+
+        self.WIDGETfc_atualizar_instiruicao()
+
+    def WIDGETfc_atualizar_instiruicao(self):
+
+        self.BOTAOfcInstituicao = Button ( 
+                    # cor botao - 
+                    bg      = COR_BOTAO_FUNDO,          
+                    text    = TEXT_ATUALIZAR,
+                    # negrito
+                    font    ='Helvetica 15 bold', 
+                    # cor escrita - Yellow
+                    fg      = COR_ESCRITA_MENU_BAR        
+                    # chamada  
+                    #command = self.funcao_if_widget_intermediario_atualizar_salvar
+
+        )
+
+        self.BOTAOfcInstituicao. place(
+                    x      =  CADAST_BOTAO_INSTITUICAO_X, 
+                    y      = CADAST_BOTAO_INSTITUICAO_Y, 
+                    
+                    width  = CADAST_BOTAO_INSTITUICAO_W, 
+                    height = CADAST_BOTAO_INSTITUICAO_H
+        )
+
+    def FC_dbvisualiar_instituicao(self):
+
+        self.DB_connectar()
+
+        self.DB_desconectar()
 
 class ProcessoCadastro():
 
@@ -939,7 +1071,7 @@ class ProcessoCadastro():
         self.DESTROIR_externoif_widget_barra()
 
         # atualizar banco
-        self.DB_update_PROCESOSbarraapp((DB_4,DB_1))
+        self.DB_update_PROCESOSbarraapp((NUM_4,NUM_1))
 
         # frame widget
         self.WIDGETframe44_cadastro()
@@ -953,6 +1085,7 @@ class ProcessoCadastro():
         self.DB_connectar()
         self.DESTROIR4_internoif_widget_cadastro()
         self.DB_desconectar()
+
         #frame 2
         self.FC_WIDGETframe44_processo_banco()
     
@@ -962,8 +1095,9 @@ class ProcessoCadastro():
         self.DB_connectar()
         self.DESTROIR4_internoif_widget_cadastro()
         self.DB_desconectar()
-        #tb processos updatye linha 4
-        self.DB_update_PROCESOSbarraapp((DB_2,DB_2))
+
+        #tb processo barra app updatye linha 2
+        self.DB_update_PROCESOSbarraapp((NUM_2,NUM_2))
 
         #state desativar
         self.STATE44_desativar_entradas()
@@ -974,8 +1108,9 @@ class ProcessoCadastro():
         self.DB_connectar()
         self.DESTROIR4_internoif_widget_cadastro()
         self.DB_desconectar()
+
         #tb processos updatye linha 4
-        self.DB_update_PROCESOSbarraapp((DB_3,DB_2))
+        self.DB_update_PROCESOSbarraapp((NUM_3,NUM_2))
         #state desativar
         self.STATE44_desativar_gastos()
 
@@ -985,14 +1120,30 @@ class ProcessoCadastro():
         self.DB_connectar()
         self.DESTROIR4_internoif_widget_cadastro()
         self.DB_desconectar()
+
         #tb processos updatye linha 4
-        self.DB_update_PROCESOSbarraapp((DB_4,DB_2))
+        self.DB_update_PROCESOSbarraapp((NUM_4,NUM_2))
         
         #frame
         self.WIDGETframe44_cadastromembros()
 
         #state desativar
         self.STATE44_desativar_membros()
+
+    def COMMANDframe44_instituicaocd(self):
+
+        self.DB_connectar()
+        self.DESTROIR4_internoif_widget_cadastro()
+        self.DB_desconectar()
+
+        #tb processos updatye linha 4
+        self.DB_update_PROCESOSbarraapp((NUM_5,NUM_2))
+
+        # widget
+
+        self.WIDGETframe44_sistemamembros()
+        #state desabilitar
+        self.STATE44_desativar_instituicao()
 
     "frame 2 membros cadastrar"
     def COMMAND4_db_membros_atsalvar(self):
@@ -1014,30 +1165,31 @@ class ProcessoCadastro():
         # Exception as Erro:
             #print(Erro.__class__)
 
+    #def 
 class CadastroDestroy():
 
     """frame2"""
     def DESTROIR4_internoif_widget_cadastro(self):
 
-        self.DB_visualizar_PROCESOSbarraapp(DB_2)
+        self.DB_visualizar_PROCESOSbarraapp(NUM_2)
         db_if_viasualizar = self.visualiza_barraapp[0]
 
-        if db_if_viasualizar == DB_1:
+        if db_if_viasualizar == NUM_1:
 
             #ativar
             self.STATE44_ativar_banco()
 
-        elif db_if_viasualizar == DB_2:
+        elif db_if_viasualizar == NUM_2:
 
             #ativar
             self.STATE44_ativar_entradas()
 
-        elif db_if_viasualizar == DB_3:
+        elif db_if_viasualizar == NUM_3:
 
             #ativar
             self.STATE44_ativar_gastos()
 
-        elif db_if_viasualizar == DB_4:
+        elif db_if_viasualizar == NUM_4:
 
             #ativar
             self.STATE44_ativar_membros()
@@ -1046,6 +1198,11 @@ class CadastroDestroy():
             self.botao_1cadastrar_cadastro_frame2.destroy()
             self.botao_2atualizar_cadastro_frame2.destroy()
             self.botao_3informacoes_cadastro_frame2.destroy()
+
+        elif db_if_viasualizar == NUM_5:
+
+            #reativar
+            self.STATE44_ativar_instituicao()
 
         
 """CONFIGURAÇÕES"""
@@ -1105,7 +1262,7 @@ class WidgetConfiguracoes():
         self.botao_salvar_instituicao = Button ( 
                     # cor botao 
                     bg      = COR_BOTAO_FUNDO,          
-                    text    = DB_SALVAR,
+                    text    = TEXT_SALVAR,
                     # negrito
                     font    ='Helvetica 20 bold', 
                     # cor escrita - Yellow
@@ -1123,7 +1280,7 @@ class WidgetConfiguracoes():
                     height= CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
         )
 
-        self.funcao_db_update_tbprocessos_linhaid((DB_SALVAR,DB_2))
+        self.funcao_db_update_tbprocessos_linhaid((TEXT_SALVAR,NUM_2))
 
     """atualizar instituição"""
     def funcao_class_institucao_atualizar_widget(self):
@@ -1143,7 +1300,7 @@ class WidgetConfiguracoes():
         self.botao_atualizar_instituicao_atualizar = Button ( 
                     # cor botao - 
                     bg      = COR_BOTAO_FUNDO,          
-                    text    = DB_ATUALIZAR,
+                    text    = TEXT_ATUALIZAR,
                     # negrito
                     font    ='Helvetica 15 bold', 
                     # cor escrita - Yellow
@@ -1168,7 +1325,7 @@ class WidgetConfiguracoes():
 
         self.DB_desconectar()
 
-        self.funcao_db_update_tbprocessos_linhaid((DB_ATUALIZAR,DB_2))
+        self.funcao_db_update_tbprocessos_linhaid((TEXT_ATUALIZAR,NUM_2))
     
 
 class ProcessoConfiguracoes():
@@ -1204,18 +1361,18 @@ class ProcessoConfiguracoes():
 
             self.DB_connectar()
 
-            self.funcao_db_visualizar_tbprocesso(DB_1)
+            self.funcao_db_visualizar_tbprocesso(NUM_1)
 
-            visualiza_V_F = self.visualiza_processo[DB_0]
+            visualiza_V_F = self.visualiza_processo[NUM_0]
            
-            if  visualiza_V_F == DB_THUE:
+            if  visualiza_V_F == TEXT_THUE:
 
                 self.funcao_label_fixa_erro_instituicao()
                 self.LABEL_INSTITUICAO_FIXA_ERRO.after(4000, self.funcao_destruir_erro)
 
             self. DB_desconectar()
 
-            self.funcao_db_update_tbprocessos_linhaid((DB_FALSE,DB_1))
+            self.funcao_db_update_tbprocessos_linhaid((TEXT_FALSE,NUM_1))
 
         else:
             
@@ -1237,7 +1394,7 @@ class ProcessoConfiguracoes():
         self.DESTROIR_externoif_widget_barra()
 
         # atualizar banco
-        self.DB_update_PROCESOSbarraapp((DB_5,DB_1))
+        self.DB_update_PROCESOSbarraapp((NUM_5,NUM_1))
         
         ###########################################
                                     # ativar widget
@@ -1265,11 +1422,11 @@ class ConfiguracaoDestruir():
 
         self.DB_connectar()
 
-        self.funcao_db_visualizar_tbprocesso(DB_1)
+        self.funcao_db_visualizar_tbprocesso(NUM_1)
 
-        ad = self.visualiza_processo[DB_0]
+        ad = self.visualiza_processo[NUM_0]
     
-        if ad == DB_FALSE:
+        if ad == TEXT_FALSE:
             
             self.funcao_destruir_widget_erro()
          
@@ -1303,7 +1460,7 @@ class ProcessoInformacao():
         self.DESTROIR_externoif_widget_barra()
 
         # atualizar banco
-        self.DB_update_PROCESOSbarraapp((DB_6,DB_1))
+        self.DB_update_PROCESOSbarraapp((NUM_6,NUM_1))
 
        #state desativar informacao
         self.STATE1_desativar_informacoes()
@@ -1315,11 +1472,11 @@ class Destruir_Widget_Barra():
        
         self.DB_connectar()
 
-        self.DB_visualizar_PROCESOSbarraapp(DB_1)
+        self.DB_visualizar_PROCESOSbarraapp(NUM_1)
 
         db_if = self.visualiza_barraapp[0]
 
-        if db_if   ==  DB_1:
+        if db_if   ==  NUM_1:
             
             # ativar botao
             self.STATE1_ativar_home()
@@ -1327,13 +1484,12 @@ class Destruir_Widget_Barra():
             #destruir
             self.funcao_class_destruir_home()
 
-        elif db_if == DB_2:
+        elif db_if == NUM_2:
 
             # ativar botao
             self.STATE1_ativar_projetos()
-            print(2)
 
-        elif db_if == DB_3:
+        elif db_if == NUM_3:
             
             # ativar botao
             self.STATE1_ativar_recursos()
@@ -1345,7 +1501,7 @@ class Destruir_Widget_Barra():
             self.botao_2gastos_recursos.destroy()
             self.botao_3resultado_recursos.destroy()
 
-        elif db_if ==DB_4:
+        elif db_if ==NUM_4:
             
             # ativar botao
             self.STATE1_ativar_cadastro()
@@ -1361,11 +1517,12 @@ class Destruir_Widget_Barra():
             self.botao_2entradas_cadastros.destroy()
             self.botao_3gastos_cadastros.destroy()
             self.botao_4membros_cadastros.destroy()
+            self.botao_4instituicao_cadastros.destroy()
 
             # update tb processobarraapp lonha 4
-            self.DB_update_PROCESOSbarraapp((DB_0,DB_2))
+            self.DB_update_PROCESOSbarraapp((NUM_0,NUM_2))
 
-        elif db_if == DB_5:
+        elif db_if == NUM_5:
             
             # ativar botao
             self.STATE1_ativar_configuracoes()
@@ -1374,7 +1531,7 @@ class Destruir_Widget_Barra():
             self.funcao_class_if_destruir_widget()
             
 
-        elif db_if == DB_6:
+        elif db_if == NUM_6:
             
             # ativar botao
             self.STATE1_ativar_informacoes()
@@ -1449,10 +1606,10 @@ class MenuWidget ( BarraMenuInicializacao, # barra
         self.sql_cursor.execute("SELECT boleano  FROM Processos ")
         visualizar_id = self.sql_cursor.fetchall()
         
-        if len(visualizar_id) == DB_0:
+        if len(visualizar_id) == NUM_0:
             self.funcao_cursorrdb_inserir_thue()
 
-        elif len(visualizar_id) <DB_4:
+        elif len(visualizar_id) <NUM_4:
             
             self.sql_cursor.execute("DELETE FROM Processos ")
             self.DB_commit()
@@ -1467,10 +1624,10 @@ class MenuWidget ( BarraMenuInicializacao, # barra
         self.sql_cursor.execute("SELECT numero_barra  FROM PROCESOSbarraapp ")
         visualizar_idbarra = self.sql_cursor.fetchall()
         
-        if len(visualizar_idbarra) == DB_0:
+        if len(visualizar_idbarra) == NUM_0:
             self.DBinserir_PROCESOSbarraapp()
 
-        elif len(visualizar_idbarra) <DB_2:
+        elif len(visualizar_idbarra) <NUM_2:
             
             self.sql_cursor.execute("DELETE FROM Processos ")
             self.DB_commit()
@@ -1489,16 +1646,16 @@ class MenuWidget ( BarraMenuInicializacao, # barra
         
         
         "update"
-        self.funcao_db_update_tbprocessos_linhaid((DB_THUE,DB_1))
+        self.funcao_db_update_tbprocessos_linhaid((TEXT_THUE,NUM_1))
         
         self.DB_desconectar()
 
         "update"
         #barra principal
-        self.DB_update_PROCESOSbarraapp((DB_1,DB_1))
+        self.DB_update_PROCESOSbarraapp((NUM_1,NUM_1))
 
         #subbarra
-        self.DB_update_PROCESOSbarraapp((DB_0,DB_2))
+        self.DB_update_PROCESOSbarraapp((NUM_0,NUM_2))
 #**************************************************
 ###################################################
                               # somente uma entrada
