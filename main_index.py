@@ -320,8 +320,8 @@ class ClassBanco():
 
         self.sql_cursor.execute("""
             CREATE TABLE IF NOT EXISTS PROCESOSbarraapptext(
-                ID_barra INTERGER PRIMARY KEY,
-                numero_barra text NOT NULL
+                ID_bar INTERGER PRIMARY KEY,
+                text_barra text NOT NULL
                 
             )
         """)
@@ -411,7 +411,7 @@ class BancoExecucaoConfiguracoes():
     """processo interno"""
     def DB_visualizar_PROCESOSbarraapptext(self, id_numero_barra_t):
 
-        self.sql_cursor.execute("SELECT numero_barra FROM PROCESOSbarraapp WHERE ID_barra = ?", (id_numero_barra_t,) )
+        self.sql_cursor.execute("SELECT text_barra FROM PROCESOSbarraapptext WHERE ID_bar = ?", (id_numero_barra_t,) )
         self.visualiza_sistema_interno = self.sql_cursor.fetchone()
 
     """processos"""
@@ -420,6 +420,7 @@ class BancoExecucaoConfiguracoes():
         self.sql_cursor.execute("SELECT boleano FROM Processos WHERE ID_processos = ?", (id_boleano,) )
         self.visualiza_processo = self.sql_cursor.fetchone()
         
+    ############################################### update
     """update tabelas"""
     def DB_update_PROCESOSbarraapp(self,up_barra):
 
@@ -431,6 +432,16 @@ class BancoExecucaoConfiguracoes():
         
         self.DB_desconectar()
 
+    def DB_update_PROCESOSbarraapptext(self,up_barra_t):
+
+        self.DB_connectar()
+
+        sql_update_PROCESSObarra_t = """UPDATE PROCESOSbarraapptext SET text_barra = ? WHERE ID_bar = ?"""
+        self.sql_cursor.execute(sql_update_PROCESSObarra_t, up_barra_t)
+        self.DB_commit()
+
+        self.DB_desconectar()
+        
     def funcao_db_update_tbprocessos_linhaid(self,up_processo):
 
         self.DB_connectar()
@@ -1333,8 +1344,10 @@ class ProcessoCadastro():
         "chamar botao atualizar de volta"
         self. WIDGETfc_atualizar_instituicao()
 
-        "banco linha 4"
+        " update banco linha 4"
         self.DB_update_PROCESOSbarraapp((NUM_1,NUM_4))
+
+        self.FC_destruir_aspas()
 
     def COMMAND_4instituicao_salvar(self):
 
@@ -1344,12 +1357,18 @@ class ProcessoCadastro():
 
             self.DB_connectar()
 
-            #label temporaria
-            self.WIDGETfc_salvar_aspasentry()
+            self.DB_visualizar_PROCESOSbarraapptext(NUM_1)
+            visual_processos_t = self.visualiza_sistema_interno[0]
 
-            self.LABELfcsalvar_entryaspas.after(4000, self.FC_destruir_after_aspas)
+            if visual_processos_t == TEXT_THUE:
 
+                #label temporaria
+                self.WIDGETfc_salvar_aspasentry()
 
+                self.LABELfcsalvar_entryaspas.after(4000, self.FC_destruir_aspas)
+
+                #update
+                self.DB_update_PROCESOSbarraapptext((TEXT_FALSE,NUM_1))
             self.DB_desconectar()
 
         else:
@@ -1362,9 +1381,10 @@ class ProcessoCadastro():
             # atualizar escrita label
             self.FC_dbvisualiar_instituicao()
 
+            # atualizar banco PROCESOSbarraapptext
+            self.FC_destruir_aspas()
 
             self.DB_desconectar()
-
 
 class CadastroDestroy():
 
@@ -1423,16 +1443,8 @@ class CadastroDestroy():
 
             elif db_if_viasualizar_1 == 2:
 
+                self.FC_destruir_aspas()
                 self.DESTROY_cadastro_parte2_intituicao()
-
-            self.DB_desconectar()
-
-
-            #destroy parte 2
-
-    def FC_destruir_after_aspas(self):
-
-        self.LABELfcsalvar_entryaspas.destroy()
 
     def DESTROY_cadastro_parte2_intituicao(self):
 
@@ -1445,6 +1457,27 @@ class CadastroDestroy():
         self.BOTAOfcsalvar.destroy()
 
         self.entry_banco_instituicao_cadastro.destroy()
+
+    def FC_destruir_aspas(self):
+
+        self.FC_if_dbprocessotext_destroy()
+
+        self.DB_update_PROCESOSbarraapptext((TEXT_THUE,NUM_1))
+        
+
+    def FC_if_dbprocessotext_destroy(self):
+
+        self.DB_connectar()
+        
+        self.DB_visualizar_PROCESOSbarraapptext(NUM_1)
+        visual_processos_td2 = self.visualiza_sistema_interno[0]
+
+        if visual_processos_td2 == TEXT_FALSE:
+
+            #self.FC_destruir_aspas()
+            self.LABELfcsalvar_entryaspas.destroy()
+
+        self.DB_desconectar()
 
         
 """CONFIGURAÇÕES"""
@@ -1880,17 +1913,29 @@ class MenuWidget ( BarraMenuInicializacao, # barra
 
         self.DB_desconectar()
 
+        "update"
+        #barra principal
+        self.DB_update_PROCESOSbarraapp((NUM_1,NUM_1))
+        #subbarra
+        self.DB_update_PROCESOSbarraapp((NUM_0,NUM_2))
+
+        self.DB_update_PROCESOSbarraapp((NUM_0,NUM_4))
+
     def fcmi_seguranca_PROCESOSbarraapptext(self):
 
         self.DB_connectar()
-        self.sql_cursor.execute("SELECT numero_barra  FROM PROCESOSbarraapptext ")
+        self.sql_cursor.execute("SELECT text_barra  FROM PROCESOSbarraapptext ")
         visualizar_idtext = self.sql_cursor.fetchall()
 
                
         if len(visualizar_idtext) == NUM_0:
             self.DB_inserir_PROCESOSbarraapptext()
 
+        # novo processo
         self.DB_desconectar()
+
+        # update
+        self.DB_update_PROCESOSbarraapptext((TEXT_THUE,NUM_1))
 
     def FCmi_criar_tabela(self):
         
@@ -1906,14 +1951,7 @@ class MenuWidget ( BarraMenuInicializacao, # barra
         
         self.DB_desconectar()
 
-        "update"
-        #barra principal
-        self.DB_update_PROCESOSbarraapp((NUM_1,NUM_1))
-
-        #subbarra
-        self.DB_update_PROCESOSbarraapp((NUM_0,NUM_2))
-
-        self.DB_update_PROCESOSbarraapp((NUM_0,NUM_4))
+        
 #**************************************************
 ###################################################
                               # somente uma entrada
