@@ -20,12 +20,6 @@ from janela.principal.composicao_principal import (
 
     NOME_NOVA_ALIANCA, 
 
-    CONFIGURACAO_BOTAO_INSTITUICAO_X, CONFIGURACAO_BOTAO_INSTITUICAO_Y, 
-    CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH, CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT,
-
-    CONFIGURACAO_ENTRYX, CONFIGURACAO_ENTRYY, CONFIGURACAO_ENTRYWIDGET, 
-    CONFIGURACAO_ENTRYHEIGHT,
-
     TEXT_THUE, TEXT_FALSE,TEXT_SALVAR, TEXT_ATUALIZAR,
 
     NUM_0, NUM_1, NUM_2, NUM_3, NUM_4, NUM_5, NUM_6, 
@@ -305,11 +299,6 @@ class ClassBanco():
             )
              """)
 
-        self.sql_cursor.execute(""" 
-            CREATE TABLE IF NOT EXISTS Processos (ID_processos PRIMARY KEY,
-                                                    boleano  BOOLEAN)
-            """)
-
         self.sql_cursor.execute("""
             CREATE TABLE IF NOT EXISTS PROCESOSbarraapp(
                 ID_barra INTERGER PRIMARY KEY,
@@ -360,15 +349,6 @@ class BancoExecucaoConfiguracoes():
         self.sql_cursor.execute( "INSERT INTO Instituicao VALUES (1, '"+NOME_NOVA_ALIANCA+"')")
         self.DB_commit()
 
-    """processos"""
-    def funcao_cursorrdb_inserir_thue(self):
-
-        self.sql_cursor.execute("INSERT INTO Processos  VALUES (1, '"+TEXT_THUE+"')")
-        self.DB_commit()
-
-        self.sql_cursor.execute("INSERT INTO Processos  VALUES (2, '"+TEXT_SALVAR+"')")
-        self.DB_commit() 
-
     def DBinserir_PROCESOSbarraapp(self):
 
         self.sql_cursor.execute("INSERT INTO PROCESOSbarraapp  VALUES (1, '"+str(NUM_1)+"')")
@@ -413,12 +393,6 @@ class BancoExecucaoConfiguracoes():
 
         self.sql_cursor.execute("SELECT text_barra FROM PROCESOSbarraapptext WHERE ID_bar = ?", (id_numero_barra_t,) )
         self.visualiza_sistema_interno = self.sql_cursor.fetchone()
-
-    """processos"""
-    def funcao_db_visualizar_tbprocesso(self, id_boleano):
-        
-        self.sql_cursor.execute("SELECT boleano FROM Processos WHERE ID_processos = ?", (id_boleano,) )
-        self.visualiza_processo = self.sql_cursor.fetchone()
         
     ############################################### update
     """update tabelas"""
@@ -442,28 +416,13 @@ class BancoExecucaoConfiguracoes():
 
         self.DB_desconectar()
         
-    def funcao_db_update_tbprocessos_linhaid(self,up_processo):
-
-        self.DB_connectar()
-        
-        sql_update_tbprocessos = """UPDATE Processos SET boleano = ? WHERE ID_processos = ?"""
-        self.sql_cursor.execute(sql_update_tbprocessos, up_processo)
-        self.DB_commit()
-        
-        self.DB_desconectar()
-
     def funcao_db_conectar_e_visualizar_1(self):
 
         self.DB_connectar()
         self.DB_visualizar_instituicao()
 
         ############################################### upgrade
-    def funcao_db_update_tbprocessos_linha1(self):
-
-        self.funcao_destruir_erro_bd()
-
-        self.funcao_db_update_tbprocessos_linhaid((TEXT_THUE,NUM_1))
-
+    
     
 """LABEL INSTITUICAO BARRA"""
 class BarraVisualizarNomeInstituicao():
@@ -523,28 +482,8 @@ class ProcessoHome():
         self.STATE1_desativar_home()# desativar home
 
 
-class DestruirHomeExterno():
 
-    ################################################### if-else  home
-    def funcao_class_if_destruir_widget(self):
 
-        self.LABEL_BANCO_INSTITUICAO_FIXA.destroy() #Varivel fixa
-
-        self.DB_connectar()
-
-        self.funcao_db_visualizar_tbprocesso(NUM_2)
-        visualizar_s_f = self.visualiza_processo[0]
-
-        if visualizar_s_f == TEXT_SALVAR:
-            
-           self.funcao_destruir_entry_btsalvar()
-           self.funcao_db_update_tbprocessos_linha1()
-
-        elif visualizar_s_f == TEXT_ATUALIZAR:
-            
-            self.funcao_destruir_atalizar_label()
-                
-        self.DB_desconectar()
 
 
 """projetos"""
@@ -1479,189 +1418,8 @@ class CadastroDestroy():
 
         self.DB_desconectar()
 
-        
-"""CONFIGURAÇÕES"""
-class WidgetConfiguracoes():
-
-    """label fixas"""
-    def funcao_label_fixa_erro_instituicao(self):
-
-        self.LABEL_INSTITUICAO_FIXA_ERRO = Label (
-                    # cor botao
-                    bg      = COR_FUNDO_JANELA,
-                    text    = "DIGITE O NOME DO TEMPLO",
-                    # negrito
-                    font    ='Helvetica 11 bold', 
-
-        )
-
-        self.LABEL_INSTITUICAO_FIXA_ERRO.place(
-                    x= 20, y=120, 
-                    
-                    width= 250, height= 20
-
-        )
-
-    def funcao_label_fixa_configuracao(self):
-
-        self.LABEL_BANCO_INSTITUICAO_FIXA = Label (
-                    # cor botao
-                    bg      = COR_FUNDO_JANELA,
-                    text    = "NOME DO TEMPLO:",
-                    # negrito
-                    font    ='Helvetica 10 bold', 
-
-        )
-
-        self.LABEL_BANCO_INSTITUICAO_FIXA.place(
-                    x= 20, y=60, 
-                    
-                    width=140, height= 20
-
-        )
-
-    """salvar instituicao"""
-    def funcao_instituicao_entry_buton(self):
-
-        self.entry_banco_instituicao = Entry(
-                                            
-                    font    ='Helvetica 10', 
-        )
-
-        self.entry_banco_instituicao.place(
-                    x=CONFIGURACAO_ENTRYX, y= CONFIGURACAO_ENTRYY, 
-                    width= CONFIGURACAO_ENTRYWIDGET, 
-                    height= CONFIGURACAO_ENTRYHEIGHT
-        )
-
-        self.botao_salvar_instituicao = Button ( 
-                    # cor botao 
-                    bg      = COR_BOTAO_FUNDO,          
-                    text    = TEXT_SALVAR,
-                    # negrito
-                    font    ='Helvetica 20 bold', 
-                    # cor escrita - Yellow
-                    fg      = COR_ESCRITA_MENU_BAR,        
-                    # chamada  
-                    command = self.funcao_classdb_atalizar_igreja_configuracoes
-
-        )
-
-        self.botao_salvar_instituicao. place(
-                    x=CONFIGURACAO_BOTAO_INSTITUICAO_X, 
-                    y = CONFIGURACAO_BOTAO_INSTITUICAO_Y,
-
-                    width= CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH, 
-                    height= CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
-        )
-
-        self.funcao_db_update_tbprocessos_linhaid((TEXT_SALVAR,NUM_2))
-
-    """atualizar instituição"""
-    def funcao_class_institucao_atualizar_widget(self):
-
-        self.label_nome_instituicao_atualizar = Label ( 
-                    bg = '#A9A9A9',
-                    font= 'Helvetica 11 bold'
-        )
-            
-        self.label_nome_instituicao_atualizar.place( 
-                    x=CONFIGURACAO_ENTRYX, 
-                    y= CONFIGURACAO_ENTRYY, 
-
-                    width= CONFIGURACAO_ENTRYWIDGET, 
-                    height= CONFIGURACAO_ENTRYHEIGHT)
-
-        self.botao_atualizar_instituicao_atualizar = Button ( 
-                    # cor botao - 
-                    bg      = COR_BOTAO_FUNDO,          
-                    text    = TEXT_ATUALIZAR,
-                    # negrito
-                    font    ='Helvetica 15 bold', 
-                    # cor escrita - Yellow
-                    fg      = COR_ESCRITA_MENU_BAR,        
-                    # chamada  
-                    command = self.funcao_if_widget_intermediario_atualizar_salvar
-
-        )
-
-        self.botao_atualizar_instituicao_atualizar. place(
-                    x=CONFIGURACAO_BOTAO_INSTITUICAO_X, 
-                    y = CONFIGURACAO_BOTAO_INSTITUICAO_Y, 
-                    
-                    width=CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH, 
-                    height=CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT
-        )
-
-        self.funcao_db_conectar_e_visualizar_1()
-
-        for label_nome in self.visualiza:
-            self.label_nome_instituicao_atualizar.configure(text= label_nome)
-
-        self.DB_desconectar()
-
-        self.funcao_db_update_tbprocessos_linhaid((TEXT_ATUALIZAR,NUM_2))
-    
 
 class ProcessoConfiguracoes():
-
-    """processo intermediario widget"""
-    ###############################################  processo verificacao
-    def funcao_if_widget_intermediario_salvar_atualizar(self):
-
-        self.funcao_db_conectar_e_visualizar_1()
-
-        self.transfomar_str_nome = self.visualiza[0]
-        
-        if self.transfomar_str_nome != NOME_NOVA_ALIANCA:
-            
-            self.funcao_class_institucao_atualizar_widget()
-        
-        elif self.transfomar_str_nome == NOME_NOVA_ALIANCA:
-           
-            self.funcao_instituicao_entry_buton()
-
-    def funcao_if_widget_intermediario_atualizar_salvar(self):
-
-        self.funcao_destruir_atalizar_label()
-        
-        self.funcao_instituicao_entry_buton()
-
-    """salvar"""
-    def funcao_classdb_atalizar_igreja_configuracoes(self):  # botao salvar
-        
-        get_entrada_instituicao = str(self.entry_banco_instituicao.get())
-       
-        if get_entrada_instituicao == "":
-
-            self.DB_connectar()
-
-            self.funcao_db_visualizar_tbprocesso(NUM_1)
-
-            visualiza_V_F = self.visualiza_processo[NUM_0]
-           
-            if  visualiza_V_F == TEXT_THUE:
-
-                self.funcao_label_fixa_erro_instituicao()
-                self.LABEL_INSTITUICAO_FIXA_ERRO.after(4000, self.funcao_destruir_erro)
-
-            self. DB_desconectar()
-
-            self.funcao_db_update_tbprocessos_linhaid((TEXT_FALSE,NUM_1))
-
-        else:
-            
-            self.DB_connectar()
-
-            self.sql_cursor.execute("UPDATE Instituicao SET nome_igreja ='"+get_entrada_instituicao+"' WHERE cod = 1")
-            self.DB_commit()
-
-            self.funcao_db_update_tbprocessos_linha1()
-
-            self.funcao_destruir_entry_btsalvar()
-            self.funcao_class_institucao_atualizar_widget()
-
-            self. DB_desconectar()
 
     def COMMAND1_configuracoes(self):       #funcao inicializacao configurações
 
@@ -1670,54 +1428,11 @@ class ProcessoConfiguracoes():
 
         # atualizar banco
         self.DB_update_PROCESOSbarraapp((NUM_5,NUM_1))
-        
-        ###########################################
-                                    # ativar widget
-        self.funcao_if_widget_intermediario_salvar_atualizar()
-        self.funcao_label_fixa_configuracao()
-        
+             
         #state desativar configuracao
         self.STATE1_desativar_configuracoes()
 
-class ConfiguracaoDestruir():
-
-    """salvar"""
-    def funcao_destruir_erro(self):
-
-        self.funcao_destruir_widget_erro()
-
-        self.funcao_db_update_tbprocessos_linha1()
-
-    def funcao_destruir_entry_btsalvar(self):
-
-        self.entry_banco_instituicao.destroy()
-        self.botao_salvar_instituicao.destroy()
-
-    def funcao_destruir_erro_bd(self):
-
-        self.DB_connectar()
-
-        self.funcao_db_visualizar_tbprocesso(NUM_1)
-
-        ad = self.visualiza_processo[NUM_0]
     
-        if ad == TEXT_FALSE:
-            
-            self.funcao_destruir_widget_erro()
-         
-        self.DB_desconectar()
-
-    """atualizar"""
-    def funcao_destruir_atalizar_label(self):
-
-        self.label_nome_instituicao_atualizar.destroy()
-        self.botao_atualizar_instituicao_atualizar.destroy()
-
-    def funcao_destruir_widget_erro(self):
-
-        self.LABEL_INSTITUICAO_FIXA_ERRO.destroy()
-
-
 class DestruirconfiguracoesExterno():
 
     ################################################ chamar botao
@@ -1801,9 +1516,6 @@ class Destruir_Widget_Barra():
             
             # ativar botao
             self.STATE1_ativar_configuracoes()
-
-            #destruir
-            self.funcao_class_if_destruir_widget()
             
 
         elif db_if == NUM_6: # informações
@@ -1827,7 +1539,7 @@ class MenuWidget ( BarraMenuInicializacao, # barra
                 BarraVisualizarNomeInstituicao,
                 #home 1
                 ProcessoHome,
-                DestruirHomeExterno,
+                #DestruirHomeExterno,
                 #projetos 2
                 ProcessoProjetos,
                 # recursos 3
@@ -1838,9 +1550,9 @@ class MenuWidget ( BarraMenuInicializacao, # barra
                 ProcessoCadastro,
                 CadastroDestroy,
                 #configurações 5
-                WidgetConfiguracoes, #widget
+                #WidgetConfiguracoes, #widget
                 ProcessoConfiguracoes,
-                ConfiguracaoDestruir,
+                #ConfiguracaoDestruir,
                 DestruirconfiguracoesExterno,
                 #informacao 6
                 ProcessoInformacao,
@@ -1858,11 +1570,10 @@ class MenuWidget ( BarraMenuInicializacao, # barra
 
         "funcoes intenas"
         "inserir banco"
-        self.FCmi_seguranca_tbprocessos()
         self.fcmi_seguranca_PROCESOSbarraapp()
         self.fcmi_seguranca_PROCESOSbarraapptext()
 
-        self.FCmi_criar_tabela()
+        self.fCmi_visualizar_instituicao()
 
         ########################################### classe externa
         #menus fixos
@@ -1875,24 +1586,6 @@ class MenuWidget ( BarraMenuInicializacao, # barra
 
         #state
         self.STATE1_desativar_home()  
-
-    def FCmi_seguranca_tbprocessos(self):
-
-        self.DB_connectar()
-        self.sql_cursor.execute("SELECT boleano  FROM Processos ")
-        visualizar_id = self.sql_cursor.fetchall()
-        
-        if len(visualizar_id) == NUM_0:
-            self.funcao_cursorrdb_inserir_thue()
-
-        elif len(visualizar_id) <NUM_4:
-            
-            self.sql_cursor.execute("DELETE FROM Processos ")
-            self.DB_commit()
-
-            self.funcao_cursorrdb_inserir_thue()
-
-        self.DB_desconectar()
 
     def fcmi_seguranca_PROCESOSbarraapp(self):
 
@@ -1937,17 +1630,12 @@ class MenuWidget ( BarraMenuInicializacao, # barra
         # update
         self.DB_update_PROCESOSbarraapptext((TEXT_THUE,NUM_1))
 
-    def FCmi_criar_tabela(self):
-        
+    def fCmi_visualizar_instituicao(self):
         
         self.DB_connectar()
          
         "visualizar"
         self.DB_visualizar_instituicao()  
-        
-        
-        "update"
-        self.funcao_db_update_tbprocessos_linhaid((TEXT_THUE,NUM_1))
         
         self.DB_desconectar()
 

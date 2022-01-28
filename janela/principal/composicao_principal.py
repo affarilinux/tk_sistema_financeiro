@@ -15,8 +15,7 @@ COR_FUNDO_BOTAO_MENU_BAR = '#8B4513' # cor SaddleBrown
 COR_BOTAO_FUNDO          = "#6A5ACD" # SlateBlue
 COR_FUNDO_1              = '#778899' # LightSlateGray
 COR_FUNDO_2              = "#228B22" # ForestGreen
-
-
+COR_FUNDO_3              = "#2E8B57" #SeaGreen
 
 COR_ESCRITA_MENU_BAR = '#FFFF00' # COR Yellow
 COR_ESCRITA1         = "#FFF5EE" # Seashell
@@ -31,28 +30,26 @@ CADASTRO_FRAME1X      = 20
 CADASTRO_FRAME1WIGHT  = 150
 CADASTRO_FRAME1HEIGHT = 30
 
-CONFIGURACAO_BOTAO_INSTITUICAO_X      = 240
-CONFIGURACAO_BOTAO_INSTITUICAO_Y      = 80
-CONFIGURACAO_BOTAO_INSTITUICAO_WIDTH  = 150
-CONFIGURACAO_BOTAO_INSTITUICAO_HEIGHT = 35
 
-CONFIGURACAO_ENTRYX      = 20       
-CONFIGURACAO_ENTRYY      = 85
-CONFIGURACAO_ENTRYWIDGET = 200
-CONFIGURACAO_ENTRYHEIGHT = 25
+CADAST_BOTAO_INSTITUICAO_X = 200
+CADAST_BOTAO_INSTITUICAO_Y = 300
+CADAST_BOTAO_INSTITUICAO_W = 150
+CADAST_BOTAO_INSTITUICAO_H = 35
 
-DB_THUE      = "Thue"
-DB_FALSE     = "False"
-DB_ATUALIZAR = "ATUALIZAR"
-DB_SALVAR    = "SALVAR"
+CADAST_TEXT_NOME = "NOME DA INSTITUIÇÃO:"
 
-DB_0 = 0
-DB_1 = 1
-DB_2 = 2
-DB_3 = 3
-DB_4 = 4
-DB_5 = 5
-DB_6 = 6
+TEXT_THUE      = "Thue"
+TEXT_FALSE     = "False"
+TEXT_ATUALIZAR = "ATUALIZAR"
+TEXT_SALVAR    = "SALVAR"
+
+NUM_0 = 0
+NUM_1 = 1
+NUM_2 = 2
+NUM_3 = 3
+NUM_4 = 4
+NUM_5 = 5
+NUM_6 = 6
 
 
- #self.sql_cursorr.execute("UPDATE '"+self.c+"' '"+self.cs+"' = '"+self.destroir_banco_1+"' WHERE cod = '"self.vf"' " )
+ #self.sql_cursor.execute("UPDATE '"+self.c+"' '"+self.cs+"' = '"+self.destroir_banco_1+"' WHERE cod = '"self.vf"' " )
