@@ -1,6 +1,8 @@
 
                               # bibliotecas tkinter
+from ctypes.wintypes import LPBYTE
 from tkinter    import *
+from tkinter    import ttk
 
 import tkinter  as tk
 import sqlite3
@@ -20,11 +22,13 @@ from janela.principal.composicao_principal import (
 
     NOME_NOVA_ALIANCA, 
 
+    CADASTRAR, INFORMACOES,
+
     TEXT_THUE, TEXT_FALSE,TEXT_SALVAR, TEXT_ATUALIZAR,
 
     NUM_0, NUM_1, NUM_2, NUM_3, NUM_4, NUM_5, NUM_6, 
 
-    WIDGET_2, WIDGET_4,
+    WIDGET_2, WIDGET_4, 
 
     CADASTRO_FRAME1X, CADASTRO_FRAME1WIGHT, CADASTRO_FRAME1HEIGHT,
 
@@ -32,6 +36,9 @@ from janela.principal.composicao_principal import (
 
     CADAST_BOTAO_INSTITUICAO_X, CADAST_BOTAO_INSTITUICAO_Y,
     CADAST_BOTAO_INSTITUICAO_W, CADAST_BOTAO_INSTITUICAO_H,
+
+    FRAME2_980, FRAME2_650, FRAME2_300, FRAME2_500,FRAME2_55, FRAME2_400,
+    FRAME2_30,
 
     CADAST_TEXT_NOME
      
@@ -193,7 +200,7 @@ class BarraMenuInicializacao():
         self.botao_6APP = Button(
                     # cor botao
                     bg      = COR_FUNDO_BOTAO_MENU_BAR,          
-                    text    = "INFORMAÇÕES",
+                    text    = INFORMACOES,
                     # negrito
                     font    ='Helvetica 10 bold', 
                     # cor escrita
@@ -291,7 +298,8 @@ class ClassBanco():
     def DB_criar_tabela(self):
 
         self.DB_connectar()
-
+        
+        #banco primarios
         self.sql_cursor.execute("""
             CREATE TABLE IF NOT EXISTS Instituicao ( cod INTEGER PRIMARY KEY,
                                                     nome_igreja TEXT
@@ -324,6 +332,15 @@ class ClassBanco():
         """)
 
         self.sql_cursor.execute("""
+            CREATE TABLE IF NOT EXISTS ESTADOS ( 
+                ID_EST INTEGER  PRIMARY KEY AUTOINCREMENT,
+                Nome_EST TEXT NOT NULL UNIQUE)
+                
+                
+        """)
+
+        #banco secundarios
+        self.sql_cursor.execute("""
             CREATE TABLE IF NOT EXISTS ESTADO_CIVIL( 
                         ID_COD_ESTADO INTEGER PRIMARY KEY AUTOINCREMENT,
                         ID_casal1 INTEGER NOT NULL,
@@ -344,11 +361,6 @@ class BancoExecucaoConfiguracoes():
 
     ############################################### inserir if none
     """instituicao"""
-    def funcao_classdb_inserir_nova_alianca(self):
-            
-        self.sql_cursor.execute( "INSERT INTO Instituicao VALUES (1, '"+NOME_NOVA_ALIANCA+"')")
-        self.DB_commit()
-
     def DBinserir_PROCESOSbarraapp(self):
 
         self.sql_cursor.execute("INSERT INTO PROCESOSbarraapp  VALUES (1, '"+str(NUM_1)+"')")
@@ -371,6 +383,11 @@ class BancoExecucaoConfiguracoes():
         self.sql_cursor.execute("INSERT INTO PROCESOSbarraapptext  VALUES (1, '"+str(TEXT_THUE)+"')")
         self.DB_commit() 
 
+    def DB_inserir_N_AInstituicao(self):
+            
+        self.sql_cursor.execute( "INSERT INTO Instituicao VALUES (1, '"+NOME_NOVA_ALIANCA+"')")
+        self.DB_commit()
+
     ############################################### visualizar dados 
     """instituicao"""
     def DB_visualizar_instituicao (self):
@@ -380,7 +397,7 @@ class BancoExecucaoConfiguracoes():
 
         if self.visualiza == None:
 
-            self.funcao_classdb_inserir_nova_alianca()
+            self.DB_inserir_N_AInstituicao()
 
     """processo barra"""
     def DB_visualizar_PROCESOSbarraapp(self, id_numero_barra):
@@ -416,11 +433,6 @@ class BancoExecucaoConfiguracoes():
 
         self.DB_desconectar()
         
-    def funcao_db_conectar_e_visualizar_1(self):
-
-        self.DB_connectar()
-        self.DB_visualizar_instituicao()
-
         ############################################### upgrade
     
     
@@ -450,7 +462,8 @@ class BarraVisualizarNomeInstituicao():
 
     def funcao_class_visualdb_barra_intituicao(self):
 
-        self.funcao_db_conectar_e_visualizar_1()
+        self.DB_connectar()
+        self.DB_visualizar_instituicao()
 
         for visual_nome in self.visualiza:
 
@@ -480,11 +493,6 @@ class ProcessoHome():
 
         #state desativar home
         self.STATE1_desativar_home()# desativar home
-
-
-
-
-
 
 """projetos"""
 class ProcessoProjetos():
@@ -577,7 +585,7 @@ class WidgetRecursos():
                     width=150, height= 30
         )
     
-class ProcessoRecurso():
+class ProcessoRecurso():                           # class recursos
 
     def COMMAND1_recursos(self):
 
@@ -595,8 +603,9 @@ class ProcessoRecurso():
 
 
 """cadastro"""
-class WidgetCadastro():
+class WidgetCadastro():                            # class cadastros
 
+    """funcao principal"""
     def WIDGETframe44_cadastro(self):
 
         "label fixa"
@@ -722,6 +731,25 @@ class WidgetCadastro():
                     height= CADASTRO_FRAME1HEIGHT
         )
 
+        self.botao_4instituicao_CAD_INFOR= Button (
+                    # cor botao
+                    bg      = COR_FUNDO_1,          
+                    text    = "CADASTRAR \n INFORMAÇÕES",
+                    # negrito
+                    font    ='Helvetica 13 bold', 
+                    # cor escrita
+                    fg      = COR_ESCRITA1,
+                    # chamada         
+                    command = self.COMMANDframe44_CadInf         
+        )
+
+        self.botao_4instituicao_CAD_INFOR.place(
+                    x=CADASTRO_FRAME1X, y = 750, 
+
+                    width=CADASTRO_FRAME1WIGHT, 
+                    height= 50
+        )
+
         self.FC_WIDGETframe44_processo_banco()
 
     #1
@@ -769,16 +797,18 @@ class WidgetCadastro():
 
         self.botao_4instituicao_cadastros["state"] = "normal"
 
-    "banco"
-    def FC_WIDGETframe44_processo_banco(self):
-        
-        # update linha4 tbprocessos
-        self.DB_update_PROCESOSbarraapp((NUM_1,NUM_2))
+    #6
+    def STATE44_desativar_cad_inf(self):
 
-        #state desativar
-        self.STATE44_desativar_banco()
-        
-    "membros parte 4"
+        self.botao_4instituicao_CAD_INFOR["state"] = "disabled"
+
+    def STATE44_ativar_cad_inf(self):
+
+        self.botao_4instituicao_CAD_INFOR["state"] = "normal"
+
+    ###############################################
+    #sistema 4
+    """botao 4"""
     def WIDGETframe44_cadastromembros(self):
 
         """botoes chamada da estrutura"""
@@ -787,18 +817,18 @@ class WidgetCadastro():
         self.botao_1cadastrar_cadastro_frame2= Button (
                     # cor botao
                     bg      = COR_FUNDO_1,          
-                    text    = "CADASTRAR",
+                    text    = CADASTRAR,
                     # negrito
                     font    ='Helvetica 15 bold', 
                     # cor escrita
                     fg      = COR_ESCRITA1,
                     # chamada         
-                    command = self.WIDGETframe44_COMMAND4_cadastrar_membros           
+                    command = self.COMMAND_WIDGET_cadastro_membros           
 
         )
 
         self.botao_1cadastrar_cadastro_frame2. place(
-                    x=300, y = CADASTRO_FRAME2Y, 
+                    x=FRAME2_300, y = CADASTRO_FRAME2Y, 
                     
                     width=CADASTRO_FRAME2W, height= CADASTRO_FRAME2H
         )
@@ -818,7 +848,7 @@ class WidgetCadastro():
         )
 
         self.botao_2atualizar_cadastro_frame2. place(
-                    x=650, y = CADASTRO_FRAME2Y, 
+                    x=FRAME2_650, y = CADASTRO_FRAME2Y, 
                     
                     width=CADASTRO_FRAME2W, height= CADASTRO_FRAME2H
         )
@@ -826,7 +856,7 @@ class WidgetCadastro():
         self.botao_3informacoes_cadastro_frame2= Button (
                     # cor botao
                     bg      = COR_FUNDO_1,          
-                    text    = "INFORMAÇÕES",
+                    text    = INFORMACOES,
                     # negrito
                     font    ='Helvetica 15 bold', 
                     # cor escrita
@@ -837,7 +867,7 @@ class WidgetCadastro():
         )
 
         self.botao_3informacoes_cadastro_frame2. place(
-                    x=980, y = CADASTRO_FRAME2Y, 
+                    x=FRAME2_980, y = CADASTRO_FRAME2Y, 
                     
                     width=CADASTRO_FRAME2W, 
                     height= CADASTRO_FRAME2H
@@ -870,14 +900,17 @@ class WidgetCadastro():
 
         self.botao_3informacoes_cadastro_frame2["state"] = "normal"
 
+    ###############################################
+
+    """subprocessos"""
     "frame 2 cadastrar membros"
-    def WIDGETframe44_COMMAND4_cadastrar_membros(self):
+    def COMMAND_WIDGET_cadastro_membros(self):
 
         "label fixa"
         self.LABEL_NOME_1 = Label (
                     # cor botao
                     bg      = COR_FUNDO_JANELA,
-                    text    = "NOME DO MEMBRO",
+                    text    = "NOME DO MEMBRO:",
                     # negrito
                     font    ='Helvetica 11 bold', 
 
@@ -908,6 +941,21 @@ class WidgetCadastro():
 
         )
 
+        self.LABEL_NOME_3 = Label (
+                    # cor botao
+                    bg      = COR_FUNDO_JANELA,
+                    text    = "ESTADO:",
+                    # negrito
+                    font    ='Helvetica 11 bold', 
+
+        )
+
+        self.LABEL_NOME_3.place(
+                    x= 235, y=200, 
+                    
+                    width= 100, height= 25
+        )
+
         "variaveis"
         self.entry_nome1 = Entry(
                                             
@@ -933,6 +981,18 @@ class WidgetCadastro():
 
         )
 
+        spb_1 = Spinbox(
+                    values = ("PA","AM"),
+                    font   = 'Helvetica 15'
+        )
+
+        spb_1.place(
+                    x= 250, y=230, 
+                    
+                    width= 100, height= 30
+        )
+
+        # salvar
         self.botao_salvar_instituicao. place(
                     x=900, 
                     y = 145,
@@ -941,7 +1001,9 @@ class WidgetCadastro():
                     height= 40
         )
 
-    "5 widget instituicao"
+    ###############################################
+    #sistema5
+    """botao 5"""
     def WIDGETframe44_sistemamembros(self):
 
         "fixo"
@@ -959,10 +1021,9 @@ class WidgetCadastro():
         )
 
         self.LABELfixo_sistema2.place(
-                    x= 500, y=55, 
+                    x= FRAME2_500, y=FRAME2_55, 
                     
-                    width= 400, height= 30
-
+                    width= FRAME2_400, height= FRAME2_30
         )
 
         #2
@@ -1022,6 +1083,7 @@ class WidgetCadastro():
         self.DB_desconectar()
 
         self.DB_update_PROCESOSbarraapp((NUM_1,NUM_4))
+    """subprocesso"""
 
     def WIDGETfc_atualizar_instituicao(self):
 
@@ -1156,9 +1218,248 @@ class WidgetCadastro():
                     width  = 200, 
                     height = 25
         )
+    
+    ###############################################
+    #botao6
+    def WIDGETframe44_cad_inf(self):
+
+        "fixo"
+        self.LABELfixo_cad_inf = Label (
+                    # cor botao
+                    bg      = COR_FUNDO_2,
+                    text    = "CADASTRO GERAIS",
+                    # negrito
+                    font    ='Helvetica 20 bold',
+
+                    fg = COR_ESCRITA1
+        )
+
+        self.LABELfixo_cad_inf.place(
+                    x= FRAME2_500, y=FRAME2_55, 
+                    
+                    width= FRAME2_400, height= FRAME2_30
+        )
+
+        self.LABEL_banco1 = Label (
+                    # cor botao
+                    bg      = COR_FUNDO_JANELA,
+                    text    = "BANCO:",
+                    # negrito
+                    font    ='Helvetica 13 bold', 
+        )
+
+        self.LABEL_banco1.place(
+                    x= 235, y=130, 
+                    
+                    width= 100, height= 25
+        )
+
+        self.LABEL_fixo_processo= Label (
+                    # cor de fundo -DeepSkyBlue
+                    bg = COR_FUNDO_JANELA,  
+
+                    # formato da borda
+                    relief      ="solid", 
+                    # tamanho da borda
+                    borderwidth = 10       
+        )      
+                                
+        self.LABEL_fixo_processo.place(
+                    x = 200,  y= 250, 
+
+                    width = TAMANHO_WIDTH_JANELA- 250, 
+                    height = TAMANHO_HEIGHT_JANELA - 290
+        )
+
+        self.LABEL_fixo_processo_1= Label (
+                    # cor de fundo -DeepSkyBlue
+                    bg = COR_FUNDO_JANELA,  
+
+                    # formato da borda
+                    relief      ="solid", 
+                    # tamanho da borda
+                    borderwidth = 4       
+        )      
+                                
+        self.LABEL_fixo_processo_1.place(
+                    x = 210,  y= 595, 
+
+                    width = 1030, 
+                    height = 205
+        )
+
+        self.LABEL_fixo_processo_2= Label (
+                    # cor de fundo -DeepSkyBlue
+                    bg = COR_FUNDO_JANELA,  
+
+                    # formato da borda
+                    relief      ="solid", 
+                    # tamanho da borda
+                    borderwidth = 4       
+        )      
+                                
+        self.LABEL_fixo_processo_2.place(
+                    x = 210,  y= 550, 
+
+                    width = 1030, 
+                    height = 50
+        )
+
+        "variaveis"
+        "processo 1"
+        
+
+        self.spb1_db = Spinbox(
+                    values = ("ESTADOS"),
+                    font   = 'Helvetica 15'
+        )
+
+        self.spb1_db.place(
+                    x= 250, y=160, 
+                    
+                    width= 120, height= 30
+        )
+
+        self.BOTAO2_ci_gerais = Button ( 
+                    # cor botao - 
+                    bg      = COR_BOTAO_FUNDO,          
+                    text    = CADASTRAR,
+                    # negrito
+                    font    ='Helvetica 15 bold', 
+                    # cor escrita - Yellow
+                    fg      = COR_ESCRITA_MENU_BAR,        
+                    # chamada  
+                    command = self.COMMAND_IFfc_processo_estados_cadastrar
+
+        )
+
+        self.BOTAO2_ci_gerais. place(
+                    x      = 500, y = 160, 
+                    
+                    width  = CADAST_BOTAO_INSTITUICAO_W, 
+                    height = CADAST_BOTAO_INSTITUICAO_H
+        )
+
+        self.BOTAO3_ci_gerais = Button ( 
+                    # cor botao - 
+                    bg      = COR_BOTAO_FUNDO,          
+                    text    = TEXT_ATUALIZAR,
+                    # negrito
+                    font    ='Helvetica 15 bold', 
+                    # cor escrita - Yellow
+                    fg      = COR_ESCRITA_MENU_BAR        
+                    # chamada  
+                    #command = self.COMMAND_4instituicao_atualizar
+
+        )
+
+        self.BOTAO3_ci_gerais. place(
+                    x      = 750, y = 160, 
+                    
+                    width  = CADAST_BOTAO_INSTITUICAO_W, 
+                    height = CADAST_BOTAO_INSTITUICAO_H
+        )
+
+        self.BOTAO4_ci_gerais = Button ( 
+                    # cor botao - 
+                    bg      = COR_BOTAO_FUNDO,          
+                    text    = 'EXCLUIR',
+                    # negrito
+                    font    ='Helvetica 15 bold', 
+                    # cor escrita - Yellow
+                    fg      = COR_ESCRITA_MENU_BAR        
+                    # chamada  
+                    #command = self.COMMAND_4instituicao_atualizar
+
+        )
+
+        self.BOTAO4_ci_gerais. place(
+                    x      = 1000, y = 160, 
+                    
+                    width  = CADAST_BOTAO_INSTITUICAO_W, 
+                    height = CADAST_BOTAO_INSTITUICAO_H
+        )
+
+        self.BOTAO4_ci_gerais = Button ( 
+                    # cor botao - 
+                    bg      = COR_BOTAO_FUNDO,          
+                    text    = TEXT_SALVAR,
+                    # negrito
+                    font    ='Helvetica 15 bold', 
+                    # cor escrita - Yellow
+                    fg      = COR_ESCRITA_MENU_BAR        
+                    # chamada  
+                    #command = self.COMMAND_4instituicao_atualizar
+
+        )
+
+        self.BOTAO4_ci_gerais. place(
+                    x      = 250, y = 557, 
+                    
+                    width  = CADAST_BOTAO_INSTITUICAO_W, 
+                    height = CADAST_BOTAO_INSTITUICAO_H
+        )
+        
+        self.WIDGETfc_listabox_cad_inf()
+
+    def WIDGETfc_listabox_cad_inf(self):
+
+        self.DB_connectar()
+        
+        self.sql_cursor.execute( "SELECT Nome_EST FROM ESTADOS")
+        fc_cad = self.sql_cursor.fetchall()
+
+        LB_1 = Listbox(
+                    bg = COR_FUNDO_1,
+                    font    ='Helvetica 15 bold',
+                    # formato da borda
+                    relief      ="solid", 
+                    # tamanho da borda
+                    borderwidth = 3      
+        )
+
+        LB_1.place(
+                    x = 600, y = 600, 
+                    
+                    width  = 300, height = 193
+        )
+
+        lista_fc_cad = []
+        if len(fc_cad) == NUM_0:
 
 
-class ProcessoCadastro():
+            LB_1.insert(END, "SEM INFORMAÇÕES","       NO BANCO" )
+
+        elif len(fc_cad) > NUM_0:
+
+            for row in fc_cad:
+                
+                lista_fc_cad.append(row[0])
+
+            for lis in lista_fc_cad:
+                LB_1.insert(END, lis)        
+
+        self.DB_desconectar()
+        
+        scroll = ttk.Scrollbar(orient="vertical",command=LB_1.yview)
+        LB_1.configure(yscrollcommand=scroll.set)
+        scroll.place(x=875, y= 605,width=20,height= 183)
+        
+        
+        
+        
+class BancoCadastro():                             # class cadastro
+
+    def FC_WIDGETframe44_processo_banco(self):
+        
+        # update linha4 tbprocessos
+        self.DB_update_PROCESOSbarraapp((NUM_1,NUM_2))
+
+        #state desativar
+        self.STATE44_desativar_banco()
+
+
+class ProcessoCadastro():                          #class cadastro
 
     "cadastro barra"
     def COMMAND1_cadastro(self):
@@ -1192,7 +1493,7 @@ class ProcessoCadastro():
         self.DESTROIR4_internoif_widget_cadastro()
         self.DB_desconectar()
 
-        #tb processo barra app updatye linha 2
+        #tb processo barra app update linha 2
         self.DB_update_PROCESOSbarraapp((NUM_2,NUM_2))
 
         #state desativar
@@ -1205,7 +1506,7 @@ class ProcessoCadastro():
         self.DESTROIR4_internoif_widget_cadastro()
         self.DB_desconectar()
 
-        #tb processos updatye linha 4
+        #tb processos update linha 2
         self.DB_update_PROCESOSbarraapp((NUM_3,NUM_2))
         #state desativar
         self.STATE44_desativar_gastos()
@@ -1217,7 +1518,7 @@ class ProcessoCadastro():
         self.DESTROIR4_internoif_widget_cadastro()
         self.DB_desconectar()
 
-        #tb processos updatye linha 4
+        #tb processos update linha 2
         self.DB_update_PROCESOSbarraapp((NUM_4,NUM_2))
         
         #frame
@@ -1226,20 +1527,37 @@ class ProcessoCadastro():
         #state desativar
         self.STATE44_desativar_membros()
 
+    #5
     def COMMANDframe44_instituicaocd(self):
 
         self.DB_connectar()
         self.DESTROIR4_internoif_widget_cadastro()
         self.DB_desconectar()
 
-        #tb processos updatye linha 4
+        #tb processos update linha 2
         self.DB_update_PROCESOSbarraapp((NUM_5,NUM_2))
 
         # widget
-
         self.WIDGETframe44_sistemamembros()
+
         #state desabilitar
         self.STATE44_desativar_instituicao()
+
+    #6
+    def COMMANDframe44_CadInf(self):
+
+        self.DB_connectar()
+        self.DESTROIR4_internoif_widget_cadastro()
+        self.DB_desconectar()
+
+        #tb processos update linha 4
+        self.DB_update_PROCESOSbarraapp((NUM_6,NUM_2))
+
+        #widget
+        self.WIDGETframe44_cad_inf()
+
+        #state desabilitar
+        self.STATE44_desativar_cad_inf()
 
     "frame 2 membros cadastrar"
     def COMMAND4_db_membros_atsalvar(self):
@@ -1325,6 +1643,14 @@ class ProcessoCadastro():
 
             self.DB_desconectar()
 
+    def COMMAND_IFfc_processo_estados_cadastrar(self):
+
+        spb1_db_get = self.spb1_db.get()
+
+        if spb1_db_get == "ESTADOS":
+
+            self.WIDGETfc_listabox_cad_inf()
+
 class CadastroDestroy():
 
     """frame2"""
@@ -1384,6 +1710,10 @@ class CadastroDestroy():
 
                 self.FC_destruir_aspas()
                 self.DESTROY_cadastro_parte2_intituicao()
+        
+        elif db_if_viasualizar == NUM_6: # cadastro informação
+
+            self.STATE44_ativar_cad_inf()
 
     def DESTROY_cadastro_parte2_intituicao(self):
 
@@ -1547,6 +1877,7 @@ class MenuWidget ( BarraMenuInicializacao, # barra
                 ProcessoRecurso,
                 # cadastro 4
                 WidgetCadastro,
+                BancoCadastro,
                 ProcessoCadastro,
                 CadastroDestroy,
                 #configurações 5
@@ -1593,7 +1924,6 @@ class MenuWidget ( BarraMenuInicializacao, # barra
         self.sql_cursor.execute("SELECT numero_barra  FROM PROCESOSbarraapp ")
         visualizar_idbarra = self.sql_cursor.fetchall()
 
-               
         if len(visualizar_idbarra) == NUM_0:
             self.DBinserir_PROCESOSbarraapp()
 
