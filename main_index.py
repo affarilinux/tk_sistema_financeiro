@@ -3,6 +3,7 @@
 from ctypes.wintypes import LPBYTE
 from tkinter    import *
 from tkinter    import ttk
+from tkcalendar import Calendar, DateEntry
 
 import tkinter  as tk
 import sqlite3
@@ -37,8 +38,10 @@ from janela.principal.composicao_principal import (
     CADAST_BOTAO_INSTITUICAO_X, CADAST_BOTAO_INSTITUICAO_Y,
     CADAST_BOTAO_INSTITUICAO_W, CADAST_BOTAO_INSTITUICAO_H,
 
-    FRAME2_980, FRAME2_650, FRAME2_300, FRAME2_500,FRAME2_55, FRAME2_400,
+     FRAME2_500,FRAME2_55, FRAME2_400,
     FRAME2_30,
+
+    CADASTRO_SALVARX, CADASTRO_SALVARY,
 
     CADAST_TEXT_NOME
      
@@ -343,9 +346,9 @@ class ClassBanco():
         self.sql_cursor.execute("""
             CREATE TABLE IF NOT EXISTS ESTADO_CIVIL( 
                         ID_COD_ESTADO INTEGER PRIMARY KEY AUTOINCREMENT,
-                        ID_casal1 INTEGER NOT NULL,
-                        ID_casal2 INTEGER NOT NULL,
-                        ID_solteiro INTEGER NOT NULL,
+                        ID_casal1 INTEGER ,
+                        ID_casal2 INTEGER ,
+                        ID_solteiro INTEGER,
                         FOREIGN KEY (ID_casal1) REFERENCES MEMBROS (ID_cod),
                         FOREIGN KEY (ID_casal2) REFERENCES MEMBROS (ID_cod),
                         FOREIGN KEY (ID_solteiro) REFERENCES MEMBROS (ID_cod)
@@ -410,7 +413,13 @@ class BancoExecucaoConfiguracoes():
 
         self.sql_cursor.execute("SELECT text_barra FROM PROCESOSbarraapptext WHERE ID_bar = ?", (id_numero_barra_t,) )
         self.visualiza_sistema_interno = self.sql_cursor.fetchone()
-        
+    
+    """ESTADOS"""
+    def DB_visualizar_estados(self):
+
+        self.sql_cursor.execute( "SELECT Nome_EST FROM ESTADOS")
+        self.fc_cad = self.sql_cursor.fetchall()
+
     ############################################### update
     """update tabelas"""
     def DB_update_PROCESOSbarraapp(self,up_barra):
@@ -828,12 +837,11 @@ class WidgetCadastro():                            # class cadastros
         )
 
         self.botao_1cadastrar_cadastro_frame2. place(
-                    x=FRAME2_300, y = CADASTRO_FRAME2Y, 
+                    x=400, y = CADASTRO_FRAME2Y, 
                     
                     width=CADASTRO_FRAME2W, height= CADASTRO_FRAME2H
         )
 
-        
         self.botao_2atualizar_cadastro_frame2= Button (
                     # cor botao
                     bg      = COR_FUNDO_1,          
@@ -848,31 +856,11 @@ class WidgetCadastro():                            # class cadastros
         )
 
         self.botao_2atualizar_cadastro_frame2. place(
-                    x=FRAME2_650, y = CADASTRO_FRAME2Y, 
+                    x= 860, y = CADASTRO_FRAME2Y, 
                     
                     width=CADASTRO_FRAME2W, height= CADASTRO_FRAME2H
         )
 
-        self.botao_3informacoes_cadastro_frame2= Button (
-                    # cor botao
-                    bg      = COR_FUNDO_1,          
-                    text    = INFORMACOES,
-                    # negrito
-                    font    ='Helvetica 15 bold', 
-                    # cor escrita
-                    fg      = COR_ESCRITA1
-                    # chamada         
-                    #command = self.funcao_command_menu_home           
-
-        )
-
-        self.botao_3informacoes_cadastro_frame2. place(
-                    x=FRAME2_980, y = CADASTRO_FRAME2Y, 
-                    
-                    width=CADASTRO_FRAME2W, 
-                    height= CADASTRO_FRAME2H
-        )
-    
     #1
     def STATE44_desativar_cadastrar_mb(self):
 
@@ -912,61 +900,239 @@ class WidgetCadastro():                            # class cadastros
                     bg      = COR_FUNDO_JANELA,
                     text    = "NOME DO MEMBRO:",
                     # negrito
-                    font    ='Helvetica 11 bold', 
-
+                    font    ='Helvetica 11 bold'
         )
 
         self.LABEL_NOME_1.place(
-                    x= 250, y=120, 
+                    x= 250, y=270, 
                     
                     width= 160, height= 25
-
         )
 
-        self.LABEL_NOME_2 = Label (
-                    # cor botao
-                    bg      = COR_FUNDO_JANELA,
-                    text    = "* escreva nome completo.",
-                    # negrito
-                    font    ='Helvetica 11 bold',
-
-                    fg = "#FF0000"
-
-        )
-
-        self.LABEL_NOME_2.place(
-                    x= 650, y=120, 
-                    
-                    width= 200, height= 25
-
-        )
 
         self.LABEL_NOME_3 = Label (
                     # cor botao
                     bg      = COR_FUNDO_JANELA,
-                    text    = "ESTADO:",
+                    text    = "MASCULINO:",
                     # negrito
-                    font    ='Helvetica 11 bold', 
-
+                    font    ='Helvetica 11 bold' 
         )
 
         self.LABEL_NOME_3.place(
-                    x= 235, y=200, 
+                    x= 250, y=300, 
                     
                     width= 100, height= 25
         )
+
+        self.LABEL_NOME_4 = Label (
+                    # cor botao
+                    bg      = COR_FUNDO_JANELA,
+                    text    = "FEMININO:",
+                    # negrito
+                    font    ='Helvetica 11 bold' 
+        )
+
+        self.LABEL_NOME_4.place(
+                    x= 245, y=360, 
+                    
+                    width= 90, height= 25
+        )
+
+        self.LABEL_NOME_4 = Label (
+                    # cor botao
+                    bg      = COR_FUNDO_JANELA,
+                    text    = "INFORMAÇÕES:",
+                    # negrito
+                    font    ='Helvetica 11 bold' 
+        )
+
+        self.LABEL_NOME_4.place(
+                    x= 250, y=420, 
+                    
+                    width= 120, height= 25
+        )
+
+        self.LABEL_NOME_5 = Label (
+                    # cor botao
+                    bg      = COR_FUNDO_JANELA,
+                    text    = "ANIVERSÁRIO:",
+                    # negrito
+                    font    ='Helvetica 11 bold' 
+        )
+
+        self.LABEL_NOME_5.place(
+                    x= 870, y=300, 
+                    
+                    width= 120, height= 25
+        )
+
+        self.LABEL_NOME_6 = Label (
+                    # cor botao
+                    bg      = COR_FUNDO_JANELA,
+                    text    = "ENDEREÇO:",
+                    # negrito
+                    font    ='Helvetica 11 bold' 
+        )
+
+        self.LABEL_NOME_6.place(
+                    x= 870, y=420, 
+                    
+                    width= 120, height= 25
+        )
+
+        ###$ tipo 2
+        self.LABEL_NOME_1_1 = Label (
+                    # cor botao
+                    bg      = COR_FUNDO_JANELA,
+                    text    = "* Escreva nome completo.",
+                    # negrito
+                    font    ='Helvetica 11 bold',
+
+                    fg = "#FF0000"
+        )
+
+        self.LABEL_NOME_1_1.place(
+                    x= 600, y=300, 
+                    
+                    width= 200, height= 25
+        )
+
+        self.LABEL_NOME_2_1 = Label (
+                    # cor botao
+                    bg      = COR_FUNDO_JANELA,
+                    text    = "* As informações deve ser unicas.",
+                    # negrito
+                    font    ='Helvetica 11 bold',
+
+                    fg = "#FF0000"
+        )
+
+        self.LABEL_NOME_2_1.place(
+                    x= 600, y=425, 
+                    
+                    width= 240, height= 25
+        )
+
+        ####### variaveis externas fixas
 
         "variaveis"
         self.entry_nome1 = Entry(
                                             
                     font    ='Helvetica 15', 
+                    # formato da borda
+                    relief      ="solid", 
+                    # tamanho da borda
+                    borderwidth = 1  
         )
 
         self.entry_nome1.place(
-                    x=250, y= 150, 
+                    x=250, y= 325, 
                     width= 600, 
                     height= 30
         )
+
+        self.entry_nome2 = Entry(
+                                            
+                    font    ='Helvetica 15', 
+                    relief      ="solid", 
+                    # tamanho da borda
+                    borderwidth = 1 
+        )
+
+        self.entry_nome2.place(
+                    x=250, y= 385, 
+                    width= 600, 
+                    height= 30
+        )
+
+        self.entry_nome3 = Text(
+                                            
+                    font    ='Helvetica 15', 
+                    relief      ="solid", 
+                    # tamanho da borda
+                    borderwidth = 1 
+        )
+
+        self.entry_nome3.place(
+                    x=250, y= 450, 
+                    width= 600, 
+                    height= 90
+        )
+
+        self.entry_nome4 = DateEntry(
+                                            
+                    font    ='Helvetica 15',
+                    date_partter =  'dd/mm/y',
+                    relief      ="solid", 
+                    # tamanho da borda
+                    borderwidth = 1 
+        )
+
+        self.entry_nome4.place(
+                    x=880, y= 325, 
+                    width= 130, 
+                    height= 30
+        )
+
+        self.entry_nome4 = Text(
+                                            
+                    font    ='Helvetica 15',
+                    relief      ="solid", 
+                    # tamanho da borda
+                    borderwidth = 1 
+        )
+
+        self.entry_nome4.place(
+                    x=880, y= 450, 
+                    width= 300, height= 90
+        )
+
+
+    def WIDGET_spinbox_cadastro_membros(self):
+
+        self.DB_connectar()
+
+        self.DB_visualizar_estados()
+
+        if len(self.fc_cad) == NUM_0:
+
+            self.LABELfcnomeInstituicao = Label ( 
+                    # cor botao - 
+                    bg      = COR_BOTAO_FUNDO,          
+                    text    = "SEM INFORMAÇÃO",
+                    # negrito
+                    font    ='Helvetica 10 bold', 
+                    # cor escrita - Yellow
+                    fg      = COR_ESCRITA_MENU_BAR,        
+            )
+
+            self.LABELfcnomeInstituicao. place(
+                    x      = 250, y      = 430, 
+                    
+                    width  = 130, height = 25
+            )
+
+        elif len(self.fc_cad) > NUM_0:
+            
+            lista_fc_sp = []
+
+            for row in self.fc_cad:
+                lista_fc_sp.append(row[0])
+
+            spb_1 = Spinbox(
+                    values = (lista_fc_sp),
+                    font   = 'Helvetica 15'
+            )
+
+            spb_1.place(
+                    x= 250, y=430, 
+                    
+                    width= 100, height= 30
+            )
+            
+        self.DB_desconectar()
+
+    def WIDGET_salvar_cadastro_menbros(self):
 
         self.botao_salvar_instituicao = Button ( 
                     # cor botao 
@@ -980,26 +1146,13 @@ class WidgetCadastro():                            # class cadastros
                     command = self.COMMAND4_db_membros_atsalvar
 
         )
-
-        spb_1 = Spinbox(
-                    values = ("PA","AM"),
-                    font   = 'Helvetica 15'
-        )
-
-        spb_1.place(
-                    x= 250, y=230, 
-                    
-                    width= 100, height= 30
-        )
-
-        # salvar
         self.botao_salvar_instituicao. place(
-                    x=900, 
-                    y = 145,
-
-                    width= 150, 
-                    height= 40
+                    x      = CADASTRO_SALVARX, y = CADASTRO_SALVARY, 
+                    
+                    width  = CADAST_BOTAO_INSTITUICAO_W, 
+                    height = CADAST_BOTAO_INSTITUICAO_H
         )
+        
 
     ###############################################
     #sistema5
@@ -1134,11 +1287,9 @@ class WidgetCadastro():                            # class cadastros
         )
 
         self.LABELfcnomeInstituicao. place(
-                    x      = 200, 
-                    y      = 360, 
+                    x      = 200, y = 360, 
                     
-                    width  = 190, 
-                    height = 25
+                    width  = 190, height = 25
         )
         "botao"
         self.BOTAOfcvoltar = Button ( 
@@ -1188,13 +1339,15 @@ class WidgetCadastro():                            # class cadastros
         self.entry_banco_instituicao_cadastro = Entry(
                                             
                     font    ='Helvetica 11', 
+                    relief      ="solid", 
+                    # tamanho da borda
+                    borderwidth = 1 
+
         )
 
         self.entry_banco_instituicao_cadastro.place(
-                    x=200, 
-                    y= 400,
-                    width= 200, 
-                    height= 30
+                    x=200, y= 400,
+                    width= 200, height= 30
         )
 
         self.DB_update_PROCESOSbarraapp((NUM_2,NUM_4))
@@ -1254,61 +1407,11 @@ class WidgetCadastro():                            # class cadastros
                     width= 100, height= 25
         )
 
-        self.LABEL_fixo_processo= Label (
-                    # cor de fundo -DeepSkyBlue
-                    bg = COR_FUNDO_JANELA,  
-
-                    # formato da borda
-                    relief      ="solid", 
-                    # tamanho da borda
-                    borderwidth = 10       
-        )      
-                                
-        self.LABEL_fixo_processo.place(
-                    x = 200,  y= 250, 
-
-                    width = TAMANHO_WIDTH_JANELA- 250, 
-                    height = TAMANHO_HEIGHT_JANELA - 290
-        )
-
-        self.LABEL_fixo_processo_1= Label (
-                    # cor de fundo -DeepSkyBlue
-                    bg = COR_FUNDO_JANELA,  
-
-                    # formato da borda
-                    relief      ="solid", 
-                    # tamanho da borda
-                    borderwidth = 4       
-        )      
-                                
-        self.LABEL_fixo_processo_1.place(
-                    x = 210,  y= 595, 
-
-                    width = 1030, 
-                    height = 205
-        )
-
-        self.LABEL_fixo_processo_2= Label (
-                    # cor de fundo -DeepSkyBlue
-                    bg = COR_FUNDO_JANELA,  
-
-                    # formato da borda
-                    relief      ="solid", 
-                    # tamanho da borda
-                    borderwidth = 4       
-        )      
-                                
-        self.LABEL_fixo_processo_2.place(
-                    x = 210,  y= 550, 
-
-                    width = 1030, 
-                    height = 50
-        )
+        self.FCwidget_var_fixa_sist_cadastro()
 
         "variaveis"
         "processo 1"
         
-
         self.spb1_db = Spinbox(
                     values = ("ESTADOS"),
                     font   = 'Helvetica 15'
@@ -1380,36 +1483,45 @@ class WidgetCadastro():                            # class cadastros
                     height = CADAST_BOTAO_INSTITUICAO_H
         )
 
-        self.BOTAO4_ci_gerais = Button ( 
+        self.BOTAO5_ci_geraissl = Button ( 
                     # cor botao - 
                     bg      = COR_BOTAO_FUNDO,          
                     text    = TEXT_SALVAR,
                     # negrito
                     font    ='Helvetica 15 bold', 
                     # cor escrita - Yellow
-                    fg      = COR_ESCRITA_MENU_BAR        
+                    fg      = COR_ESCRITA_MENU_BAR,       
                     # chamada  
-                    #command = self.COMMAND_4instituicao_atualizar
+                    command = self.COMMAND_4_iffc_salvar_lista
 
         )
 
-        self.BOTAO4_ci_gerais. place(
-                    x      = 250, y = 557, 
+        self.BOTAO5_ci_geraissl. place(
+                    x      = CADASTRO_SALVARX, y = CADASTRO_SALVARY, 
                     
                     width  = CADAST_BOTAO_INSTITUICAO_W, 
                     height = CADAST_BOTAO_INSTITUICAO_H
         )
         
         self.WIDGETfc_listabox_cad_inf()
+        self.STATE1_desativar_2_ci_gerais()
+        self.WIDGETfc_cadastrar_exe()
+
+    def STATE1_desativar_2_ci_gerais(self):
+
+        self.BOTAO2_ci_gerais["state"] = "disabled"
+
+    def STATE1_ativar_2_ci_gerais(self):
+
+        self.BOTAO2_ci_gerais["state"] ="normal"
 
     def WIDGETfc_listabox_cad_inf(self):
 
         self.DB_connectar()
         
-        self.sql_cursor.execute( "SELECT Nome_EST FROM ESTADOS")
-        fc_cad = self.sql_cursor.fetchall()
+        self.DB_visualizar_estados()
 
-        LB_1 = Listbox(
+        self.LB_1 = Listbox(
                     bg = COR_FUNDO_1,
                     font    ='Helvetica 15 bold',
                     # formato da borda
@@ -1418,36 +1530,115 @@ class WidgetCadastro():                            # class cadastros
                     borderwidth = 3      
         )
 
-        LB_1.place(
+        self.LB_1.place(
                     x = 600, y = 600, 
                     
                     width  = 300, height = 193
         )
 
         lista_fc_cad = []
-        if len(fc_cad) == NUM_0:
+        if len(self.fc_cad) == NUM_0:
 
 
-            LB_1.insert(END, "SEM INFORMAÇÕES","       NO BANCO" )
+            self.LB_1.insert(END, "SEM INFORMAÇÕES","       NO BANCO" )
 
-        elif len(fc_cad) > NUM_0:
+        elif len(self.fc_cad) > NUM_0:
 
-            for row in fc_cad:
-                
+            for row in self.fc_cad:
                 lista_fc_cad.append(row[0])
 
             for lis in lista_fc_cad:
-                LB_1.insert(END, lis)        
+                self.LB_1.insert(END, lis)        
 
         self.DB_desconectar()
         
-        scroll = ttk.Scrollbar(orient="vertical",command=LB_1.yview)
-        LB_1.configure(yscrollcommand=scroll.set)
-        scroll.place(x=875, y= 605,width=20,height= 183)
-        
-        
-        
-        
+        self.scroll = ttk.Scrollbar(orient="vertical",command=self.LB_1.yview)
+        self.LB_1.configure(yscrollcommand=self.scroll.set)
+        self.scroll.place(x=875, y= 605,width=20,height= 183)
+
+    def WIDGETfc_cadastrar_exe(self):
+
+        "fixo"
+        self.LABELfixo_cad_inf_sr = Label (
+                    bg      = COR_FUNDO_JANELA,
+                    text    = "SIGLA DA REGIÃO:",
+                    # negrito
+                    font    ='Helvetica 11 bold'
+        )
+
+        self.LABELfixo_cad_inf_sr.place(
+                    x= 250, y=300, 
+                    
+                    width= 135, height= 20
+        )
+
+        "varivaeis"
+        self.entry_exe_part1 = Entry(
+                                            
+                    font    ='Helvetica 15', 
+        )
+
+        self.entry_exe_part1.place(
+                    x=250, y= 330, 
+                    width= 200, height= 25
+        )
+
+
+    #### variaveis entre sistemas
+    def FCwidget_var_fixa_sist_cadastro(self):
+
+        self.LABEL_fixo_processo= Label (
+                    # cor de fundo -DeepSkyBlue
+                    bg = COR_FUNDO_JANELA,  
+
+                    # formato da borda
+                    relief      ="solid", 
+                    # tamanho da borda
+                    borderwidth = 10       
+        )      
+                                
+        self.LABEL_fixo_processo.place(
+                    x = 200,  y= 250, 
+
+                    width = TAMANHO_WIDTH_JANELA- 250, 
+                    height = TAMANHO_HEIGHT_JANELA - 290
+        )
+
+        self.LABEL_fixo_processo_1= Label (
+                    # cor de fundo -DeepSkyBlue
+                    bg = COR_FUNDO_JANELA,  
+
+                    # formato da borda
+                    relief      ="solid", 
+                    # tamanho da borda
+                    borderwidth = 4       
+        )      
+                                
+        self.LABEL_fixo_processo_1.place(
+                    x = 210,  y= 595, 
+
+                    width = 1030, 
+                    height = 205
+        )
+
+        self.LABEL_fixo_processo_2= Label (
+                    # cor de fundo -DeepSkyBlue
+                    bg = COR_FUNDO_JANELA,  
+
+                    # formato da borda
+                    relief      ="solid", 
+                    # tamanho da borda
+                    borderwidth = 4       
+        )      
+                                
+        self.LABEL_fixo_processo_2.place(
+                    x = 210,  y= 550, 
+
+                    width = 1030, 
+                    height = 50
+        )
+
+
 class BancoCadastro():                             # class cadastro
 
     def FC_WIDGETframe44_processo_banco(self):
@@ -1458,7 +1649,34 @@ class BancoCadastro():                             # class cadastro
         #state desativar
         self.STATE44_desativar_banco()
 
+    def COMMAND_4_iffc_salvar_lista(self):
 
+        list_salvar = self.spb1_db.get()
+
+        if list_salvar == "ESTADOS":
+
+            try:
+                entry_ver_for_1 = str(self.entry_exe_part1.get())
+
+                if entry_ver_for_1 == "":
+
+                    print(1504)
+
+                else:
+                    self.DB_connectar()
+            
+                    entry_ins_1 = str(self.entry_exe_part1.get())
+
+                    self.sql_cursor.execute("INSERT INTO  ESTADOS VALUES (NULL,'"+entry_ins_1+"')")
+                    self.DB_commit()
+           
+                    self.DB_desconectar()
+                    self.WIDGETfc_listabox_cad_inf()
+            
+            except sqlite3.IntegrityError:
+                print(1504.1)
+
+    
 class ProcessoCadastro():                          #class cadastro
 
     "cadastro barra"
@@ -1524,6 +1742,14 @@ class ProcessoCadastro():                          #class cadastro
         #frame
         self.WIDGETframe44_cadastromembros()
 
+        #widget externa fixas
+        self.FCwidget_var_fixa_sist_cadastro()
+
+        #widget
+        self.COMMAND_WIDGET_cadastro_membros()
+        #self.WIDGET_spinbox_cadastro_membros()
+        self.WIDGET_salvar_cadastro_menbros()
+
         #state desativar
         self.STATE44_desativar_membros()
 
@@ -1564,15 +1790,20 @@ class ProcessoCadastro():                          #class cadastro
             
         insertmembros = str(self.entry_nome1.get())
 
-        '''self.DB_connectar()
-        self.sql_cursor.execute( "INSERT INTO MEMBROS VALUES (NULL,'"+insertmembros+"')")
-        self.DB_commit()
-        self.DB_desconectar()'''
-        
+        def inserir_membros(self):
+
+            self.DB_connectar()
+
+            
+            self.DB_desconectar()
+
         try:
             self.DB_connectar()
             self.sql_cursor.execute( "INSERT INTO MEMBROS VALUES (NULL,'"+insertmembros+"')")
             self.DB_commit()
+
+            inserir_membros()
+
             self.DB_desconectar()
         except sqlite3.IntegrityError:
             print("erro")
@@ -1650,6 +1881,7 @@ class ProcessoCadastro():                          #class cadastro
         if spb1_db_get == "ESTADOS":
 
             self.WIDGETfc_listabox_cad_inf()
+            self.WIDGETfc_cadastrar_exe()
 
 class CadastroDestroy():
 
@@ -1713,7 +1945,29 @@ class CadastroDestroy():
         
         elif db_if_viasualizar == NUM_6: # cadastro informação
 
+            #reativar
             self.STATE44_ativar_cad_inf()
+
+            #destroy parte 1
+            self.LABELfixo_cad_inf.destroy()
+            self.LABEL_fixo_processo.destroy()
+            self.LABEL_fixo_processo_1.destroy()
+            self.LABEL_fixo_processo_2.destroy()
+            self.LABEL_banco1.destroy()
+            self.spb1_db.destroy()
+            self.BOTAO2_ci_gerais.destroy()
+            self.BOTAO3_ci_gerais.destroy()
+            self.BOTAO4_ci_gerais.destroy()
+            self.BOTAO5_ci_geraissl.destroy()
+
+            self.DESTROY_cadastro_par2_processo_interno()
+
+    def DESTROY_cadastro_par2_processo_interno(self):
+
+        self.LABELfixo_cad_inf_sr.destroy()
+        self.entry_exe_part1.destroy()
+        self.LB_1.destroy()
+        self.scroll.destroy()
 
     def DESTROY_cadastro_parte2_intituicao(self):
 
@@ -1724,7 +1978,7 @@ class CadastroDestroy():
         self.BOTAOfcInstituicao.destroy()
         self.BOTAOfcvoltar.destroy()
         self.BOTAOfcsalvar.destroy()
-
+        
         self.entry_banco_instituicao_cadastro.destroy()
 
     def FC_destruir_aspas(self):
@@ -1838,6 +2092,7 @@ class Destruir_Widget_Barra():
             self.botao_3gastos_cadastros.destroy()
             self.botao_4membros_cadastros.destroy()
             self.botao_4instituicao_cadastros.destroy()
+            self.botao_4instituicao_CAD_INFOR.destroy()
 
             # update tb processobarraapp lonha 4
             self.DB_update_PROCESOSbarraapp((NUM_0,NUM_2))
