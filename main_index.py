@@ -1088,6 +1088,44 @@ class WidgetCadastro():                            # class cadastros
         )
 
 
+    def WIDGETfc_treeview(self):
+
+        tv = ttk.Treeview(
+                    columns = ("COD", "masc","fem","ani","end","inf"),
+                    show= "headings"
+        )
+
+        tv.column("COD", minwidth= 30, width=40)
+        tv.heading("COD", text= "ID")
+
+        tv.column("masc", minwidth= 90, width=100)
+        tv.heading("masc", text= "MASCULINO")
+
+        tv.column("fem", minwidth= 90, width=100)
+        tv.heading("fem", text= "FEMININO")
+
+        tv.column("ani", minwidth= 90, width=100)
+        tv.heading("ani", text= "ANIVERSÁRIO")
+
+        tv.column("end", minwidth= 90, width=100)
+        tv.heading("end", text= "ENDEREÇO")
+
+        tv.column("inf", minwidth= 90, width=100)
+        tv.heading("inf", text= "INFORMAÇÃO")
+
+        tv.place(
+                    x=220, y= 605, 
+                    width= 1010, height= 185
+        )
+
+        self.scroll_tvv = ttk.Scrollbar(orient="vertical",command=tv.yview)
+        tv.configure(yscrollcommand=self.scroll_tvv.set)
+        self.scroll_tvv.place(x=1209, y= 606,width=20,height= 183)
+
+        self.scroll_tvh = ttk.Scrollbar(orient="horizontal",command=tv.yview)
+        tv.configure(yscrollcommand=self.scroll_tvh.set)
+        self.scroll_tvh.place(x=221, y= 769,width=986,height= 20)
+
     def WIDGET_spinbox_cadastro_membros(self):
 
         self.DB_connectar()
@@ -1137,7 +1175,7 @@ class WidgetCadastro():                            # class cadastros
         self.botao_salvar_instituicao = Button ( 
                     # cor botao 
                     bg      = COR_BOTAO_FUNDO,          
-                    text    = TEXT_SALVAR,
+                    text    = TEXT_SALVAR, # MEMBROS-btn
                     # negrito
                     font    ='Helvetica 20 bold', 
                     # cor escrita - Yellow
@@ -1316,7 +1354,7 @@ class WidgetCadastro():                            # class cadastros
         self.BOTAOfcsalvar = Button ( 
                     # cor botao - 
                     bg      = COR_BOTAO_FUNDO,          
-                    text    = TEXT_SALVAR,
+                    text    = TEXT_SALVAR, # instituicao-btn
                     # negrito
                     font    ='Helvetica 15 bold', 
                     # cor escrita - Yellow
@@ -1638,6 +1676,26 @@ class WidgetCadastro():                            # class cadastros
                     height = 50
         )
 
+    def WIDGET_fc_processo_salvar(self):
+
+            self.LABELfcsal_1_entryaspas = Label ( 
+                    # cor botao - 
+                    bg      = COR_BOTAO_FUNDO,          
+                    text    = "INSIRA O NOME DOS USUÁRIOS",
+                    # negrito
+                    font    ='Helvetica 11 bold', 
+                    # cor escrita - Yellow
+                    fg      = COR_ESCRITA_MENU_BAR   
+            )
+
+            self.LABELfcsal_1_entryaspas. place(
+                    x      = 430, 
+                    y      = 560, 
+                    
+                    width  = 250, 
+                    height = 25
+            )
+
 
 class BancoCadastro():                             # class cadastro
 
@@ -1749,6 +1807,7 @@ class ProcessoCadastro():                          #class cadastro
         self.COMMAND_WIDGET_cadastro_membros()
         #self.WIDGET_spinbox_cadastro_membros()
         self.WIDGET_salvar_cadastro_menbros()
+        self.WIDGETfc_treeview()
 
         #state desativar
         self.STATE44_desativar_membros()
@@ -1789,6 +1848,7 @@ class ProcessoCadastro():                          #class cadastro
     def COMMAND4_db_membros_atsalvar(self):
             
         insertmembros = str(self.entry_nome1.get())
+        insertmembros2 = str(self.entry_nome2.get())
 
         def inserir_membros(self):
 
@@ -1797,16 +1857,35 @@ class ProcessoCadastro():                          #class cadastro
             
             self.DB_desconectar()
 
-        try:
+        if insertmembros == "" and insertmembros2 == "":
+
             self.DB_connectar()
-            self.sql_cursor.execute( "INSERT INTO MEMBROS VALUES (NULL,'"+insertmembros+"')")
-            self.DB_commit()
 
-            inserir_membros()
+            self.DB_visualizar_PROCESOSbarraapptext(NUM_1)
+            v_db_1 = self.visualiza_sistema_interno[0]
 
+            if v_db_1 == TEXT_THUE:
+
+                #label temporaria
+                self.WIDGET_fc_processo_salvar()
+
+                self.LABELfcsal_1_entryaspas.after(4000, self.FC_destruir_tp)
+
+                #update
+                self.DB_update_PROCESOSbarraapptext((TEXT_FALSE,NUM_1))
             self.DB_desconectar()
-        except sqlite3.IntegrityError:
-            print("erro")
+        
+        else:
+            try:
+                self.DB_connectar()
+                self.sql_cursor.execute( "INSERT INTO MEMBROS VALUES (NULL,'"+insertmembros+"')")
+                self.DB_commit()
+
+                self.inserir_membros()
+
+                self.DB_desconectar()
+            except sqlite3.IntegrityError:
+                print("erro")
         # Exception as Erro:
             #print(Erro.__class__)
 
@@ -1997,8 +2076,26 @@ class CadastroDestroy():
 
         if visual_processos_td2 == TEXT_FALSE:
 
-            #self.FC_destruir_aspas()
             self.LABELfcsalvar_entryaspas.destroy()
+
+        self.DB_desconectar()
+
+    def FC_destruir_tp(self):
+
+        self.FC_if_dbprocessotext_destroy_1()
+
+        self.DB_update_PROCESOSbarraapptext((TEXT_THUE,NUM_1))
+
+    def FC_if_dbprocessotext_destroy_1(self):
+
+        self.DB_connectar()
+        
+        self.DB_visualizar_PROCESOSbarraapptext(NUM_1)
+        v_0tp = self.visualiza_sistema_interno[0]
+
+        if v_0tp == TEXT_FALSE:
+
+            self.LABELfcsal_1_entryaspas.destroy()
 
         self.DB_desconectar()
 
