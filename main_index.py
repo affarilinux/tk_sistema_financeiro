@@ -342,16 +342,24 @@ class ClassBanco():
                 
         """)
 
+        self.sql_cursor.execute("""
+            CREATE TABLE IF NOT EXISTS DATA_USUARIO ( 
+                ID_data INTEGER  PRIMARY KEY AUTOINCREMENT,
+                data DATE NOT NULL UNIQUE)      
+        """)
+
         #banco secundarios
         self.sql_cursor.execute("""
             CREATE TABLE IF NOT EXISTS ESTADO_CIVIL( 
                         ID_COD_ESTADO INTEGER PRIMARY KEY AUTOINCREMENT,
-                        ID_casal1 INTEGER ,
-                        ID_casal2 INTEGER ,
-                        ID_solteiro INTEGER,
-                        FOREIGN KEY (ID_casal1) REFERENCES MEMBROS (ID_cod),
-                        FOREIGN KEY (ID_casal2) REFERENCES MEMBROS (ID_cod),
-                        FOREIGN KEY (ID_solteiro) REFERENCES MEMBROS (ID_cod)
+                        ID_membro1 INTEGER,
+                        ID_membro2 INTEGER,
+                        ID_aniversario INTEGER,
+                        endereco TEXT,
+                        informacao TEXT UNIQUE,
+                        FOREIGN KEY (ID_membro1) REFERENCES MEMBROS (ID_cod),
+                        FOREIGN KEY (ID_membro2) REFERENCES MEMBROS (ID_cod),
+                        FOREIGN KEY (ID_aniversario) REFERENCES DATA_USUARIO (ID_data)
             )
         """)
 
@@ -381,14 +389,28 @@ class BancoExecucaoConfiguracoes():
         self.sql_cursor.execute("INSERT INTO PROCESOSbarraapp  VALUES (4, '"+str(NUM_0)+"')")
         self.DB_commit() 
 
+    "PROCESOSbarraapptext"
     def DB_inserir_PROCESOSbarraapptext(self):
 
         self.sql_cursor.execute("INSERT INTO PROCESOSbarraapptext  VALUES (1, '"+str(TEXT_THUE)+"')")
         self.DB_commit() 
 
+    "Instituicao"
     def DB_inserir_N_AInstituicao(self):
             
         self.sql_cursor.execute( "INSERT INTO Instituicao VALUES (1, '"+NOME_NOVA_ALIANCA+"')")
+        self.DB_commit()
+
+    "membros"
+    def inserir_membros(self,ins_1a):
+              
+        self.sql_cursor.execute( "INSERT INTO MEMBROS VALUES (NULL,'"+ins_1a+"')")
+        self.DB_commit()
+
+    "DATA_USUARIO"
+    def inserir_datau(self,ins_data):
+              
+        self.sql_cursor.execute( "INSERT INTO DATA_USUARIO VALUES (NULL,'"+ins_data+"')")
         self.DB_commit()
 
     ############################################### visualizar dados 
@@ -419,6 +441,15 @@ class BancoExecucaoConfiguracoes():
 
         self.sql_cursor.execute( "SELECT Nome_EST FROM ESTADOS")
         self.fc_cad = self.sql_cursor.fetchall()
+
+    def DB_vizualizar_membros(self,visu_mb):
+
+        self.sql_cursor.execute( "SELECT  Nome FROM MEMBROS WHERE Nome = ?", (visu_mb,))
+        self.visualiza_membros = self.sql_cursor.fetchone()
+
+        if self.visualiza_membros == None:
+
+            self.inserir_membros(visu_mb)
 
     ############################################### update
     """update tabelas"""
@@ -1059,7 +1090,7 @@ class WidgetCadastro():                            # class cadastros
                     height= 90
         )
 
-        self.entry_nome4 = DateEntry(
+        self.entry_nome4_1 = DateEntry(
                                             
                     font    ='Helvetica 15',
                     date_partter =  'dd/mm/y',
@@ -1068,7 +1099,7 @@ class WidgetCadastro():                            # class cadastros
                     borderwidth = 1 
         )
 
-        self.entry_nome4.place(
+        self.entry_nome4_1.place(
                     x=880, y= 325, 
                     width= 130, 
                     height= 30
@@ -1847,15 +1878,9 @@ class ProcessoCadastro():                          #class cadastro
     "frame 2 membros cadastrar"
     def COMMAND4_db_membros_atsalvar(self):
             
-        insertmembros = str(self.entry_nome1.get())
+        insertmembros  = str(self.entry_nome1.get())
         insertmembros2 = str(self.entry_nome2.get())
-
-        def inserir_membros(self):
-
-            self.DB_connectar()
-
-            
-            self.DB_desconectar()
+        insertdatau    = str(self.entry_nome4_1.get())
 
         if insertmembros == "" and insertmembros2 == "":
 
@@ -1876,16 +1901,36 @@ class ProcessoCadastro():                          #class cadastro
             self.DB_desconectar()
         
         else:
-            try:
+            
+            if insertmembros != "" and insertmembros2 != "":
+                
                 self.DB_connectar()
-                self.sql_cursor.execute( "INSERT INTO MEMBROS VALUES (NULL,'"+insertmembros+"')")
-                self.DB_commit()
 
-                self.inserir_membros()
+                self.DB_vizualizar_membros(insertmembros)
+                '''try:
+                    self.inserir_membros(insertmembros)
+                except sqlite3.IntegrityError:
+
+                    try:
+                        self.inserir_membros(insertmembros2)
+
+                    except sqlite3.IntegrityError:
+                        
+                        try:
+                            self.inserir_datau(insertdatau)
+
+                        except sqlite3.IntegrityError:
+                            print("erro")'''
+
 
                 self.DB_desconectar()
-            except sqlite3.IntegrityError:
-                print("erro")
+            
+
+            elif insertmembros == "" and insertmembros2 != "":
+                print(1)
+
+            elif insertmembros != "" and insertmembros2 == "":
+                print(2)
         # Exception as Erro:
             #print(Erro.__class__)
 
