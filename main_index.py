@@ -356,7 +356,7 @@ class ClassBanco():
                         ID_membro2 INTEGER,
                         ID_aniversario INTEGER,
                         endereco TEXT,
-                        informacao TEXT UNIQUE,
+                        informacao TEXT ,
                         FOREIGN KEY (ID_membro1) REFERENCES MEMBROS (ID_cod),
                         FOREIGN KEY (ID_membro2) REFERENCES MEMBROS (ID_cod),
                         FOREIGN KEY (ID_aniversario) REFERENCES DATA_USUARIO (ID_data)
@@ -442,6 +442,7 @@ class BancoExecucaoConfiguracoes():
         self.sql_cursor.execute( "SELECT Nome_EST FROM ESTADOS")
         self.fc_cad = self.sql_cursor.fetchall()
 
+    "membros"
     def DB_vizualizar_membros(self,visu_mb):
 
         self.sql_cursor.execute( "SELECT  Nome FROM MEMBROS WHERE Nome = ?", (visu_mb,))
@@ -450,6 +451,22 @@ class BancoExecucaoConfiguracoes():
         if self.visualiza_membros == None:
 
             self.inserir_membros(visu_mb)
+
+    def DB_vizualizar_membrosid(self,visu_mbid):
+
+        self.sql_cursor.execute( "SELECT  ID_cod FROM MEMBROS WHERE Nome = ?", (visu_mbid,))
+        visualiza_membrosid = self.sql_cursor.fetchone()
+
+        for row_m in visualiza_membrosid:
+
+            self.an1 = row_m
+
+    "estado_civil"
+    def DB_vizualizar_estadocivil(self,visu_info):
+
+        self.sql_cursor.execute( "SELECT  informacao FROM ESTADO_CIVIL WHERE informacao = ?", (visu_info,))
+        self.visualiza_info = self.sql_cursor.fetchone()
+
 
     ############################################### update
     """update tabelas"""
@@ -1028,26 +1045,11 @@ class WidgetCadastro():                            # class cadastros
                     width= 200, height= 25
         )
 
-        self.LABEL_NOME_2_1 = Label (
-                    # cor botao
-                    bg      = COR_FUNDO_JANELA,
-                    text    = "* As informações deve ser unicas.",
-                    # negrito
-                    font    ='Helvetica 11 bold',
-
-                    fg = "#FF0000"
-        )
-
-        self.LABEL_NOME_2_1.place(
-                    x= 600, y=425, 
-                    
-                    width= 240, height= 25
-        )
-
+        
         ####### variaveis externas fixas
 
         "variaveis"
-        self.entry_nome1 = Entry(
+        self.entry_nome1 = Entry( # masculino
                                             
                     font    ='Helvetica 15', 
                     # formato da borda
@@ -1062,7 +1064,7 @@ class WidgetCadastro():                            # class cadastros
                     height= 30
         )
 
-        self.entry_nome2 = Entry(
+        self.entry_nome2 = Entry( # feminino
                                             
                     font    ='Helvetica 15', 
                     relief      ="solid", 
@@ -1076,7 +1078,7 @@ class WidgetCadastro():                            # class cadastros
                     height= 30
         )
 
-        self.entry_nome3 = Text(
+        self.entry_nome3 = Text(   # informações
                                             
                     font    ='Helvetica 15', 
                     relief      ="solid", 
@@ -1090,7 +1092,7 @@ class WidgetCadastro():                            # class cadastros
                     height= 90
         )
 
-        self.entry_nome4_1 = DateEntry(
+        self.entry_nome4_1 = DateEntry( # data aniversario
                                             
                     font    ='Helvetica 15',
                     date_partter =  'dd/mm/y',
@@ -1105,7 +1107,21 @@ class WidgetCadastro():                            # class cadastros
                     height= 30
         )
 
-        self.entry_nome4 = Text(
+        self.valor_check = IntVar()
+        check = Checkbutton(
+                    text    = "SALVAR ANIVERSÁRIO",
+                    variable=  self.valor_check,
+                    font    ='Helvetica 9',
+                    bg= COR_FUNDO_JANELA
+        )
+
+        check.place(
+
+                    x=880, y= 370, 
+                    width= 150, 
+                    height= 25
+        )
+        self.entry_nome5 = Text( # endereço
                                             
                     font    ='Helvetica 15',
                     relief      ="solid", 
@@ -1113,7 +1129,7 @@ class WidgetCadastro():                            # class cadastros
                     borderwidth = 1 
         )
 
-        self.entry_nome4.place(
+        self.entry_nome5.place(
                     x=880, y= 450, 
                     width= 300, height= 90
         )
@@ -1880,7 +1896,10 @@ class ProcessoCadastro():                          #class cadastro
             
         insertmembros  = str(self.entry_nome1.get())
         insertmembros2 = str(self.entry_nome2.get())
+        insertend      = str(self.entry_nome5.get("1.0",END))
         insertdatau    = str(self.entry_nome4_1.get())
+        insertinf      = str(self.entry_nome3.get("1.0",END))
+        insertcheck    = self.valor_check.get()
 
         if insertmembros == "" and insertmembros2 == "":
 
@@ -1901,12 +1920,44 @@ class ProcessoCadastro():                          #class cadastro
             self.DB_desconectar()
         
         else:
-            
-            if insertmembros != "" and insertmembros2 != "":
-                
-                self.DB_connectar()
+                        
+            self.DB_connectar()
+
+            if insertcheck == 0:
 
                 self.DB_vizualizar_membros(insertmembros)
+                self.DB_vizualizar_membros(insertmembros2)
+
+                self.DB_vizualizar_membrosid(insertmembros)
+                vis_an1_1 = self.an1
+                self.DB_vizualizar_membrosid(insertmembros2)
+                vis_an1_2 = self.an1
+
+                self.sql_cursor.execute( "INSERT INTO ESTADO_CIVIL VALUES (NULL,'"+str(vis_an1_1)+"','"+str(vis_an1_2)+"','"+str(insertcheck)+"','"+insertend+"','"+insertinf+"')")
+                self.DB_commit()
+
+            elif insertcheck == 1:
+
+                self.DB_vizualizar_membros(insertmembros)
+                self.DB_vizualizar_membros(insertmembros2)
+                self.inserir_datau(insertdatau)
+
+                self.sql_cursor.execute( "SELECT  ID_cod FROM MEMBROS WHERE Nome = ?", (insertmembros,))
+                visualiza_m = self.sql_cursor.fetchone()
+
+                for row_m in visualiza_m:
+
+                    row_111 = row_m
+
+                self.sql_cursor.execute( "SELECT  ID_cod FROM MEMBROS WHERE Nome = ?", (insertmembros2,))
+                visualiza_m2 = self.sql_cursor.fetchone()
+
+                for row_m2 in visualiza_m2:
+
+                    row_22 = row_m2
+
+                self.sql_cursor.execute( "INSERT INTO ESTADO_CIVIL VALUES (NULL,'"+str(row_111)+"','"+str(row_22)+"','"+insertdatau+"','"+insertend+"','"+insertinf+"')")
+                self.DB_commit()
                 '''try:
                     self.inserir_membros(insertmembros)
                 except sqlite3.IntegrityError:
@@ -1926,11 +1977,11 @@ class ProcessoCadastro():                          #class cadastro
                 self.DB_desconectar()
             
 
-            elif insertmembros == "" and insertmembros2 != "":
-                print(1)
+            #elif insertmembros == "" and insertmembros2 != "":
+                #print(1)
 
-            elif insertmembros != "" and insertmembros2 == "":
-                print(2)
+            #elif insertmembros != "" and insertmembros2 == "":
+                #print(2)
         # Exception as Erro:
             #print(Erro.__class__)
 
