@@ -23,7 +23,7 @@ from janela.principal.composicao_principal import (
 
     NOME_NOVA_ALIANCA, 
 
-    CADASTRAR, INFORMACOES,
+    CADASTRAR, INFORMACOES, SOLTEIRO,
 
     TEXT_THUE, TEXT_FALSE,TEXT_SALVAR, TEXT_ATUALIZAR,
 
@@ -352,13 +352,15 @@ class ClassBanco():
         self.sql_cursor.execute("""
             CREATE TABLE IF NOT EXISTS ESTADO_CIVIL( 
                         ID_COD_ESTADO INTEGER PRIMARY KEY AUTOINCREMENT,
-                        ID_membro1 INTEGER,
-                        ID_membro2 INTEGER,
+                        ID_casal_masculino INTEGER,
+                        ID_casal_feminino INTEGER,
+                        ID_solteiro INTEGER,
                         ID_aniversario INTEGER,
                         endereco TEXT,
-                        informacao TEXT ,
-                        FOREIGN KEY (ID_membro1) REFERENCES MEMBROS (ID_cod),
-                        FOREIGN KEY (ID_membro2) REFERENCES MEMBROS (ID_cod),
+                        informacao TEXT,
+                        FOREIGN KEY (ID_casal_masculino) REFERENCES MEMBROS (ID_cod),
+                        FOREIGN KEY (ID_casal_feminino) REFERENCES MEMBROS (ID_cod),
+                        FOREIGN KEY (ID_solteiro) REFERENCES MEMBROS (ID_cod),
                         FOREIGN KEY (ID_aniversario) REFERENCES DATA_USUARIO (ID_data)
             )
         """)
@@ -445,16 +447,31 @@ class BancoExecucaoConfiguracoes():
     "membros"
     def DB_vizualizar_membros(self,visu_mb):
 
-        self.sql_cursor.execute( "SELECT  Nome FROM MEMBROS WHERE Nome = ?", (visu_mb,))
-        self.visualiza_membros = self.sql_cursor.fetchone()
+        self.sql_cursor.execute( "SELECT  ID_cod FROM MEMBROS WHERE Nome = ?", (visu_mb,))
+        visualiza_membros = self.sql_cursor.fetchone()
 
-        if self.visualiza_membros == None:
+        if visualiza_membros == None:
 
             self.inserir_membros(visu_mb)
 
+    def DB_vizualizar_membros1(self,visu_mb1):
+
+        self.sql_cursor.execute( "SELECT  ID_cod FROM MEMBROS WHERE Nome = ?", (visu_mb1,))
+        visualiza_membros1 = self.sql_cursor.fetchone()
+
+        if visualiza_membros1 == None:
+
+            self.v_m_1 = None
+
+        else:
+
+            for row_vm1 in visualiza_membros1:
+
+                self.v_m_1 = row_vm1
+
     def DB_vizualizar_membrosid(self,visu_mbid):
 
-        self.sql_cursor.execute( "SELECT  ID_cod FROM MEMBROS WHERE Nome = ?", (visu_mbid,))
+        self.sql_cursor.execute( "SELECT  Nome FROM MEMBROS WHERE Nome = ?", (visu_mbid,))
         visualiza_membrosid = self.sql_cursor.fetchone()
 
         for row_m in visualiza_membrosid:
@@ -462,12 +479,49 @@ class BancoExecucaoConfiguracoes():
             self.an1 = row_m
 
     "estado_civil"
-    def DB_vizualizar_estadocivil(self,visu_info):
+    def DB_vizualizar_estadocivil(self,vis):
 
-        self.sql_cursor.execute( "SELECT  informacao FROM ESTADO_CIVIL WHERE informacao = ?", (visu_info,))
-        self.visualiza_info = self.sql_cursor.fetchone()
+        self.sql_cursor.execute( "SELECT  ID_casal_masculino FROM ESTADO_CIVIL WHERE ID_casal_masculino = ?", (vis,))
+        self.vis_st_civ = self.sql_cursor.fetchall()
+
+    def DB_vizualizar_estadocivil_1(self,vis_1):
+
+        self.sql_cursor.execute( "SELECT  ID_casal_feminino FROM ESTADO_CIVIL WHERE ID_casal_feminino = ?", (vis_1,))
+        self.vis_st_civ_1 = self.sql_cursor.fetchall()
+
+    def DB_vizualizar_estadocivil_2(self,vis_a1,vis_a2):
+
+        self.sql_cursor.execute( "SELECT  ID_casal_masculino,ID_casal_feminino FROM ESTADO_CIVIL WHERE ID_casal_masculino = ? and ID_casal_feminino = ?", (vis_a1,vis_a2))
+        self.vis_st_civ_12 = self.sql_cursor.fetchall()
+
+    def DB_vizualizar_estadocivil_2_1(self,vis_a11,vis_a22):
+
+        print("ab", vis_a11)
+        print("ab2", vis_a22)
+
+        self.sql_cursor.execute( "SELECT  ID_casal_masculino,ID_casal_feminino FROM ESTADO_CIVIL WHERE  ID_casal_masculino = ? and ID_casal_feminino = ?", (vis_a22,vis_a11))
+        self.vis_st_civ_122 = self.sql_cursor.fetchall()
 
 
+    "DATA_USUARIO"
+    
+    def DB_vizualizar_datausuario(self,visu_dat):
+
+        self.sql_cursor.execute( "SELECT  data FROM DATA_USUARIO WHERE data = ?", (visu_dat,))
+        vis_data_data = self.sql_cursor.fetchone()
+
+        if vis_data_data == None:
+
+            self.inserir_datau(visu_dat)
+    
+    def DB_vizualizar_datausuario1(self,visu_dat1):
+
+        self.sql_cursor.execute( "SELECT  ID_data FROM DATA_USUARIO WHERE data = ?", (visu_dat1,))
+        vis_data_data1 = self.sql_cursor.fetchone()
+
+        for row_dat in vis_data_data1:
+
+            self.dataus = row_dat
     ############################################### update
     """update tabelas"""
     def DB_update_PROCESOSbarraapp(self,up_barra):
@@ -874,7 +928,7 @@ class WidgetCadastro():                            # class cadastros
         self.botao_1cadastrar_cadastro_frame2= Button (
                     # cor botao
                     bg      = COR_FUNDO_1,          
-                    text    = CADASTRAR,
+                    text    = CADASTRAR, # MEMBROS
                     # negrito
                     font    ='Helvetica 15 bold', 
                     # cor escrita
@@ -958,35 +1012,11 @@ class WidgetCadastro():                            # class cadastros
         )
 
 
-        self.LABEL_NOME_3 = Label (
-                    # cor botao
-                    bg      = COR_FUNDO_JANELA,
-                    text    = "MASCULINO:",
-                    # negrito
-                    font    ='Helvetica 11 bold' 
-        )
+        
 
-        self.LABEL_NOME_3.place(
-                    x= 250, y=300, 
-                    
-                    width= 100, height= 25
-        )
+        
 
-        self.LABEL_NOME_4 = Label (
-                    # cor botao
-                    bg      = COR_FUNDO_JANELA,
-                    text    = "FEMININO:",
-                    # negrito
-                    font    ='Helvetica 11 bold' 
-        )
-
-        self.LABEL_NOME_4.place(
-                    x= 245, y=360, 
-                    
-                    width= 90, height= 25
-        )
-
-        self.LABEL_NOME_4 = Label (
+        self.LABEL_NOME_4_INF = Label (
                     # cor botao
                     bg      = COR_FUNDO_JANELA,
                     text    = "INFORMAÇÕES:",
@@ -994,7 +1024,7 @@ class WidgetCadastro():                            # class cadastros
                     font    ='Helvetica 11 bold' 
         )
 
-        self.LABEL_NOME_4.place(
+        self.LABEL_NOME_4_INF.place(
                     x= 250, y=420, 
                     
                     width= 120, height= 25
@@ -1064,19 +1094,7 @@ class WidgetCadastro():                            # class cadastros
                     height= 30
         )
 
-        self.entry_nome2 = Entry( # feminino
-                                            
-                    font    ='Helvetica 15', 
-                    relief      ="solid", 
-                    # tamanho da borda
-                    borderwidth = 1 
-        )
-
-        self.entry_nome2.place(
-                    x=250, y= 385, 
-                    width= 600, 
-                    height= 30
-        )
+        
 
         self.entry_nome3 = Text(   # informações
                                             
@@ -1111,16 +1129,33 @@ class WidgetCadastro():                            # class cadastros
         check = Checkbutton(
                     text    = "SALVAR ANIVERSÁRIO",
                     variable=  self.valor_check,
-                    font    ='Helvetica 9',
+                    font    ='Helvetica 10',
                     bg= COR_FUNDO_JANELA
         )
 
         check.place(
 
                     x=880, y= 370, 
+                    width= 165, 
+                    height= 25
+        )
+
+        self.valor_check_sol = IntVar()
+        check_sol = Checkbutton(
+                    text    = SOLTEIRO, # CHECKBUTTON
+                    variable=  self.valor_check_sol,
+                    font    ='Helvetica 15',
+                    bg= COR_FUNDO_JANELA,
+                    command= self.COMMAND_check_cad
+        )
+
+        check_sol.place(
+
+                    x=600, y= 220, 
                     width= 150, 
                     height= 25
         )
+
         self.entry_nome5 = Text( # endereço
                                             
                     font    ='Helvetica 15',
@@ -1134,6 +1169,56 @@ class WidgetCadastro():                            # class cadastros
                     width= 300, height= 90
         )
 
+        self.atualizar_processo = CADASTRAR
+        self.fixo = 0
+
+        self.WIDGET_SECUNDARIA()
+
+    def WIDGET_SECUNDARIA(self):
+
+        ## label fixas
+        self.LABEL_NOME_3 = Label (
+                    # cor botao
+                    bg      = COR_FUNDO_JANELA,
+                    text    = "MASCULINO:",
+                    # negrito
+                    font    ='Helvetica 11 bold' 
+        )
+
+        self.LABEL_NOME_3.place(
+                    x= 250, y=300, 
+                    
+                    width= 100, height= 25
+        )
+
+        self.LABEL_NOME_4 = Label (
+                    # cor botao
+                    bg      = COR_FUNDO_JANELA,
+                    text    = "FEMININO:",
+                    # negrito
+                    font    ='Helvetica 11 bold' 
+        )
+
+        self.LABEL_NOME_4.place(
+                    x= 245, y=360, 
+                    
+                    width= 90, height= 25
+        )
+
+        ### processo
+        self.entry_nome2 = Entry( # feminino
+                                            
+                    font    ='Helvetica 15', 
+                    relief      ="solid", 
+                    # tamanho da borda
+                    borderwidth = 1 
+        )
+
+        self.entry_nome2.place(
+                    x=250, y= 385, 
+                    width= 600, 
+                    height= 30
+        )
 
     def WIDGETfc_treeview(self):
 
@@ -1511,7 +1596,7 @@ class WidgetCadastro():                            # class cadastros
         self.BOTAO2_ci_gerais = Button ( 
                     # cor botao - 
                     bg      = COR_BOTAO_FUNDO,          
-                    text    = CADASTRAR,
+                    text    = CADASTRAR,  # CADASTRAR INFORMAÇÕES
                     # negrito
                     font    ='Helvetica 15 bold', 
                     # cor escrita - Yellow
@@ -1895,13 +1980,23 @@ class ProcessoCadastro():                          #class cadastro
     def COMMAND4_db_membros_atsalvar(self):
             
         insertmembros  = str(self.entry_nome1.get())
-        insertmembros2 = str(self.entry_nome2.get())
+        #insertmembros2 = str(self.entry_nome2.get())
         insertend      = str(self.entry_nome5.get("1.0",END))
         insertdatau    = str(self.entry_nome4_1.get())
         insertinf      = str(self.entry_nome3.get("1.0",END))
         insertcheck    = self.valor_check.get()
+        bool_check     = self.valor_check_sol.get()
 
-        if insertmembros == "" and insertmembros2 == "":
+        if bool_check == 0:
+            print("as1")
+
+        elif bool_check == 1:
+
+            print("as2")
+
+        
+        
+        '''if insertmembros == "" and insertmembros2 == "":
 
             self.DB_connectar()
 
@@ -1917,71 +2012,137 @@ class ProcessoCadastro():                          #class cadastro
 
                 #update
                 self.DB_update_PROCESOSbarraapptext((TEXT_FALSE,NUM_1))
+
             self.DB_desconectar()
         
+        elif insertmembros == insertmembros2:
+
+            print("nao auotizado palavras nomes repetidos")
         else:
                         
             self.DB_connectar()
 
-            if insertcheck == 0:
+            self.DB_vizualizar_membros1(insertmembros)
+            vis_mem_var = self.v_m_1
 
-                self.DB_vizualizar_membros(insertmembros)
-                self.DB_vizualizar_membros(insertmembros2)
+            self.DB_vizualizar_membros1(insertmembros2)
+            vis_mem_var1 = self.v_m_1
 
-                self.DB_vizualizar_membrosid(insertmembros)
-                vis_an1_1 = self.an1
-                self.DB_vizualizar_membrosid(insertmembros2)
-                vis_an1_2 = self.an1
+            self.DB_desconectar()
 
-                self.sql_cursor.execute( "INSERT INTO ESTADO_CIVIL VALUES (NULL,'"+str(vis_an1_1)+"','"+str(vis_an1_2)+"','"+str(insertcheck)+"','"+insertend+"','"+insertinf+"')")
-                self.DB_commit()
+            if vis_mem_var == None and vis_mem_var1 == None:
 
-            elif insertcheck == 1:
+                print("ativado")
 
-                self.DB_vizualizar_membros(insertmembros)
-                self.DB_vizualizar_membros(insertmembros2)
-                self.inserir_datau(insertdatau)
+            else:
+                
+                self.DB_connectar()
+                
 
-                self.sql_cursor.execute( "SELECT  ID_cod FROM MEMBROS WHERE Nome = ?", (insertmembros,))
-                visualiza_m = self.sql_cursor.fetchone()
 
-                for row_m in visualiza_m:
+                self.DB_vizualizar_estadocivil_2(vis_mem_var, vis_mem_var1)
+                print("f",len(self.vis_st_civ_12))
+                #print(self.vis_st_civ_12)
 
-                    row_111 = row_m
-
-                self.sql_cursor.execute( "SELECT  ID_cod FROM MEMBROS WHERE Nome = ?", (insertmembros2,))
-                visualiza_m2 = self.sql_cursor.fetchone()
-
-                for row_m2 in visualiza_m2:
-
-                    row_22 = row_m2
-
-                self.sql_cursor.execute( "INSERT INTO ESTADO_CIVIL VALUES (NULL,'"+str(row_111)+"','"+str(row_22)+"','"+insertdatau+"','"+insertend+"','"+insertinf+"')")
-                self.DB_commit()
-                '''try:
-                    self.inserir_membros(insertmembros)
-                except sqlite3.IntegrityError:
-
-                    try:
-                        self.inserir_membros(insertmembros2)
-
-                    except sqlite3.IntegrityError:
-                        
-                        try:
-                            self.inserir_datau(insertdatau)
-
-                        except sqlite3.IntegrityError:
-                            print("erro")'''
-
+                asd = len(self.vis_st_civ_12)
+                print("lem",asd)
 
                 self.DB_desconectar()
+
+                self.DB_connectar()
+
+                self.DB_vizualizar_membros1(insertmembros)
+                vis_mem_var_elm = self.v_m_1
+
+                self.DB_vizualizar_membros1(insertmembros2)
+                vis_mem_var1_elf = self.v_m_1
+
+                self.DB_vizualizar_estadocivil_2_1(vis_mem_var_elm, vis_mem_var1_elf)
+                print(vis_mem_var_elm)
+                print(vis_mem_var1_elf)
+                print(len(self.vis_st_civ_122))
+                #print(self.vis_st_civ_12)
+
+                asd1 = len(self.vis_st_civ_122)
+                print(asd1) '''
+
+        '''self.DB_vizualizar_estadocivil(vis_mem_var)
+                print("estado",len(self.vis_st_civ))'''
+
+        '''self.DB_desconectar()
+
+                if asd == 0 and asd1 == 0 :
+
+                    print("ativado1")
+                
+                else:
+                    print("nao ativado")
+
+            
+
+                #if insertmembros != "" and insertmembros2 != "":'''
+
+        '''self.DB_vizualizar_estadocivil(vis_mem_var)
+                    print("estado",len(self.vis_st_civ))
+
+                    self.DB_vizualizar_estadocivil_1(vis_mem_var1)
+                    print("estados",len(self.vis_st_civ_1))
+                    self.DB_vizualizar_membros1("")
+                    vis_a = self.v_m_1'''
+
+        '''print(len((self.vis_st_civ or self.vis_st_civ_1) != vis_a ))
+                
+                    print((self.vis_st_civ or self.vis_st_civ_1) != vis_a)'''
+
+                
+
+
+        '''self.DB_vizualizar_membros1("")
+                vis_a = self.v_m_1
+                print("vis",vis_a)
+                self.DB_vizualizar_estadocivil(vis_a)
+                print("teste",len(self.vis_st_civ))
+                for row in self.vis_st_civ:
+                    #print(row)
+                    print("p1",row[0],"p2",row[1])
+                    #print("p2",row[1])
+
+                if len(self.vis_st_civ) != 0 and len(self.vis_st_civ_1) != 0:
+
+                    print("ok")'''
+
+    '''self.DB_vizualizar_membros(insertmembros)
+            self.DB_vizualizar_membros(insertmembros2)
+
+            self.DB_vizualizar_membrosid(insertmembros)
+            vis_an1_1 = self.an1
+            
+            self.DB_vizualizar_membrosid(insertmembros2)
+            vis_an1_2 = self.an1
+
+            if insertcheck == 0:
+
+                db_3est1 = ""
+
+            elif insertcheck == 1:
+                self.DB_vizualizar_datausuario(insertdatau)
+
+                self.DB_vizualizar_datausuario1(insertdatau)
+                db_3est1 = self.dataus
+
+            
+
+            self.sql_cursor.execute( "INSERT INTO ESTADO_CIVIL VALUES (NULL,'"+str(vis_an1_1)+"','"+str(vis_an1_2)+"','"+str(db_3est1)+"','"+insertend+"','"+insertinf+"')")
+            self.DB_commit()
+
+            
             
 
             #elif insertmembros == "" and insertmembros2 != "":
                 #print(1)
 
             #elif insertmembros != "" and insertmembros2 == "":
-                #print(2)
+                #print(2)'''
         # Exception as Erro:
             #print(Erro.__class__)
 
@@ -2058,6 +2219,40 @@ class ProcessoCadastro():                          #class cadastro
             self.WIDGETfc_listabox_cad_inf()
             self.WIDGETfc_cadastrar_exe()
 
+    def COMMAND_check_cad(self):
+        
+        if self.atualizar_processo == CADASTRAR:
+            
+            if self.fixo == 0:
+                self.fixo = 1
+            
+                self.DESTROY_widget_casados()
+
+                self.LABEL_sol_if = Label (
+                    # cor botao
+                    bg      = COR_FUNDO_JANELA,
+                    text    = SOLTEIRO, # LABEL
+                    # negrito
+                    font    ='Helvetica 11 bold' 
+                )
+
+                self.LABEL_sol_if.place(
+                    x= 245, y=300, 
+                    
+                    width= 100, height= 25
+                )
+
+            elif self.fixo == 1:
+
+                self.fixo = 0
+
+                self.LABEL_sol_if.destroy()
+
+                self.WIDGET_SECUNDARIA()
+
+                
+                
+        
 class CadastroDestroy():
 
     """frame2"""
@@ -2195,6 +2390,11 @@ class CadastroDestroy():
 
         self.DB_desconectar()
 
+    def DESTROY_widget_casados(self):
+
+        self.LABEL_NOME_3.destroy()
+        self.LABEL_NOME_4.destroy()
+        self.entry_nome2.destroy()
 
 class ProcessoConfiguracoes():
 
