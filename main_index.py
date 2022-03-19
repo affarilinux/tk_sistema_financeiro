@@ -1,62 +1,27 @@
+                 
+from pacotes import *
+#from estruturajanela.tamanhojanela import acf
 
-                              # bibliotecas tkinter
-from ctypes.wintypes import LPBYTE
-from tkinter    import *
-from tkinter    import ttk
-from tkcalendar import Calendar, DateEntry
-
-import tkinter  as tk
-import sqlite3
-
-
-                                 # diretorio do app
-from janela.principal.composicao_principal import (
-    CADAST_TEXT_NOME, CADASTRO_FRAME1HEIGHT, CADASTRO_FRAME1WIGHT, CADASTRO_FRAME1X, 
-    CADASTRO_FRAME2Y, TAMANHO_WIDTH_JANELA, TAMANHO_HEIGHT_JANELA,
-
-    MENUS_WIDTH, MENU_Y, MENU_HEIGHT, 
-
-    COR_FUNDO_JANELA, COR_FUNDO_BOTAO_MENU_BAR, COR_BOTAO_FUNDO, COR_FUNDO_1,
-    COR_FUNDO_2, COR_FUNDO_3,
-
-    COR_ESCRITA_MENU_BAR, COR_ESCRITA1,
-
-    NOME_NOVA_ALIANCA, 
-
-    CADASTRAR, INFORMACOES, SOLTEIRO,
-
-    TEXT_THUE, TEXT_FALSE,TEXT_SALVAR, TEXT_ATUALIZAR,
-
-    NUM_0, NUM_1, NUM_2, NUM_3, NUM_4, NUM_5, NUM_6, 
-
-    WIDGET_2, WIDGET_4, 
-
-    CADASTRO_FRAME1X, CADASTRO_FRAME1WIGHT, CADASTRO_FRAME1HEIGHT,
-
-    CADASTRO_FRAME2Y, CADASTRO_FRAME2W, CADASTRO_FRAME2H,
-
-    CADAST_BOTAO_INSTITUICAO_X, CADAST_BOTAO_INSTITUICAO_Y,
-    CADAST_BOTAO_INSTITUICAO_W, CADAST_BOTAO_INSTITUICAO_H,
-
-     FRAME2_500,FRAME2_55, FRAME2_400,
-    FRAME2_30,
-
-    CADASTRO_SALVARX, CADASTRO_SALVARY,
-
-    CADAST_TEXT_NOME
-     
-)
 
 ################################################### função principal
                           # função de inicialização
 def main():
     root = tk.Tk() # create a Tk root window
     
+    WS = root.winfo_screenwidth() # width of the screen
+    HS = root.winfo_screenheight() # height of the screen
+
+    CALCULO_X = (WS/2) - (TAMANHO_WIDTH_JANELA/2)
+    CALCULO_Y = (HS/2) - (TAMANHO_HEIGHT_JANELA/2)
+
+    root.geometry('%dx%d+%d+%d' % (TAMANHO_WIDTH_JANELA, TAMANHO_HEIGHT_JANELA, CALCULO_X, CALCULO_Y))
                                    # função chamada
-    centralizador_janela (root)
+    
+
     menu_bar = MenuWidget()
 
                           # configurações da janela
+    
     root.title      ("NOVA ALIANÇA")               # titulo da igreja
     root.iconbitmap ("imagem/ico.ico")             # ico
     root.configure(bg=COR_FUNDO_JANELA)                   # cor da fundo janela
@@ -65,25 +30,6 @@ def main():
     ###############################################
     root.mainloop() # starts the mainloop 
 
-
-############################################## funções controle da janela
-                               # centralizar janela
-def centralizador_janela(root):
-
-    WIDTH = TAMANHO_WIDTH_JANELA # width for the Tk root
-    HEIGHT = TAMANHO_HEIGHT_JANELA # height for the Tk root
-
-    # get screen width and height
-    WS = root.winfo_screenwidth() # width of the screen
-    HS = root.winfo_screenheight() # height of the screen
-
-    # calculate x and y coordinates for the Tk root window
-    CALCULO_X = (WS/2) - (WIDTH/2)
-    CALCULO_Y = (HS/2) - (HEIGHT/2)
-
-    # set the dimensions of the screen 
-    # and where it is placed
-    root.geometry('%dx%d+%d+%d' % (WIDTH, HEIGHT, CALCULO_X, CALCULO_Y))
 
     
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@        
